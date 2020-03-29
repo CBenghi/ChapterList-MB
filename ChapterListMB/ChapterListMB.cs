@@ -18,8 +18,7 @@ namespace MusicBeePlugin
         private Track _track;
         private Timer _timer;
         private Chapter _currentChapter;
-        private bool _launchOnStartup;
-
+        
         public PluginInfo Initialise(IntPtr apiInterfacePtr)
         {
             mbApiInterface = new MusicBeeApiInterface();
@@ -138,7 +137,9 @@ namespace MusicBeePlugin
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_track.ChapterList.NumChapters == 0) return;
+            if (_track.ChapterList.NumChapters == 0) 
+                return;
+
             int playerPosition = mbApiInterface.Player_GetPosition();
             Chapter currentChapter = _track.ChapterList.GetCurrentChapterFromPosition(playerPosition);
             if (!currentChapter.Equals(_currentChapter))

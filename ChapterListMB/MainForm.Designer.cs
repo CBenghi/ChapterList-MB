@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -43,14 +43,20 @@
             this.chaptersCountStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.comboBoxNewChapterName = new System.Windows.Forms.ComboBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // addChapterButton
             // 
             this.addChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addChapterButton.Location = new System.Drawing.Point(11, 294);
+            this.addChapterButton.Location = new System.Drawing.Point(7, 460);
             this.addChapterButton.Name = "addChapterButton";
             this.addChapterButton.Size = new System.Drawing.Size(40, 35);
             this.addChapterButton.TabIndex = 0;
@@ -62,7 +68,7 @@
             // removeChapterButton
             // 
             this.removeChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeChapterButton.Location = new System.Drawing.Point(57, 294);
+            this.removeChapterButton.Location = new System.Drawing.Point(53, 460);
             this.removeChapterButton.Name = "removeChapterButton";
             this.removeChapterButton.Size = new System.Drawing.Size(57, 35);
             this.removeChapterButton.TabIndex = 2;
@@ -74,7 +80,7 @@
             // shiftPositionBackButton
             // 
             this.shiftPositionBackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionBackButton.Location = new System.Drawing.Point(211, 294);
+            this.shiftPositionBackButton.Location = new System.Drawing.Point(386, 460);
             this.shiftPositionBackButton.Name = "shiftPositionBackButton";
             this.shiftPositionBackButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionBackButton.TabIndex = 5;
@@ -86,7 +92,7 @@
             // shiftPositionFwdButton
             // 
             this.shiftPositionFwdButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionFwdButton.Location = new System.Drawing.Point(257, 295);
+            this.shiftPositionFwdButton.Location = new System.Drawing.Point(432, 460);
             this.shiftPositionFwdButton.Name = "shiftPositionFwdButton";
             this.shiftPositionFwdButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionFwdButton.TabIndex = 6;
@@ -101,8 +107,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -114,7 +120,7 @@
             this.ChapterStatus,
             this.positionCol,
             this.titleCol});
-            this.chaptersDGV.Location = new System.Drawing.Point(12, 12);
+            this.chaptersDGV.Location = new System.Drawing.Point(8, 10);
             this.chaptersDGV.MinimumSize = new System.Drawing.Size(200, 200);
             this.chaptersDGV.MultiSelect = false;
             this.chaptersDGV.Name = "chaptersDGV";
@@ -122,7 +128,7 @@
             this.chaptersDGV.RowHeadersWidth = 30;
             this.chaptersDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.chaptersDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.chaptersDGV.Size = new System.Drawing.Size(285, 268);
+            this.chaptersDGV.Size = new System.Drawing.Size(464, 444);
             this.chaptersDGV.TabIndex = 7;
             this.chaptersDGV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnChaptersDgvCellClick);
             this.chaptersDGV.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.chaptersDGV_CellEndEdit);
@@ -160,9 +166,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.titleArtistStatusLabel,
             this.chaptersCountStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 337);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 542);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(309, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(509, 24);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -195,29 +201,75 @@
             "Bridge",
             "Solo",
             "Outro"});
-            this.comboBoxNewChapterName.Location = new System.Drawing.Point(120, 302);
+            this.comboBoxNewChapterName.Location = new System.Drawing.Point(116, 468);
             this.comboBoxNewChapterName.Name = "comboBoxNewChapterName";
             this.comboBoxNewChapterName.Size = new System.Drawing.Size(85, 21);
             this.comboBoxNewChapterName.TabIndex = 9;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(11, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(486, 527);
+            this.tabControl1.TabIndex = 10;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.chaptersDGV);
+            this.tabPage1.Controls.Add(this.comboBoxNewChapterName);
+            this.tabPage1.Controls.Add(this.shiftPositionFwdButton);
+            this.tabPage1.Controls.Add(this.removeChapterButton);
+            this.tabPage1.Controls.Add(this.shiftPositionBackButton);
+            this.tabPage1.Controls.Add(this.addChapterButton);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(478, 501);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Chapters";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(478, 501);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Images";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(478, 501);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Config";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 361);
-            this.Controls.Add(this.comboBoxNewChapterName);
+            this.ClientSize = new System.Drawing.Size(509, 566);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.chaptersDGV);
-            this.Controls.Add(this.shiftPositionFwdButton);
-            this.Controls.Add(this.shiftPositionBackButton);
-            this.Controls.Add(this.removeChapterButton);
-            this.Controls.Add(this.addChapterButton);
             this.MinimumSize = new System.Drawing.Size(325, 350);
             this.Name = "MainForm";
             this.Text = "Chapter List | MB";
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,5 +290,9 @@
         private System.Windows.Forms.DataGridViewImageColumn ChapterStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn positionCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleCol;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
