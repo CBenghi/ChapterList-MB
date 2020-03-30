@@ -145,6 +145,13 @@ namespace MusicBeePlugin
             if (_mainForm == null)
                 return;
             int playerPosition = mbApiInterface.Player_GetPosition();
+            if (nextTimerEventPositionRequest > 0)
+            {
+                int jumpTo = nextTimerEventPositionRequest;
+                nextTimerEventPositionRequest = 0; // setting it to 0 here to allow for possible setting if need to be postponed again
+                MainFormOnSelectedItemDoubleClickedRouted(this, jumpTo);
+                return;
+            }
             try
             {
                 if (_mainForm?.SetTimeDelegate != null)
@@ -169,8 +176,6 @@ namespace MusicBeePlugin
             {
 
             }
-            
-          
         }
 
         private Track GetTrack()
@@ -226,27 +231,30 @@ namespace MusicBeePlugin
             _mainForm.RequestPlayFileEvent += PlayTrack;
         }
 
+        DateTime lastRequestedTrackTime = DateTime.Now.Date;
+        int nextTimerEventPositionRequest = -1;
+
         private void PlayTrack(object sender, FileInfo file)
         {
-            // TODO: change track
             var uri = new System.Uri(file.FullName);
             var converted = uri.AbsoluteUri;
-
-            if (false)
-            {
-                mbApiInterface.NowPlayingList_QueueNext(converted); // mbApiInterface.now
-                mbApiInterface.Player_PlayNextTrack();
-            }
-            else
-            {
-                mbApiInterface.NowPlayingList_PlayNow(converted);
-            }
+            lastRequestedTrackTime = DateTime.Now;
+            mbApiInterface.Player_Stop();
+            mbApiInterface.NowPlayingList_Clear();
+            mbApiInterface.NowPlayingList_QueueNext(uri.LocalPath); // mbApiInterface.now
+            mbApiInterface.Player_PlayNextTrack();            
         }
 
 
         private void MainFormOnSelectedItemDoubleClickedRouted(object sender, int position)
         {
-            mbApiInterface.Player_SetPosition(position);
+            // if we have just changed the track wait for the next timer event to change the track time
+            if (DateTime.Now - lastRequestedTrackTime < new TimeSpan(0, 0, 0, 0, 300)) 
+            {
+                nextTimerEventPositionRequest = position;
+            }
+            else
+                mbApiInterface.Player_SetPosition(position);
         }
 
         private void MainFormOnAddChapterButtonClickedRouted(object sender, string newChapterName)

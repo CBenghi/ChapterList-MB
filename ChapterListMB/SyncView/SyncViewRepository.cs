@@ -67,23 +67,19 @@ namespace ChapterListMB.SyncView
         public IEnumerable<string> GetLyricsText(string filter)
         {
             FileInfo f = new FileInfo(mediaFileName);
-            Regex r = new Regex(@"L(\d+)P(\d+)");
-            var m = r.Match(f.Name);
-            if (!m.Success)
-                yield break;
             
+            var m = regexGetLectureAndPart.Match(f.Name);
+            if (!m.Success)
+                return Enumerable.Empty<string>();
             var L = m.Groups[1].Value;
-            var P = m.Groups[2].Value;
-            var path = Path.Combine(transcriptsFolder, $@"\L{L}\");
-                
-                
+            var path = Path.Combine(transcriptsFolder, $@"L{L}\");
 
             DirectoryInfo d = new DirectoryInfo(path);
             path = Path.Combine(path, f.Name);
             path = Path.ChangeExtension(path, ".lyrics.txt");
 
             FileInfo fp = new FileInfo(path);
-            GetLyricsText(fp, filter);
+            return GetLyricsText(fp, filter);
         }
 
         public static IEnumerable<string> GetLyricsText(FileInfo fp, string filter)

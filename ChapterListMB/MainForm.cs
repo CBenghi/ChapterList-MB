@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ChapterListMB
@@ -66,15 +67,13 @@ namespace ChapterListMB
             }
         }
 
-        
-
         public void UpdateTrackMethod(Track track)
         {
             Track = track;
             repo = new SyncViewRepository(track);
             setLirics();
+            this.Text = "Syncview - " + repo.mediaFileName;
             
-
             _chapterListBindingSource.DataSource = Track.ChapterList.Chapters;
 
             ClearFirstColumn();
@@ -231,8 +230,6 @@ namespace ChapterListMB
         {
             RequestPlayFileEvent?.Invoke(this, file);
         }
-
-
 
         public event EventHandler<int> SelectedItemDoubleClickedRouted;
         protected virtual void RequestPlayerTime(int position)
@@ -399,12 +396,12 @@ namespace ChapterListMB
             var snd = sender as TreeView;
             if (snd == null)
                 return;
-            var txt = snd.SelectedNode.ToString();
+            var txt = snd.SelectedNode.Text;
             if (string.IsNullOrEmpty(txt))
                 return;
 
             var folderNode = snd.SelectedNode;
-            int mill = 0;
+            int mill = -1;
 
             var m = regexGetLyricsTime.Match(txt);
             if (m.Success)
@@ -424,7 +421,7 @@ namespace ChapterListMB
             {
                 RequestPlayNow(f);
             }
-            if (mill != 0)
+            if (mill != -1)
             {
                 RequestPlayerTime(mill);
             }
