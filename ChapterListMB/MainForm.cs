@@ -1,8 +1,10 @@
 ﻿using ChapterListMB.SyncView;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,11 +55,16 @@ namespace ChapterListMB
             this.TopMost = true;
         }
 
+        int lastTime = -1;
+
         public void SetCurrentTime(int playerPosition)
         {
             // lblPos.Text = playerPosition.ToString();
             if (repo != null)
             {
+                lblImageTime.Text = repo.ImageLabel(playerPosition);
+                lblLirycsTime.Text = repo.LyricsLabel(playerPosition);
+                lastTime = playerPosition;
                 var imageIndex = repo.getImageIndex(playerPosition);
                 if (imageIndex != -1)
                 {
@@ -86,7 +93,27 @@ namespace ChapterListMB
         private void setLirics()
         {
             listBox1.Items.Clear();
-            listBox1.Items.AddRange(repo.GetLyricsText(txtFilter.Text).ToArray());
+            if (chkFindSelect.Checked == false)
+                listBox1.Items.AddRange(repo.GetLyricsText(txtFilter.Text).ToArray());
+            else
+            {
+                listBox1.Items.AddRange(repo.GetLyricsText("").ToArray());
+                filterLirics();
+            }
+        }
+
+        private void filterLirics()
+        {
+            listBox1.SelectedItems.Clear();
+            if (txtFilter.Text == "")
+                return;
+            for (int i = 0; i < listBox1.Items.Count; i++)
+            {
+                if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(listBox1.Items[i].ToString(), txtFilter.Text, CompareOptions.IgnoreCase) >= 0)
+                {
+                    listBox1.SelectedIndices.Add(i);
+                }
+            }
         }
 
         public void UpdateFirstColumn()
@@ -327,11 +354,18 @@ namespace ChapterListMB
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                setLirics();
+                if (chkFindSelect.Checked == true)
+                {
+                    filterLirics();
+                }
+                else
+                    setLirics();
             }
         }
 
-        Regex regexGetLyricsTime = new Regex(@"^\[(\d+):(\d+)\.(\d+)] ", RegexOptions.Compiled);
+        
+
+        
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
@@ -340,20 +374,8 @@ namespace ChapterListMB
                 return;
             var txt = snd.SelectedItem.ToString();
 
-            if (string.IsNullOrEmpty(txt))
-                return;
+            var mill = SyncViewRepository.GetMilli(txt);
 
-            var m = regexGetLyricsTime.Match(txt);
-            if (!m.Success)
-                return;
-            int min = Convert.ToInt32(m.Groups[1].Value);
-            int sec = Convert.ToInt32(m.Groups[2].Value);
-            int mill = Convert.ToInt32(m.Groups[3].Value);
-
-            System.Diagnostics.Debug.WriteLine($"{min} {sec} {mill}");
-
-            sec += min * 60;
-            mill += sec * 1000;
             RequestPlayerTime(mill);
         }
 
@@ -401,18 +423,10 @@ namespace ChapterListMB
                 return;
 
             var folderNode = snd.SelectedNode;
-            int mill = -1;
-
-            var m = regexGetLyricsTime.Match(txt);
-            if (m.Success)
+            var mill = SyncViewRepository.GetMilli(txt);
+            if (mill != -1)
             {
                 folderNode = snd.SelectedNode.Parent;
-                int min = Convert.ToInt32(m.Groups[1].Value);
-                int sec = Convert.ToInt32(m.Groups[2].Value);
-                mill = Convert.ToInt32(m.Groups[3].Value);
-                Debug.WriteLine($"{min} {sec} {mill}");
-                sec += min * 60;
-                mill += sec * 1000;
             }
 
             txt = folderNode.Text;
@@ -425,6 +439,82 @@ namespace ChapterListMB
             {
                 RequestPlayerTime(mill);
             }
+        }
+
+        private void reloadImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            repo.ReloadImages();
+        }
+
+        private void lblImageTime_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(lblImageTime.Text + " - ");
+            lblImageTime.Text = "Clip";
+        }
+
+        private void chkFindSelect_CheckedChanged(object sender, EventArgs e)
+        {
+            setLirics();
+        }
+
+        private void lblLyricsTime_Click(object sender, EventArgs e)
+        {
+            this.TopMost = !this.TopMost;
+            if (this.TopMost)
+                lblTopmost.Text = "Is topmost";
+            else
+                lblTopmost.Text = "Not topmost";
+        }
+
+        private void toolStripStatusLabel2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(lblLirycsTime.Text);
+            lblLirycsTime.Text = "Clip";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var last = 0;
+            for (int i = listBox1.Items.Count-1; i > 0; i--)
+            {
+                var itemMilli = SyncViewRepository.GetMilli(listBox1.Items[i].ToString());
+                if (itemMilli < lastTime)
+                {
+                    last = i;
+                    break;
+                }
+            }
+            listBox1.SelectedItems.Clear();
+            listBox1.SelectedIndex = last;
+            listBox1.Refresh();
+        }
+
+        private void copyImageTimestampToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var txt = listBox1.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(txt))
+                return;
+            int milli = SyncViewRepository.GetMilli(txt);
+            if (milli != -1)
+                Clipboard.SetText(repo.ImageLabel(milli) + " - ");
+        }
+
+        private void copyLyricsTimestampToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var txt = listBox1.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(txt))
+                return;
+            int milli = SyncViewRepository.GetMilli(txt);
+            if (milli != -1)
+                Clipboard.SetText(repo.LyricsLabel(milli));
+        }
+
+        private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var next = repo.getNextImageMilli();
+            if (next == -1 || next == int.MaxValue) 
+                return;
+            RequestPlayerTime(next);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -21,13 +22,18 @@ namespace ChapterListMB.SyncView
         FileInfo[] images;
         int[] timesInMilliseconds;
 
+        public int getNextImageMilli()
+        {
+            return nextImageThreshold;
+        }
+
         public int getImageIndex(int seekTime)
         {
             if (images == null || !images.Any())
                 return -1;
 
             // if we moved back start afresh                
-            if (seekTime < lastTimeReceived)
+            if (seekTime < lastTimeReceived || lastTimeReceived == -1)
                 return FindAtTime(seekTime);
             if (seekTime < nextImageThreshold)
             {
@@ -82,6 +88,26 @@ namespace ChapterListMB.SyncView
             return GetLyricsText(fp, filter);
         }
 
+        internal string LyricsLabel(int playerPositionMilliseconds)
+        {
+            int seconds = playerPositionMilliseconds / 1000;
+            int milliseconds = playerPositionMilliseconds % 1000;
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            return $"[{minutes:D3}:{seconds:D2}.{milliseconds:D2}] ";
+        }
+
+        internal string ImageLabel(int playerPositionMilliseconds)
+        {
+            int seconds = playerPositionMilliseconds / 1000;
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+            if (minutes > 0)
+                return minutes.ToString() + seconds.ToString("D2");
+            return seconds.ToString();
+        }
+
         public static IEnumerable<string> GetLyricsText(FileInfo fp, string filter)
         {
             if (!fp.Exists)
@@ -94,7 +120,7 @@ namespace ChapterListMB.SyncView
                 {
                     if (filter != "")
                     {
-                        if (line.Contains(filter))
+                        if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(line, filter, CompareOptions.IgnoreCase) >= 0)
                             yield return line;
                     }
                     else
@@ -103,51 +129,13 @@ namespace ChapterListMB.SyncView
             }
         }
 
-        
-
         Regex regexGetLectureAndPart = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled);
 
         internal SyncViewRepository(Track track)
         {
             Debug.WriteLine(track.NowPlayingTrackInfo.FilePath.LocalPath);
-
             mediaFileName = track.NowPlayingTrackInfo.FilePath.LocalPath;
-
-            FileInfo f = new FileInfo(track.NowPlayingTrackInfo.FilePath.LocalPath);
-            
-            var m = regexGetLectureAndPart.Match(f.Name);
-            if (m.Success)
-            {
-                var L = m.Groups[1].Value;
-                var P = m.Groups[2].Value;
-                var path = $@"C:\Data\Work\Esame Stato\SupportingMedia\L{L}\P{P}\";
-
-                DirectoryInfo d = new DirectoryInfo(path);
-                if (!d.Exists)
-                    return;
-                images = d.GetFiles("*.png").OrderBy(x => x.CreationTime).ToArray();
-            }
-            if (!images.Any())
-                return;
-            timesInMilliseconds = new int[images.Length];
-
-            var basicTime = images[0].CreationTime;
-            Regex rTime = new Regex(@"_(\d\d)-(\d\d)-(\d\d)\.mp3");
-            m = rTime.Match(f.Name);
-            if (m.Success)
-            {
-                var day = basicTime.Date; // same day, different time
-                var hours = Convert.ToInt32(m.Groups[1].Value);
-                var minutes = Convert.ToInt32(m.Groups[2].Value);
-                var seconds = Convert.ToInt32(m.Groups[3].Value);
-                basicTime = day.AddHours(hours).AddMinutes(minutes).AddSeconds(seconds);
-            }
-
-            for (int i = 1; i < images.Length; i++)
-            {
-                var tmp = images[i].CreationTime - basicTime;
-                timesInMilliseconds[i] = (int)tmp.TotalMilliseconds;
-            }
+            ReloadImages();
         }
 
         internal FileInfo GetiImageFile(int imageIndex)
@@ -177,6 +165,129 @@ namespace ChapterListMB.SyncView
 
             DirectoryInfo d = new DirectoryInfo(path);
             return d.GetFiles($"L{L}P{P}*.mp3").FirstOrDefault();
+        }
+
+        class imageInfo
+        {
+            Regex r = new Regex(@"^(\d+) -", RegexOptions.Compiled);
+
+            internal FileInfo f { get; set; }
+            internal int computedTimeStampMilliseconds { get; set; } = -1;
+
+            internal imageInfo(FileInfo file)
+            {
+                f = file;
+                var m = r.Match(file.Name);
+                if (m.Success)
+                {
+                    int seconds;
+                    int minutes = 0;
+                    var integersString = m.Groups[1].Value;
+                    if (integersString.Length < 3)
+                    {
+                        seconds = Convert.ToInt32(integersString);
+                    }
+                    else
+                    {
+                        var secString = integersString.Substring(integersString.Length - 2);
+                        var minString = integersString.Substring(0, integersString.Length - 2);
+                        seconds = Convert.ToInt32(secString);
+                        minutes = Convert.ToInt32(minString);
+                    }
+                    seconds = minutes * 60 + seconds;
+                    computedTimeStampMilliseconds = seconds * 1000;
+                }
+            }
+        }
+
+        internal void ReloadImages()
+        {
+            // todo: add reset
+            //
+            lastTimeReceived = -1;
+            lastImagePlayed = -1;
+            nextImageThreshold = -1;
+            images = new FileInfo[0];
+            timesInMilliseconds = new int[0];
+
+            FileInfo f = new FileInfo(mediaFileName);
+            var m = regexGetLectureAndPart.Match(f.Name);
+            if (!m.Success)
+                return;
+
+            var L = m.Groups[1].Value;
+            var P = m.Groups[2].Value;
+            DirectoryInfo d = GetImagePath(L, P);
+            if (d == null)
+                return;
+
+            // images = d.GetFiles("*.png").OrderBy(x => x.CreationTime).ToArray();
+            var timedImages = d.GetFiles("*.png").Select(x => new imageInfo(x)).ToList();
+
+            if (timedImages.Any(x=>x.computedTimeStampMilliseconds == -1))
+            {
+                var minDateTime = timedImages.Min(x => x.f.CreationTime);
+
+                var basicTime = GetBasicTime(minDateTime);
+                for (int i = 1; i < timedImages.Count; i++)
+                {
+                    if (timedImages[i].computedTimeStampMilliseconds == -1)
+                    {
+                        var tmp = timedImages[i].f.CreationTime - basicTime;
+                        timedImages[i].computedTimeStampMilliseconds = (int)tmp.TotalMilliseconds;
+                    }
+                }
+            }
+            var sorted = timedImages.OrderBy(x => x.computedTimeStampMilliseconds);           
+            images = sorted.Select(x => x.f).ToArray();
+            timesInMilliseconds = sorted.Select(x => x.computedTimeStampMilliseconds).ToArray();
+        }
+
+        private DateTime GetBasicTime(DateTime defaultTime)
+        {
+            FileInfo f = new FileInfo(mediaFileName);
+            Match m;
+            Regex rTime = new Regex(@"_(\d\d)-(\d\d)-(\d\d)\.mp3");
+            m = rTime.Match(f.Name);
+            if (m.Success)
+            {
+                var day = defaultTime.Date; // same day, different time
+                var hours = Convert.ToInt32(m.Groups[1].Value);
+                var minutes = Convert.ToInt32(m.Groups[2].Value);
+                var seconds = Convert.ToInt32(m.Groups[3].Value);
+                return day.AddHours(hours).AddMinutes(minutes).AddSeconds(seconds);
+            }
+            return defaultTime;
+        }
+
+        private static DirectoryInfo GetImagePath(string L, string P)
+        {
+            DirectoryInfo d = new DirectoryInfo($@"C:\Data\Work\Esame Stato\SupportingMedia\L{L}\P{P}\");
+            if (d.Exists)
+                return d;
+            // see if there's a temporary path for images:
+            d = new DirectoryInfo($@"C:\Data\Work\Esame Stato\SupportingMedia\T{L}\P{P}\");
+            if (d.Exists)
+                return d;
+            return null;
+        }
+
+        internal static Regex regexGetLyricsTime = new Regex(@"^\[(\d+):(\d+)\.(\d+)] ", RegexOptions.Compiled);
+
+        internal static int GetMilli(string txt)
+        {
+            var m = regexGetLyricsTime.Match(txt);
+            if (!m.Success)
+                return -1;
+            int min = Convert.ToInt32(m.Groups[1].Value);
+            int sec = Convert.ToInt32(m.Groups[2].Value);
+            int mill = Convert.ToInt32(m.Groups[3].Value);
+
+            // System.Diagnostics.Debug.WriteLine($"{min} {sec} {mill}");
+
+            sec += min * 60;
+            mill += sec * 1000;
+            return mill;
         }
     }
 }
