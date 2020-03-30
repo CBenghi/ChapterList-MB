@@ -1,16 +1,13 @@
-﻿using System;
+﻿using ChapterListMB.SyncView;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
 
 namespace ChapterListMB
 {
@@ -30,6 +27,11 @@ namespace ChapterListMB
         public UpdateTrack UpdateTrackDelegate;
         public UpdateChapterList UpdateChapterListDelegate;
         public SetCurrentChapter SetCurrentChapterDelegate;
+
+        public delegate void SetTime(int time);
+        public SetTime SetTimeDelegate;
+        SyncViewRepository repo;
+
         public MainForm()
         {
             InitializeComponent();
@@ -45,18 +47,47 @@ namespace ChapterListMB
             UpdateTrackDelegate = UpdateTrackMethod;
             UpdateChapterListDelegate = UpdateFirstColumn;
             SetCurrentChapterDelegate = SetCurrentChapterMethod;
+
+            SetTimeDelegate = SetCurrentTime;
+            this.TopMost = true;
         }
+
+        public void SetCurrentTime(int playerPosition)
+        {
+            // lblPos.Text = playerPosition.ToString();
+            if (repo != null)
+            {
+                var imageIndex = repo.getImageIndex(playerPosition);
+                if (imageIndex != -1)
+                {
+                    // lblPos.Text = repo.GetiImageFile(imageIndex).ToString();
+                    pictureBox1.ImageLocation = repo.GetiImageFile(imageIndex).FullName;
+                }
+            }
+        }
+
         
+
         public void UpdateTrackMethod(Track track)
         {
             Track = track;
+            repo = new SyncViewRepository(track);
+            setLirics();
+            
+
             _chapterListBindingSource.DataSource = Track.ChapterList.Chapters;
 
             ClearFirstColumn();
 
-           titleArtistStatusLabel.Text = $"{Track.NowPlayingTrackInfo.Artist} – {Track.NowPlayingTrackInfo.Title}";
-            if(Track.ChapterList.NumChapters == 0)
+            titleArtistStatusLabel.Text = $"{Track.NowPlayingTrackInfo.Artist} – {Track.NowPlayingTrackInfo.Title}";
+            if (Track.ChapterList.NumChapters == 0)
                 chaptersCountStatusLabel.Text = "No Chapters";
+        }
+
+        private void setLirics()
+        {
+            listBox1.Items.Clear();
+            listBox1.Items.AddRange(repo.GetLyricsText(txtFilter.Text).ToArray());
         }
 
         public void UpdateFirstColumn()
@@ -163,6 +194,9 @@ namespace ChapterListMB
             OnChangeChapterRequested(chapterToShiftBack, null, newPosition);
             chaptersDGV.UpdateCellValue(1, chapterToShiftBack.ChapterNumber - 1);
         }
+
+       
+
         private void shiftPositionFwdButton_Click(object sender, EventArgs e)
         {
             var chapterToShiftForwards = GetSelectedDGVChapter();
@@ -184,18 +218,26 @@ namespace ChapterListMB
             if (e.RowIndex >= 0 && e.RowIndex < Track.ChapterList.NumChapters)
             {
                 Chapter chapt = ((List<Chapter>) _chapterListBindingSource.DataSource)[e.RowIndex];
-                OnSelectedItemDoubleClickedRouted(chapt);
+                RequestPlayerTime(chapt.Position);
             }
         }
         private void chaptersDGV_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {   // Changes chapter title from editbox
             Track.ChapterList.SaveChaptersToFile();
         }
-        
-        public event EventHandler<Chapter> SelectedItemDoubleClickedRouted;
-        protected virtual void OnSelectedItemDoubleClickedRouted(Chapter e)
+
+        public event EventHandler<FileInfo> RequestPlayFileEvent;
+        protected virtual void RequestPlayNow(FileInfo file)
+        {
+            RequestPlayFileEvent?.Invoke(this, file);
+        }
+
+
+
+        public event EventHandler<int> SelectedItemDoubleClickedRouted;
+        protected virtual void RequestPlayerTime(int position)
         {   
-            SelectedItemDoubleClickedRouted?.Invoke(this, e);
+            SelectedItemDoubleClickedRouted?.Invoke(this, position);
         }
 
         public event EventHandler<string> AddChapterButtonClickedRouted;
@@ -282,6 +324,110 @@ namespace ChapterListMB
             Assembly asm = Assembly.GetExecutingAssembly();
             Stream myPlayheadStream = asm.GetManifestResourceStream($"ChapterListMB.Resources.activechapter-{color}.png");
             chaptersDGV.Rows[CurrentChapter.ChapterNumber - 1].Cells[0].Value = Image.FromStream(myPlayheadStream);
+        }
+
+        private void txtFilter_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                setLirics();
+            }
+        }
+
+        Regex regexGetLyricsTime = new Regex(@"^\[(\d+):(\d+)\.(\d+)] ", RegexOptions.Compiled);
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            var snd = sender as ListBox;
+            if (snd == null)
+                return;
+            var txt = snd.SelectedItem.ToString();
+
+            if (string.IsNullOrEmpty(txt))
+                return;
+
+            var m = regexGetLyricsTime.Match(txt);
+            if (!m.Success)
+                return;
+            int min = Convert.ToInt32(m.Groups[1].Value);
+            int sec = Convert.ToInt32(m.Groups[2].Value);
+            int mill = Convert.ToInt32(m.Groups[3].Value);
+
+            System.Diagnostics.Debug.WriteLine($"{min} {sec} {mill}");
+
+            sec += min * 60;
+            mill += sec * 1000;
+            RequestPlayerTime(mill);
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                searchAllTranscripts();
+            }
+        }
+
+        private void searchAllTranscripts()
+        {
+            treeView1.Nodes.Clear();
+            foreach (var trsfile in SyncViewRepository.GetTranscripts())
+            {
+                var thisList = SyncViewRepository.GetLyricsText(trsfile, txtAllTranscriptsFilter.Text).ToList();
+                if (thisList.Any())
+                {
+                    var node = new TreeNode()
+                    {
+                        Text = trsfile.Name
+                    };
+
+                    foreach (var transcrriptLine in thisList)
+                    {
+                        var subnode = new TreeNode()
+                        {
+                            Text = transcrriptLine
+                        };
+                        node.Nodes.Add(subnode);
+                    }
+                    treeView1.Nodes.Add(node);
+                }
+            }
+        }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            var snd = sender as TreeView;
+            if (snd == null)
+                return;
+            var txt = snd.SelectedNode.ToString();
+            if (string.IsNullOrEmpty(txt))
+                return;
+
+            var folderNode = snd.SelectedNode;
+            int mill = 0;
+
+            var m = regexGetLyricsTime.Match(txt);
+            if (m.Success)
+            {
+                folderNode = snd.SelectedNode.Parent;
+                int min = Convert.ToInt32(m.Groups[1].Value);
+                int sec = Convert.ToInt32(m.Groups[2].Value);
+                mill = Convert.ToInt32(m.Groups[3].Value);
+                Debug.WriteLine($"{min} {sec} {mill}");
+                sec += min * 60;
+                mill += sec * 1000;
+            }
+
+            txt = folderNode.Text;
+            var f = repo.AudioFromTrascriptName(txt);
+            if (f != null && f.FullName != repo.mediaFileName)
+            {
+                RequestPlayNow(f);
+            }
+            if (mill != 0)
+            {
+                RequestPlayerTime(mill);
+            }
         }
     }
 }

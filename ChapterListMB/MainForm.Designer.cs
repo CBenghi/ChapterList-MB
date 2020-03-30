@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -44,13 +44,24 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.comboBoxNewChapterName = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblPos = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // addChapterButton
@@ -107,8 +118,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -211,14 +222,82 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(11, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(486, 527);
             this.tabControl1.TabIndex = 10;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.pictureBox1);
+            this.tabPage2.Controls.Add(this.lblPos);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(478, 501);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Images";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(6, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(466, 476);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblPos
+            // 
+            this.lblPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblPos.AutoSize = true;
+            this.lblPos.Location = new System.Drawing.Point(6, 485);
+            this.lblPos.Name = "lblPos";
+            this.lblPos.Size = new System.Drawing.Size(30, 13);
+            this.lblPos.TabIndex = 0;
+            this.lblPos.Text = "UFfa";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.txtFilter);
+            this.tabPage3.Controls.Add(this.listBox1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(478, 501);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Transcript";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilter.Location = new System.Drawing.Point(12, 15);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(453, 20);
+            this.txtFilter.TabIndex = 1;
+            this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
+            // 
+            // listBox1
+            // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(12, 41);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(453, 446);
+            this.listBox1.TabIndex = 0;
+            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
             // tabPage1
             // 
@@ -236,24 +315,38 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tabPage4
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(478, 501);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Images";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage4.Controls.Add(this.treeView1);
+            this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(478, 501);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Search";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // txtAllTranscriptsFilter
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(478, 501);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Config";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.txtAllTranscriptsFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAllTranscriptsFilter.Location = new System.Drawing.Point(12, 13);
+            this.txtAllTranscriptsFilter.Name = "txtAllTranscriptsFilter";
+            this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(453, 20);
+            this.txtAllTranscriptsFilter.TabIndex = 2;
+            this.txtAllTranscriptsFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.FullRowSelect = true;
+            this.treeView1.Location = new System.Drawing.Point(12, 39);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(453, 450);
+            this.treeView1.TabIndex = 3;
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // MainForm
             // 
@@ -264,12 +357,19 @@
             this.Controls.Add(this.statusStrip1);
             this.MinimumSize = new System.Drawing.Size(325, 350);
             this.Name = "MainForm";
-            this.Text = "Chapter List | MB";
+            this.Text = "SyncView";
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -294,5 +394,12 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label lblPos;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox txtAllTranscriptsFilter;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
