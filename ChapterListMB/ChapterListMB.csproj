@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="RepeatSection.cs" />
     <Compile Include="SyncView\SyncViewRepository.cs" />
+    <Compile Include="SyncView\ImageInfo.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="XmlOperations.cs" />
   </ItemGroup>

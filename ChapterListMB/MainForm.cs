@@ -62,8 +62,8 @@ namespace ChapterListMB
             // lblPos.Text = playerPosition.ToString();
             if (repo != null)
             {
-                lblImageTime.Text = repo.ImageLabel(playerPosition);
-                lblLirycsTime.Text = repo.LyricsLabel(playerPosition);
+                lblImageTime.Text = repo.GetImagesTimestamp(playerPosition);
+                lblLirycsTime.Text = repo.GetLyricsTimestamp(playerPosition);
                 lastTime = playerPosition;
                 var imageIndex = repo.getImageIndex(playerPosition);
                 if (imageIndex != -1)
@@ -496,7 +496,7 @@ namespace ChapterListMB
                 return;
             int milli = SyncViewRepository.GetMilli(txt);
             if (milli != -1)
-                Clipboard.SetText(repo.ImageLabel(milli) + " - ");
+                Clipboard.SetText(repo.GetImagesTimestamp(milli) + " - ");
         }
 
         private void copyLyricsTimestampToolStripMenuItem_Click(object sender, EventArgs e)
@@ -506,7 +506,7 @@ namespace ChapterListMB
                 return;
             int milli = SyncViewRepository.GetMilli(txt);
             if (milli != -1)
-                Clipboard.SetText(repo.LyricsLabel(milli));
+                Clipboard.SetText(repo.GetLyricsTimestamp(milli));
         }
 
         private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -515,6 +515,11 @@ namespace ChapterListMB
             if (next == -1 || next == int.MaxValue) 
                 return;
             RequestPlayerTime(next);
+        }
+
+        private void cmdSetImageName_Click(object sender, EventArgs e)
+        {
+            repo.TrySetImageName(txtImageName.Text);
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ChapterListMB.SyncView
 {
-    class SyncViewRepository
+    partial class SyncViewRepository
     {
         int lastTimeReceived = -1;
         int lastImagePlayed = -1;
@@ -88,17 +88,17 @@ namespace ChapterListMB.SyncView
             return GetLyricsText(fp, filter);
         }
 
-        internal string LyricsLabel(int playerPositionMilliseconds)
+        internal string GetLyricsTimestamp(int playerPositionMilliseconds)
         {
             int seconds = playerPositionMilliseconds / 1000;
             int milliseconds = playerPositionMilliseconds % 1000;
             int minutes = seconds / 60;
             seconds = seconds % 60;
 
-            return $"[{minutes:D3}:{seconds:D2}.{milliseconds:D2}] ";
+            return $"[{minutes:D3}:{seconds:D2}.{milliseconds:D3}] ";
         }
 
-        internal string ImageLabel(int playerPositionMilliseconds)
+        internal string GetImagesTimestamp(int playerPositionMilliseconds)
         {
             int seconds = playerPositionMilliseconds / 1000;
             int minutes = seconds / 60;
@@ -167,48 +167,9 @@ namespace ChapterListMB.SyncView
             return d.GetFiles($"L{L}P{P}*.mp3").FirstOrDefault();
         }
 
-        class imageInfo
-        {
-            Regex r = new Regex(@"^(\d+) -", RegexOptions.Compiled);
-
-            internal FileInfo f { get; set; }
-            internal int computedTimeStampMilliseconds { get; set; } = -1;
-
-            internal imageInfo(FileInfo file)
-            {
-                f = file;
-                var m = r.Match(file.Name);
-                if (m.Success)
-                {
-                    int seconds;
-                    int minutes = 0;
-                    var integersString = m.Groups[1].Value;
-                    if (integersString.Length < 3)
-                    {
-                        seconds = Convert.ToInt32(integersString);
-                    }
-                    else
-                    {
-                        var secString = integersString.Substring(integersString.Length - 2);
-                        var minString = integersString.Substring(0, integersString.Length - 2);
-                        seconds = Convert.ToInt32(secString);
-                        minutes = Convert.ToInt32(minString);
-                    }
-                    seconds = minutes * 60 + seconds;
-                    computedTimeStampMilliseconds = seconds * 1000;
-                }
-            }
-        }
-
         internal void ReloadImages()
         {
-            // todo: add reset
-            //
-            lastTimeReceived = -1;
-            lastImagePlayed = -1;
-            nextImageThreshold = -1;
-            images = new FileInfo[0];
-            timesInMilliseconds = new int[0];
+            ResetInit();
 
             FileInfo f = new FileInfo(mediaFileName);
             var m = regexGetLectureAndPart.Match(f.Name);
@@ -222,9 +183,9 @@ namespace ChapterListMB.SyncView
                 return;
 
             // images = d.GetFiles("*.png").OrderBy(x => x.CreationTime).ToArray();
-            var timedImages = d.GetFiles("*.png").Select(x => new imageInfo(x)).ToList();
+            var timedImages = d.GetFiles("*.png").Select(x => new ImageInfo(x)).ToList();
 
-            if (timedImages.Any(x=>x.computedTimeStampMilliseconds == -1))
+            if (timedImages.Any(x => x.computedTimeStampMilliseconds == -1))
             {
                 var minDateTime = timedImages.Min(x => x.f.CreationTime);
 
@@ -238,9 +199,18 @@ namespace ChapterListMB.SyncView
                     }
                 }
             }
-            var sorted = timedImages.OrderBy(x => x.computedTimeStampMilliseconds);           
+            var sorted = timedImages.OrderBy(x => x.computedTimeStampMilliseconds);
             images = sorted.Select(x => x.f).ToArray();
             timesInMilliseconds = sorted.Select(x => x.computedTimeStampMilliseconds).ToArray();
+        }
+
+        private void ResetInit()
+        {
+            lastTimeReceived = -1;
+            lastImagePlayed = -1;
+            nextImageThreshold = -1;
+            images = new FileInfo[0];
+            timesInMilliseconds = new int[0];
         }
 
         private DateTime GetBasicTime(DateTime defaultTime)
@@ -288,6 +258,17 @@ namespace ChapterListMB.SyncView
             sec += min * 60;
             mill += sec * 1000;
             return mill;
+        }
+
+
+
+        internal bool TrySetImageName(string text)
+        {
+            if (lastImagePlayed != -1)
+            {
+                // return images[lastImagePlayed].TrySetImageName(text);
+            }
+            return false;
         }
     }
 }

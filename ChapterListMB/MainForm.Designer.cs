@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -39,11 +39,11 @@
             this.positionCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblTopmost = new System.Windows.Forms.ToolStripStatusLabel();
             this.titleArtistStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.chaptersCountStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblImageTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLirycsTime = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblTopmost = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.comboBoxNewChapterName = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -51,6 +51,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.chkFindSelect = new System.Windows.Forms.CheckBox();
@@ -63,7 +64,10 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmbImage = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtImageName = new System.Windows.Forms.TextBox();
+            this.cmdSetImageName = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -74,6 +78,7 @@
             this.contextMenuStrip2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // addChapterButton
@@ -130,8 +135,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -198,6 +203,13 @@
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // lblTopmost
+            // 
+            this.lblTopmost.Name = "lblTopmost";
+            this.lblTopmost.Size = new System.Drawing.Size(63, 19);
+            this.lblTopmost.Text = "Is topmost";
+            this.lblTopmost.Click += new System.EventHandler(this.lblLyricsTime_Click);
+            // 
             // titleArtistStatusLabel
             // 
             this.titleArtistStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
@@ -230,13 +242,6 @@
             this.lblLirycsTime.Size = new System.Drawing.Size(17, 19);
             this.lblLirycsTime.Text = "0";
             this.lblLirycsTime.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
-            // 
-            // lblTopmost
-            // 
-            this.lblTopmost.Name = "lblTopmost";
-            this.lblTopmost.Size = new System.Drawing.Size(63, 19);
-            this.lblTopmost.Text = "Is topmost";
-            this.lblTopmost.Click += new System.EventHandler(this.lblLyricsTime_Click);
             // 
             // comboBoxNewChapterName
             // 
@@ -272,6 +277,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.pictureBox1);
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -284,9 +290,9 @@
             // 
             this.pictureBox1.ContextMenuStrip = this.contextMenuStrip1;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(495, 510);
+            this.pictureBox1.Size = new System.Drawing.Size(495, 489);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -297,14 +303,21 @@
             this.reloadImagesToolStripMenuItem,
             this.jumpToNextImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(180, 48);
             // 
             // reloadImagesToolStripMenuItem
             // 
             this.reloadImagesToolStripMenuItem.Name = "reloadImagesToolStripMenuItem";
-            this.reloadImagesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.reloadImagesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.reloadImagesToolStripMenuItem.Text = "Reload images";
             this.reloadImagesToolStripMenuItem.Click += new System.EventHandler(this.reloadImagesToolStripMenuItem_Click);
+            // 
+            // jumpToNextImageToolStripMenuItem
+            // 
+            this.jumpToNextImageToolStripMenuItem.Name = "jumpToNextImageToolStripMenuItem";
+            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.jumpToNextImageToolStripMenuItem.Text = "Jump to next image";
+            this.jumpToNextImageToolStripMenuItem.Click += new System.EventHandler(this.jumpToNextImageToolStripMenuItem_Click);
             // 
             // tabPage3
             // 
@@ -439,12 +452,44 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // jumpToNextImageToolStripMenuItem
+            // cmbImage
             // 
-            this.jumpToNextImageToolStripMenuItem.Name = "jumpToNextImageToolStripMenuItem";
-            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.jumpToNextImageToolStripMenuItem.Text = "Jump to next image";
-            this.jumpToNextImageToolStripMenuItem.Click += new System.EventHandler(this.jumpToNextImageToolStripMenuItem_Click);
+            this.cmbImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbImage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbImage.FormattingEnabled = true;
+            this.cmbImage.Location = new System.Drawing.Point(0, 0);
+            this.cmbImage.Name = "cmbImage";
+            this.cmbImage.Size = new System.Drawing.Size(246, 21);
+            this.cmbImage.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cmdSetImageName);
+            this.panel1.Controls.Add(this.txtImageName);
+            this.panel1.Controls.Add(this.cmbImage);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(495, 21);
+            this.panel1.TabIndex = 3;
+            // 
+            // txtImageName
+            // 
+            this.txtImageName.Location = new System.Drawing.Point(252, 0);
+            this.txtImageName.Name = "txtImageName";
+            this.txtImageName.Size = new System.Drawing.Size(197, 20);
+            this.txtImageName.TabIndex = 3;
+            // 
+            // cmdSetImageName
+            // 
+            this.cmdSetImageName.Location = new System.Drawing.Point(455, 0);
+            this.cmdSetImageName.Name = "cmdSetImageName";
+            this.cmdSetImageName.Size = new System.Drawing.Size(40, 20);
+            this.cmdSetImageName.TabIndex = 4;
+            this.cmdSetImageName.Text = "Set";
+            this.cmdSetImageName.UseVisualStyleBackColor = true;
+            this.cmdSetImageName.Click += new System.EventHandler(this.cmdSetImageName_Click);
             // 
             // MainForm
             // 
@@ -469,6 +514,8 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -510,5 +557,9 @@
         private System.Windows.Forms.ToolStripMenuItem copyImageTimestampToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyLyricsTimestampToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jumpToNextImageToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button cmdSetImageName;
+        private System.Windows.Forms.TextBox txtImageName;
+        private System.Windows.Forms.ComboBox cmbImage;
     }
 }
