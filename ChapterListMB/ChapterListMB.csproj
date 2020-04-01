@@ -70,8 +70,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RepeatSection.cs" />
+    <Compile Include="SyncView\ITimedObject.cs" />
+    <Compile Include="SyncView\PointerCoordinates.cs" />
     <Compile Include="SyncView\SyncViewRepository.cs" />
     <Compile Include="SyncView\ImageInfo.cs" />
+    <Compile Include="SyncView\TimedObjects.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="XmlOperations.cs" />
   </ItemGroup>

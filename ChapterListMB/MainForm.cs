@@ -36,6 +36,8 @@ namespace ChapterListMB
         public SetTime SetTimeDelegate;
         SyncViewRepository repo;
 
+        PropertyInfo irProperty; // used to access scaled image rectangle
+
         public MainForm()
         {
             InitializeComponent();
@@ -53,13 +55,13 @@ namespace ChapterListMB
             SetCurrentChapterDelegate = SetCurrentChapterMethod;
             SetTimeDelegate = SetCurrentTime;
 
-            PropertyInfo irProperty = pictureBox1.GetType().GetProperty("ImageRectangle", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
+            irProperty = pictureBox1.GetType().GetProperty("ImageRectangle", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
 
             this.TopMost = false;
             UpdateTopMostText();
         }
 
-        int lastTimeMilli = -1;
+        int CurrentMilli = -1;
 
         public void SetCurrentTime(int playerPosition)
         {
@@ -68,20 +70,15 @@ namespace ChapterListMB
             {
                 lblImageTime.Text = SyncViewRepository.GetImagesTimestamp(playerPosition);
                 lblLirycsTime.Text = SyncViewRepository.GetLyricsTimestamp(playerPosition);
-                lblNext.Text = $"- {(repo.getNextImageMilli() - playerPosition ) / 1000} sec.";
-                lastTimeMilli = playerPosition;
+                lblNext.Text = $"- {(repo.Images.NextObjectTime - playerPosition ) / 1000} sec.";
+                CurrentMilli = playerPosition;
                 
-                var imageIndex = repo.getImageIndex(playerPosition);
+                // load image
+                var imageIndex = repo.Images.GetIndex(playerPosition);
                 if (imageIndex != -1)
                 {
                     // lblPos.Text = repo.GetiImageFile(imageIndex).ToString();
-                    pictureBox1.ImageLocation = repo.GetiImageFile(imageIndex).FullName;
-
-                    //Type pboxType = pictureBox1.GetType();
-                    //PropertyInfo irProperty = pboxType.GetProperty("ImageRectangle", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
-                    //Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
-                   
-
+                    pictureBox1.ImageLocation = repo.Images[imageIndex].file.FullName;
                     try
                     {
                         cmbImage.SelectedIndex = imageIndex;
@@ -91,7 +88,26 @@ namespace ChapterListMB
 
                     }
                 }
+                var pointerIndex = repo.Pointers.GetIndex(playerPosition);
+                if (pointerIndex != -1)
+                {
+                    SetPointer(repo.Pointers[pointerIndex]);
+                }
             }
+        }
+
+        int lastPointerTime = -1;
+
+        private void SetPointer(PointerCoordinates pointerCoordinates)
+        {
+            pnlPointer.Visible = true;
+            lastPointerTime = CurrentMilli;
+            Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
+            Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
+            var ratio = (double) rectangle.Width / pictureBox1.Image.PhysicalDimension.Width;
+            var px = pictureBox1.Location.X + rectangle.X + pointerCoordinates.X * ratio;
+            var py = pictureBox1.Location.Y + rectangle.Y + pointerCoordinates.Y * ratio;
+            pnlPointer.Location = new Point((int)px - 3, (int)py - 3);
         }
 
         public void UpdateTrackMethod(Track track)
@@ -99,8 +115,8 @@ namespace ChapterListMB
             cmbImage.Items.Clear();
             Track = track;
             repo = new SyncViewRepository(track);
-            if (repo.images != null)
-                cmbImage.Items.AddRange(repo.images.ToArray());
+            if (repo.Images != null)
+                cmbImage.Items.AddRange(repo.Images.ToArray());
             setLirics();
 
             this.Text = "Syncview - " + repo.mediaFileName;
@@ -482,7 +498,7 @@ namespace ChapterListMB
         {
             repo.ReloadImages();
             cmbImage.Items.Clear();
-            cmbImage.Items.AddRange(repo.images.ToArray());
+            cmbImage.Items.AddRange(repo.Images.ToArray());
         }
 
         private void lblImageTime_Click(object sender, EventArgs e)
@@ -522,7 +538,7 @@ namespace ChapterListMB
             for (int i = listBox1.Items.Count-1; i > 0; i--)
             {
                 var itemMilli = SyncViewRepository.GetMilli(listBox1.Items[i].ToString());
-                if (itemMilli < lastTimeMilli)
+                if (itemMilli < CurrentMilli)
                 {
                     last = i;
                     break;
@@ -555,7 +571,7 @@ namespace ChapterListMB
 
         private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var next = repo.getNextImageMilli();
+            var next = repo.Images.NextObjectTime;
             if (next == -1 || next == int.MaxValue) 
                 return;
             RequestPlayerTime(next);
@@ -572,7 +588,7 @@ namespace ChapterListMB
             if (success)
             {
                 cmbImage.Items.Clear();
-                cmbImage.Items.AddRange(repo.images.ToArray());
+                cmbImage.Items.AddRange(repo.Images.ToArray());
             }
         }
 
@@ -581,9 +597,9 @@ namespace ChapterListMB
             var img = cmbImage.SelectedItem as ImageInfo;
             if (img == null)
                 return;
-            if (img.computedTimeStampMilliseconds == -1)
+            if (img.TimeStampMilliseconds == -1)
                 return;
-            RequestPlayerTime(img.computedTimeStampMilliseconds);
+            RequestPlayerTime(img.TimeStampMilliseconds);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -594,16 +610,16 @@ namespace ChapterListMB
         private void copyImagesAsLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var image in repo.images)
+            foreach (var image in repo.Images)
             {
-                sb.AppendLine(SyncViewRepository.GetLyricsTimestamp(image.computedTimeStampMilliseconds) + " " + image.GetName());
+                sb.AppendLine(SyncViewRepository.GetLyricsTimestamp(image.TimeStampMilliseconds) + " " + image.GetName());
             }
             Clipboard.SetText(sb.ToString());
         }
 
         private void saveAllImagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (var image in repo.images)
+            foreach (var image in repo.Images)
             {
                 var name = image.GetName();
                 image.TrySetImageName(name);
@@ -615,10 +631,10 @@ namespace ChapterListMB
         private void cmdSetNextSlideTime_Click(object sender, EventArgs e)
         {
             int thisIndex = cmbImage.SelectedIndex + 1;
-            if (repo.images.Count <= thisIndex)
+            if (repo.Images.Count() <= thisIndex)
                 return;
-            var nextImage = repo.images[thisIndex];
-            nextImage.TrySetImageTime(lastTimeMilli);
+            var nextImage = repo.Images[thisIndex];
+            nextImage.TrySetImageTime(CurrentMilli);
 
             repo.ReloadImages();
             reloadImagesToolStripMenuItem_Click(null, null);
@@ -627,8 +643,8 @@ namespace ChapterListMB
 
         private void chkShowPointer_CheckedChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
-            Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
+            
+            
         }
     }
 }

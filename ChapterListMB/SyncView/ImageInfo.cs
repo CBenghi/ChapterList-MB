@@ -5,22 +5,22 @@ using System.Text.RegularExpressions;
 namespace ChapterListMB.SyncView
 {
 
-    class ImageInfo
+    class ImageInfo : ITimedObject
     {
         Regex rPositionPart = new Regex(@"^(\d+)[ ]*-", RegexOptions.Compiled);
 
-        internal FileInfo f { get; set; }
-        internal int computedTimeStampMilliseconds { get; set; } = -1;
+        internal FileInfo file { get; set; }
+        public int TimeStampMilliseconds { get; set; } = -1;
 
         public override string ToString()
         {
-            var fname = f.Name;
+            var fname = file.Name;
             return fname;
         }
 
         internal ImageInfo(FileInfo file)
         {
-            f = file;
+            this.file = file;
             var m = rPositionPart.Match(file.Name);
             if (m.Success)
             {
@@ -39,32 +39,32 @@ namespace ChapterListMB.SyncView
                     minutes = Convert.ToInt32(minString);
                 }
                 seconds = minutes * 60 + seconds;
-                computedTimeStampMilliseconds = seconds * 1000;
+                TimeStampMilliseconds = seconds * 1000;
             }
         }
 
         internal bool TrySetImageName(string text)
         {
-            if (!f.Exists)
+            if (!file.Exists)
                 return false;
 
-            var ext = f.Extension.Substring(1);
+            var ext = file.Extension.Substring(1);
 
             var fileName = $"{text}.{ext}";
-            if (computedTimeStampMilliseconds != -1)
+            if (TimeStampMilliseconds != -1)
             {
-                fileName = $"{SyncViewRepository.GetImagesTimestamp(computedTimeStampMilliseconds)} - {text}.{ext}";
+                fileName = $"{SyncViewRepository.GetImagesTimestamp(TimeStampMilliseconds)} - {text}.{ext}";
             }
-            var newName = Path.Combine(f.DirectoryName, fileName);
+            var newName = Path.Combine(file.DirectoryName, fileName);
             if (File.Exists(newName))
                 return false;
-            f.MoveTo(newName);
+            file.MoveTo(newName);
             return true;
         }
 
         internal string GetName()
         {
-            var name = Path.GetFileNameWithoutExtension(f.Name);
+            var name = Path.GetFileNameWithoutExtension(file.Name);
             var m = rPositionPart.Match(name);
             if (m.Success)
             {
@@ -76,20 +76,20 @@ namespace ChapterListMB.SyncView
 
         internal bool TrySetImageTime(int lastTimeMilli)
         {
-            if (!f.Exists)
+            if (!file.Exists)
                 return false;
 
-            var ext = f.Extension.Substring(1);
+            var ext = file.Extension.Substring(1);
             var text = GetName();
             var fileName = $"{text}.{ext}";
             if (lastTimeMilli != -1)
             {
                 fileName = $"{SyncViewRepository.GetImagesTimestamp(lastTimeMilli)} - {text}.{ext}";
             }
-            var newName = Path.Combine(f.DirectoryName, fileName);
+            var newName = Path.Combine(file.DirectoryName, fileName);
             if (File.Exists(newName))
                 return false;
-            f.MoveTo(newName);
+            file.MoveTo(newName);
             return true;
         }
     }
