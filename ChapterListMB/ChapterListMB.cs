@@ -95,7 +95,7 @@ namespace MusicBeePlugin
             {
                 case NotificationType.PluginStartup:
                     // perform startup initialisation
-                    _timer = new Timer(100);
+                    _timer = new Timer(250);
                     _timer.Elapsed += _timer_Elapsed;
                     switch (mbApiInterface.Player_GetPlayState())
                     {
@@ -124,16 +124,14 @@ namespace MusicBeePlugin
                     switch (mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
-                            if (!_timer.Enabled) _timer.Start();
+                            // _mainForm.SetPlaying(true);
+                            if (!_timer.Enabled) 
+                                _timer.Start();
                             break;
-                        case PlayState.Paused:
-                            if (_timer.Enabled) _timer.Stop();
-                            break;
-                        case PlayState.Stopped:
-                            if (_timer.Enabled) _timer.Stop();
-                            break;
-                        case PlayState.Undefined:
-                            if (_timer.Enabled) _timer.Stop();
+                        default:
+                            // _mainForm.SetPlaying(false);
+                            if (_timer.Enabled) 
+                                _timer.Stop();
                             break;
                     }
                     break;
@@ -149,7 +147,7 @@ namespace MusicBeePlugin
             {
                 int jumpTo = nextTimerEventPositionRequest;
                 nextTimerEventPositionRequest = 0; // setting it to 0 here to allow for possible setting if need to be postponed again
-                MainFormOnSelectedItemDoubleClickedRouted(this, jumpTo);
+                SetTrackPosition(this, jumpTo);
                 return;
             }
             try
@@ -224,11 +222,13 @@ namespace MusicBeePlugin
          * * * * * */
         private void SubscribeToEvents()
         {
-            _mainForm.SelectedItemDoubleClickedRouted += MainFormOnSelectedItemDoubleClickedRouted;
+            _mainForm.RequestPositionEvent += SetTrackPosition;
+            _mainForm.RequestPlayFileEvent += PlayTrack;
+            _mainForm.RequestPlayToggleEvent += TogglePlayPause;
+
             _mainForm.AddChapterButtonClickedRouted += MainFormOnAddChapterButtonClickedRouted;
             _mainForm.RemoveChapterButtonClickedRouted += MainFormOnRemoveChapterButtonClickedRouted;
-            _mainForm.ChangeChapterRequested += MainFormOnChangeChapterRequested;
-            _mainForm.RequestPlayFileEvent += PlayTrack;
+            _mainForm.ChangeChapterRequested += MainFormOnChangeChapterRequested;           
         }
 
         DateTime lastRequestedTrackTime = DateTime.Now.Date;
@@ -246,15 +246,20 @@ namespace MusicBeePlugin
         }
 
 
-        private void MainFormOnSelectedItemDoubleClickedRouted(object sender, int position)
+        private void SetTrackPosition(object sender, int position)
         {
             // if we have just changed the track wait for the next timer event to change the track time
-            if (DateTime.Now - lastRequestedTrackTime < new TimeSpan(0, 0, 0, 0, 300)) 
+            if (DateTime.Now - lastRequestedTrackTime < new TimeSpan(0, 0, 0, 0, 600)) 
             {
                 nextTimerEventPositionRequest = position;
             }
             else
                 mbApiInterface.Player_SetPosition(position);
+        }
+
+        private void TogglePlayPause(object sender, int position)
+        {
+            var ret = mbApiInterface.Player_PlayPause();
         }
 
         private void MainFormOnAddChapterButtonClickedRouted(object sender, string newChapterName)

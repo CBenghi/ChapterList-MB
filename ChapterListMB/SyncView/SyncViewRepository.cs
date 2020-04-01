@@ -19,8 +19,9 @@ namespace ChapterListMB.SyncView
 
         internal string mediaFileName { get; private set; }
 
-        FileInfo[] images;
-        int[] timesInMilliseconds;
+        internal List<ImageInfo> images;
+        // FileInfo[] images;
+        // int[] timesInMilliseconds;
 
         public int getNextImageMilli()
         {
@@ -46,24 +47,24 @@ namespace ChapterListMB.SyncView
         private int FindAtTime(int seekTime, int startAt = 0)
         {
             lastTimeReceived = seekTime;
-            int ret = 0; // in any case return first image, if too early
-            for (int i = startAt; i < timesInMilliseconds.Length; i++)
+            int retIndex = 0; // in any case return first image, if too early
+            for (int i = startAt; i < images.Count; i++)
             {
-                if (seekTime >= timesInMilliseconds[i])
+                if (seekTime >= images[i].computedTimeStampMilliseconds)
                 {
-                    ret = i;
+                    retIndex = i;
                 }
                 else
                 {
                     break;
                 }
             }
-            lastImagePlayed = ret;
-            if (ret < timesInMilliseconds.Length - 1)
-                nextImageThreshold = timesInMilliseconds[ret + 1];
+            lastImagePlayed = retIndex;
+            if (retIndex < images.Count - 1)
+                nextImageThreshold = images[retIndex + 1].computedTimeStampMilliseconds;
             else
                 nextImageThreshold = int.MaxValue;
-            return ret;
+            return retIndex;
         }
 
         private static string transcriptsFolder = @"C:\Data\Work\Esame Stato\SupportingMedia\Transcripts\";
@@ -78,17 +79,19 @@ namespace ChapterListMB.SyncView
             if (!m.Success)
                 return Enumerable.Empty<string>();
             var L = m.Groups[1].Value;
+            var P = m.Groups[2].Value;
             var path = Path.Combine(transcriptsFolder, $@"L{L}\");
 
             DirectoryInfo d = new DirectoryInfo(path);
-            path = Path.Combine(path, f.Name);
-            path = Path.ChangeExtension(path, ".lyrics.txt");
 
-            FileInfo fp = new FileInfo(path);
+            var fp = d.GetFiles($"L{L}P{P}*.lyrics.txt").FirstOrDefault();
+            if (!fp.Exists)
+                return Enumerable.Empty<string>();
+
             return GetLyricsText(fp, filter);
         }
 
-        internal string GetLyricsTimestamp(int playerPositionMilliseconds)
+        internal static string GetLyricsTimestamp(int playerPositionMilliseconds)
         {
             int seconds = playerPositionMilliseconds / 1000;
             int milliseconds = playerPositionMilliseconds % 1000;
@@ -98,7 +101,7 @@ namespace ChapterListMB.SyncView
             return $"[{minutes:D3}:{seconds:D2}.{milliseconds:D3}] ";
         }
 
-        internal string GetImagesTimestamp(int playerPositionMilliseconds)
+        internal static string GetImagesTimestamp(int playerPositionMilliseconds)
         {
             int seconds = playerPositionMilliseconds / 1000;
             int minutes = seconds / 60;
@@ -140,7 +143,7 @@ namespace ChapterListMB.SyncView
 
         internal FileInfo GetiImageFile(int imageIndex)
         {
-            return images[imageIndex];
+            return images[imageIndex].f;
         }
 
         internal static IEnumerable<FileInfo> GetTranscripts()
@@ -188,20 +191,16 @@ namespace ChapterListMB.SyncView
             if (timedImages.Any(x => x.computedTimeStampMilliseconds == -1))
             {
                 var minDateTime = timedImages.Min(x => x.f.CreationTime);
-
                 var basicTime = GetBasicTime(minDateTime);
-                for (int i = 1; i < timedImages.Count; i++)
+
+                var imagestoChange = timedImages.Where(x => x.computedTimeStampMilliseconds == -1).ToArray();
+                foreach (var item in imagestoChange)
                 {
-                    if (timedImages[i].computedTimeStampMilliseconds == -1)
-                    {
-                        var tmp = timedImages[i].f.CreationTime - basicTime;
-                        timedImages[i].computedTimeStampMilliseconds = (int)tmp.TotalMilliseconds;
-                    }
+                    var tmp = item.f.CreationTime - basicTime;
+                    item.computedTimeStampMilliseconds = (int)tmp.TotalMilliseconds;
                 }
             }
-            var sorted = timedImages.OrderBy(x => x.computedTimeStampMilliseconds);
-            images = sorted.Select(x => x.f).ToArray();
-            timesInMilliseconds = sorted.Select(x => x.computedTimeStampMilliseconds).ToArray();
+            images = timedImages.OrderBy(x => x.computedTimeStampMilliseconds).ToList();
         }
 
         private void ResetInit()
@@ -209,8 +208,7 @@ namespace ChapterListMB.SyncView
             lastTimeReceived = -1;
             lastImagePlayed = -1;
             nextImageThreshold = -1;
-            images = new FileInfo[0];
-            timesInMilliseconds = new int[0];
+            images = null;
         }
 
         private DateTime GetBasicTime(DateTime defaultTime)
@@ -264,11 +262,14 @@ namespace ChapterListMB.SyncView
 
         internal bool TrySetImageName(string text)
         {
+            var success = false;
             if (lastImagePlayed != -1)
             {
-                // return images[lastImagePlayed].TrySetImageName(text);
+                success = images[lastImagePlayed].TrySetImageName(text);
             }
-            return false;
+            if (success)
+                ReloadImages();
+            return success;
         }
     }
 }

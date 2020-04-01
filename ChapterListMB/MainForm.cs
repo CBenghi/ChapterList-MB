@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -50,35 +51,58 @@ namespace ChapterListMB
             UpdateTrackDelegate = UpdateTrackMethod;
             UpdateChapterListDelegate = UpdateFirstColumn;
             SetCurrentChapterDelegate = SetCurrentChapterMethod;
-
             SetTimeDelegate = SetCurrentTime;
-            this.TopMost = true;
+
+            PropertyInfo irProperty = pictureBox1.GetType().GetProperty("ImageRectangle", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            this.TopMost = false;
+            UpdateTopMostText();
         }
 
-        int lastTime = -1;
+        int lastTimeMilli = -1;
 
         public void SetCurrentTime(int playerPosition)
         {
             // lblPos.Text = playerPosition.ToString();
             if (repo != null)
             {
-                lblImageTime.Text = repo.GetImagesTimestamp(playerPosition);
-                lblLirycsTime.Text = repo.GetLyricsTimestamp(playerPosition);
-                lastTime = playerPosition;
+                lblImageTime.Text = SyncViewRepository.GetImagesTimestamp(playerPosition);
+                lblLirycsTime.Text = SyncViewRepository.GetLyricsTimestamp(playerPosition);
+                lblNext.Text = $"- {(repo.getNextImageMilli() - playerPosition ) / 1000} sec.";
+                lastTimeMilli = playerPosition;
+                
                 var imageIndex = repo.getImageIndex(playerPosition);
                 if (imageIndex != -1)
                 {
                     // lblPos.Text = repo.GetiImageFile(imageIndex).ToString();
                     pictureBox1.ImageLocation = repo.GetiImageFile(imageIndex).FullName;
+
+                    //Type pboxType = pictureBox1.GetType();
+                    //PropertyInfo irProperty = pboxType.GetProperty("ImageRectangle", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
+                    //Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
+                   
+
+                    try
+                    {
+                        cmbImage.SelectedIndex = imageIndex;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
             }
         }
 
         public void UpdateTrackMethod(Track track)
         {
+            cmbImage.Items.Clear();
             Track = track;
             repo = new SyncViewRepository(track);
+            if (repo.images != null)
+                cmbImage.Items.AddRange(repo.images.ToArray());
             setLirics();
+
             this.Text = "Syncview - " + repo.mediaFileName;
             
             _chapterListBindingSource.DataSource = Track.ChapterList.Chapters;
@@ -154,6 +178,11 @@ namespace ChapterListMB
 
             SetRowColors();
             UpdateFirstColumn();
+        }
+
+        internal void SetPlaying(bool v)
+        {
+            throw new NotImplementedException();
         }
 
         private void SetRowColors()
@@ -252,16 +281,24 @@ namespace ChapterListMB
             Track.ChapterList.SaveChaptersToFile();
         }
 
+        public event EventHandler<int> RequestPlayToggleEvent;
+
+        protected virtual void RequestPlayToggle(int value)
+        {
+            RequestPlayToggleEvent?.Invoke(this, value);
+        }
+
+
         public event EventHandler<FileInfo> RequestPlayFileEvent;
         protected virtual void RequestPlayNow(FileInfo file)
         {
             RequestPlayFileEvent?.Invoke(this, file);
         }
 
-        public event EventHandler<int> SelectedItemDoubleClickedRouted;
+        public event EventHandler<int> RequestPositionEvent;
         protected virtual void RequestPlayerTime(int position)
         {   
-            SelectedItemDoubleClickedRouted?.Invoke(this, position);
+            RequestPositionEvent?.Invoke(this, position);
         }
 
         public event EventHandler<string> AddChapterButtonClickedRouted;
@@ -444,6 +481,8 @@ namespace ChapterListMB
         private void reloadImagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             repo.ReloadImages();
+            cmbImage.Items.Clear();
+            cmbImage.Items.AddRange(repo.images.ToArray());
         }
 
         private void lblImageTime_Click(object sender, EventArgs e)
@@ -460,6 +499,11 @@ namespace ChapterListMB
         private void lblLyricsTime_Click(object sender, EventArgs e)
         {
             this.TopMost = !this.TopMost;
+            UpdateTopMostText();
+        }
+
+        private void UpdateTopMostText()
+        {
             if (this.TopMost)
                 lblTopmost.Text = "Is topmost";
             else
@@ -478,7 +522,7 @@ namespace ChapterListMB
             for (int i = listBox1.Items.Count-1; i > 0; i--)
             {
                 var itemMilli = SyncViewRepository.GetMilli(listBox1.Items[i].ToString());
-                if (itemMilli < lastTime)
+                if (itemMilli < lastTimeMilli)
                 {
                     last = i;
                     break;
@@ -496,7 +540,7 @@ namespace ChapterListMB
                 return;
             int milli = SyncViewRepository.GetMilli(txt);
             if (milli != -1)
-                Clipboard.SetText(repo.GetImagesTimestamp(milli) + " - ");
+                Clipboard.SetText(SyncViewRepository.GetImagesTimestamp(milli) + " - ");
         }
 
         private void copyLyricsTimestampToolStripMenuItem_Click(object sender, EventArgs e)
@@ -506,7 +550,7 @@ namespace ChapterListMB
                 return;
             int milli = SyncViewRepository.GetMilli(txt);
             if (milli != -1)
-                Clipboard.SetText(repo.GetLyricsTimestamp(milli));
+                Clipboard.SetText(SyncViewRepository.GetLyricsTimestamp(milli));
         }
 
         private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -519,7 +563,72 @@ namespace ChapterListMB
 
         private void cmdSetImageName_Click(object sender, EventArgs e)
         {
-            repo.TrySetImageName(txtImageName.Text);
+            if (txtImageName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                txtImageName.Text = "INVALID - " + txtImageName.Text;
+                return;
+            }
+            var success = repo.TrySetImageName(txtImageName.Text);
+            if (success)
+            {
+                cmbImage.Items.Clear();
+                cmbImage.Items.AddRange(repo.images.ToArray());
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var img = cmbImage.SelectedItem as ImageInfo;
+            if (img == null)
+                return;
+            if (img.computedTimeStampMilliseconds == -1)
+                return;
+            RequestPlayerTime(img.computedTimeStampMilliseconds);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            RequestPlayToggle(0);
+        }
+
+        private void copyImagesAsLyricsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var image in repo.images)
+            {
+                sb.AppendLine(SyncViewRepository.GetLyricsTimestamp(image.computedTimeStampMilliseconds) + " " + image.GetName());
+            }
+            Clipboard.SetText(sb.ToString());
+        }
+
+        private void saveAllImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (var image in repo.images)
+            {
+                var name = image.GetName();
+                image.TrySetImageName(name);
+                // sb.AppendLine(SyncViewRepository.GetLyricsTimestamp(image.computedTimeStampMilliseconds) + " " + image.GetName());
+            }
+            reloadImagesToolStripMenuItem_Click(null, null);
+        }
+
+        private void cmdSetNextSlideTime_Click(object sender, EventArgs e)
+        {
+            int thisIndex = cmbImage.SelectedIndex + 1;
+            if (repo.images.Count <= thisIndex)
+                return;
+            var nextImage = repo.images[thisIndex];
+            nextImage.TrySetImageTime(lastTimeMilli);
+
+            repo.ReloadImages();
+            reloadImagesToolStripMenuItem_Click(null, null);
+
+        }
+
+        private void chkShowPointer_CheckedChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
+            Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
         }
     }
 }
