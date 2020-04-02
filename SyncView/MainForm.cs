@@ -113,13 +113,14 @@ namespace ChapterListMB
         public void UpdateTrackMethod(Track track)
         {
             cmbImage.Items.Clear();
+            pictureBox1.Image = null;
             Track = track;
             repo = new SyncViewRepository(track);
             if (repo.Images != null)
                 cmbImage.Items.AddRange(repo.Images.ToArray());
             setLirics();
 
-            this.Text = "Syncview - " + repo.mediaFileName;
+            this.Text = "SyncView - " + repo.mediaFileName;
             
             _chapterListBindingSource.DataSource = Track.ChapterList.Chapters;
 

@@ -126,7 +126,12 @@ namespace ChapterListMB.SyncView
         internal void ReloadImages()
         {
             var d = GetImagePath();
-            var timedImages = d.GetFiles("*.png").Select(x => new ImageInfo(x)).ToList();
+            if (d == null)
+            {
+                Images = new TimedObjects<ImageInfo>();
+                return;
+            }
+            var timedImages = d?.GetFiles("*.png").Select(x => new ImageInfo(x)).ToList();
             if (timedImages.Any(x => x.TimeStampMilliseconds == -1))
             {
                 var minDateTime = timedImages.Min(x => x.file.CreationTime);
@@ -158,7 +163,8 @@ namespace ChapterListMB.SyncView
         {
             Pointers = new TimedObjects<PointerCoordinates>();
             var d = GetImagePath();
-            if (!d.Exists)
+            
+            if (d == null || !d.Exists)
                 return;
             var path = Path.Combine(d.FullName, "cursor.txt");
             FileInfo f = new FileInfo(path);
@@ -174,8 +180,6 @@ namespace ChapterListMB.SyncView
             }
             Pointers = new TimedObjects<PointerCoordinates>(l);
         }
-
-
 
 
         private DateTime GetBasicTime(DateTime defaultTime)

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29924.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapterListMB", "ChapterListMB\ChapterListMB.csproj", "{9F0F920A-74AD-4FFF-8754-7CDAA41FFCD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncView", "SyncView\SyncView.csproj", "{9F0F920A-74AD-4FFF-8754-7CDAA41FFCD0}"
 EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "C:\Program Files (x86)\MusicBee\MusicBee.exe", "{65F3AAA8-7BC3-4F7C-970A-6B717714424F}"
 	ProjectSection(DebuggerProjectSystem) = preProject
@@ -41,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25E63858-CD46-4294-BD50-D62A68FFA50C}
 	EndGlobalSection
 EndGlobal
