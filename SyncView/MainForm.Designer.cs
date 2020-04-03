@@ -1,4 +1,4 @@
-﻿namespace ChapterListMB
+﻿namespace SyncView
 {
     partial class MainForm
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -44,6 +44,8 @@
             this.chaptersCountStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblImageTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLirycsTime = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblNext = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.comboBoxNewChapterName = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -74,10 +76,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblNext = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pnlPointer = new System.Windows.Forms.Panel();
-            this.chkShowPointer = new System.Windows.Forms.CheckBox();
+            this.cmdPointer = new System.Windows.Forms.Button();
+            this.pnlPointer = new SyncView.RoundPanel();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -146,8 +146,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -256,6 +256,18 @@
             this.lblLirycsTime.Text = "0";
             this.lblLirycsTime.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(250, 19);
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // lblNext
+            // 
+            this.lblNext.Name = "lblNext";
+            this.lblNext.Size = new System.Drawing.Size(32, 19);
+            this.lblNext.Text = "Next";
+            // 
             // comboBoxNewChapterName
             // 
             this.comboBoxNewChapterName.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -352,7 +364,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.chkShowPointer);
+            this.panel2.Controls.Add(this.cmdPointer);
             this.panel2.Controls.Add(this.cmdSetNextSlideTime);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(3, 492);
@@ -567,37 +579,24 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // toolStripStatusLabel1
+            // cmdPointer
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(250, 19);
-            this.toolStripStatusLabel1.Spring = true;
-            // 
-            // lblNext
-            // 
-            this.lblNext.Name = "lblNext";
-            this.lblNext.Size = new System.Drawing.Size(32, 19);
-            this.lblNext.Text = "Next";
+            this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdPointer.Location = new System.Drawing.Point(435, 0);
+            this.cmdPointer.Name = "cmdPointer";
+            this.cmdPointer.Size = new System.Drawing.Size(60, 20);
+            this.cmdPointer.TabIndex = 5;
+            this.cmdPointer.Text = "Pointer";
+            this.cmdPointer.UseVisualStyleBackColor = true;
+            this.cmdPointer.Click += new System.EventHandler(this.cmdPointer_Click);
             // 
             // pnlPointer
             // 
             this.pnlPointer.BackColor = System.Drawing.Color.Red;
-            this.pnlPointer.Location = new System.Drawing.Point(166, 179);
+            this.pnlPointer.Location = new System.Drawing.Point(0, 0);
             this.pnlPointer.Name = "pnlPointer";
-            this.pnlPointer.Size = new System.Drawing.Size(5, 5);
+            this.pnlPointer.Size = new System.Drawing.Size(11, 11);
             this.pnlPointer.TabIndex = 6;
-            this.pnlPointer.Visible = false;
-            // 
-            // chkShowPointer
-            // 
-            this.chkShowPointer.AutoSize = true;
-            this.chkShowPointer.Location = new System.Drawing.Point(134, 3);
-            this.chkShowPointer.Name = "chkShowPointer";
-            this.chkShowPointer.Size = new System.Drawing.Size(88, 17);
-            this.chkShowPointer.TabIndex = 5;
-            this.chkShowPointer.Text = "Show pointer";
-            this.chkShowPointer.UseVisualStyleBackColor = true;
-            this.chkShowPointer.CheckedChanged += new System.EventHandler(this.chkShowPointer_CheckedChanged);
             // 
             // MainForm
             // 
@@ -606,9 +605,12 @@
             this.ClientSize = new System.Drawing.Size(509, 566);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(325, 350);
             this.Name = "MainForm";
             this.Text = "SyncView";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -617,7 +619,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -679,7 +680,7 @@
         private System.Windows.Forms.Button cmdSetNextSlideTime;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel lblNext;
-        private System.Windows.Forms.Panel pnlPointer;
-        private System.Windows.Forms.CheckBox chkShowPointer;
+        private SyncView.RoundPanel pnlPointer;
+        private System.Windows.Forms.Button cmdPointer;
     }
 }

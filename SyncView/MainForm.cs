@@ -1,5 +1,5 @@
-﻿using ChapterListMB.SyncView;
-using Microsoft.Win32;
+﻿using ChapterListMB;
+using ChapterListMB.SyncView;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace ChapterListMB
+namespace SyncView
 {
     public partial class MainForm : Form
     {
@@ -97,17 +97,21 @@ namespace ChapterListMB
         }
 
         int lastPointerTime = -1;
+        PointerCoordinates lastPC = null;
 
         private void SetPointer(PointerCoordinates pointerCoordinates)
         {
-            pnlPointer.Visible = true;
             lastPointerTime = CurrentMilli;
+            lastPC = pointerCoordinates;
+            if (pictureBox1.Image == null)
+                return;
             Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
             Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
             var ratio = (double) rectangle.Width / pictureBox1.Image.PhysicalDimension.Width;
             var px = pictureBox1.Location.X + rectangle.X + pointerCoordinates.X * ratio;
             var py = pictureBox1.Location.Y + rectangle.Y + pointerCoordinates.Y * ratio;
-            pnlPointer.Location = new Point((int)px - 3, (int)py - 3);
+            pnlPointer.Location = new Point((int)px - (pSize/2 + 1), (int)py - (pSize / 2 + 1));
+            pnlPointer.Refresh();
         }
 
         public void UpdateTrackMethod(Track track)
@@ -260,8 +264,8 @@ namespace ChapterListMB
 
             int? newPosition = chapterToShiftBack.Position -
                                (ModifierKeys == Keys.Shift
-                                   ? (int) Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds*4
-                                   : (int) Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds);
+                                   ? (int)Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds*4
+                                   : (int)Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds);
             if (newPosition < 1) newPosition = 1;
             OnChangeChapterRequested(chapterToShiftBack, null, newPosition);
             chaptersDGV.UpdateCellValue(1, chapterToShiftBack.ChapterNumber - 1);
@@ -278,8 +282,8 @@ namespace ChapterListMB
             }
             int? newPosition = chapterToShiftForwards.Position +
                                (ModifierKeys == Keys.Shift
-                                   ? (int) Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds*4
-                                   : (int) Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds);
+                                   ? (int)Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds*4
+                                   : (int)Properties.Settings.Default.ChapterPositionShiftValue.TotalMilliseconds);
             if (newPosition > Track.NowPlayingTrackInfo.Duration.TotalMilliseconds)
                 newPosition = (int)Track.NowPlayingTrackInfo.Duration.TotalMilliseconds;
             OnChangeChapterRequested(chapterToShiftForwards, null, newPosition);
@@ -642,10 +646,37 @@ namespace ChapterListMB
 
         }
 
-        private void chkShowPointer_CheckedChanged(object sender, EventArgs e)
+        private void MainForm_Resize(object sender, EventArgs e)
         {
-            
-            
+            if (lastPC != null)
+                SetPointer(lastPC);
+        }
+
+        int pSize = 5;
+
+        private void cmdPointer_Click(object sender, EventArgs e)
+        {
+            if (pSize == 5)
+                pSize = 11;
+            else if (pSize == 11)
+                pSize = 21;
+            else
+                pSize = 5;
+            pnlPointer.Size = new Size(pSize, pSize);
+            SetPointer(lastPC);
+        }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (ActiveControl.GetType() == typeof(TextBox))
+            {
+                e.Handled = false;
+                return;
+            }
+            if (e.KeyChar == ' ')
+            {
+                RequestPlayToggle(0);
+            }
         }
     }
 }

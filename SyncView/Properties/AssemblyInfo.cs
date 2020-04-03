@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ChapterListMB")]
-[assembly: AssemblyDescription("A plugin for the MusicBee music player, which creates chapters within tracks.")]
+[assembly: AssemblyTitle("SyncView")]
+[assembly: AssemblyDescription("A plugin for the MusicBee music player, which displays imaged aligned with tracks.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ChapterListMB")]
-[assembly: AssemblyCopyright("Copyright © Makio WIlliams 2017")]
+[assembly: AssemblyProduct("SyncView")]
+[assembly: AssemblyCopyright("Copyright © Claudio Benghi 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

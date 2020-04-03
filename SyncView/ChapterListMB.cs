@@ -8,6 +8,7 @@ using System.Linq;
 using ChapterListMB;
 using Timer = System.Timers.Timer;
 using System.IO;
+using SyncView;
 
 namespace MusicBeePlugin
 {
