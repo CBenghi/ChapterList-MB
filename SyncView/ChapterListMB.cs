@@ -250,12 +250,19 @@ namespace MusicBeePlugin
         private void SetTrackPosition(object sender, int position)
         {
             // if we have just changed the track wait for the next timer event to change the track time
-            if (DateTime.Now - lastRequestedTrackTime < new TimeSpan(0, 0, 0, 0, 600)) 
+            if (DateTime.Now - lastRequestedTrackTime < new TimeSpan(0, 0, 0, 0, 600))
             {
                 nextTimerEventPositionRequest = position;
             }
             else
+            {
                 mbApiInterface.Player_SetPosition(position);
+                var state = mbApiInterface.Player_GetPlayState();
+                if (state != PlayState.Playing)
+                {
+                    mbApiInterface.Player_PlayPause();
+                }
+            }
         }
 
         private void TogglePlayPause(object sender, int position)

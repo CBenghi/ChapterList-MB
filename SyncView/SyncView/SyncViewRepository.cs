@@ -240,5 +240,19 @@ namespace ChapterListMB.SyncView
                 ReloadImages();
             return success;
         }
+
+        internal bool DeleteCurrentImage()
+        {
+            var success = false;
+            if (Images.LastObjectPolled != -1)
+            {
+                var fname = Images[Images.LastObjectPolled].file;
+                fname.Delete();
+                success = true;
+            }
+            if (success)
+                ReloadImages();
+            return success;
+        }
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -49,14 +49,16 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.comboBoxNewChapterName = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImagesAsLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cmdPointer = new System.Windows.Forms.Button();
             this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
@@ -64,30 +66,33 @@
             this.cmdSetImageName = new System.Windows.Forms.Button();
             this.txtImageName = new System.Windows.Forms.TextBox();
             this.cmbImage = new System.Windows.Forms.ComboBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.chkFindSelect = new System.Windows.Forms.CheckBox();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.transcriptsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyImageTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyLyricsTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.cmdPointer = new System.Windows.Forms.Button();
+            this.deleteThisImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlPointer = new SyncView.RoundPanel();
+            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.imageContextMenu.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
+            this.transcriptsContextMenu.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -95,7 +100,7 @@
             // addChapterButton
             // 
             this.addChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addChapterButton.Location = new System.Drawing.Point(7, 475);
+            this.addChapterButton.Location = new System.Drawing.Point(7, 175);
             this.addChapterButton.Name = "addChapterButton";
             this.addChapterButton.Size = new System.Drawing.Size(40, 35);
             this.addChapterButton.TabIndex = 0;
@@ -107,7 +112,7 @@
             // removeChapterButton
             // 
             this.removeChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeChapterButton.Location = new System.Drawing.Point(53, 475);
+            this.removeChapterButton.Location = new System.Drawing.Point(53, 175);
             this.removeChapterButton.Name = "removeChapterButton";
             this.removeChapterButton.Size = new System.Drawing.Size(57, 35);
             this.removeChapterButton.TabIndex = 2;
@@ -119,7 +124,7 @@
             // shiftPositionBackButton
             // 
             this.shiftPositionBackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionBackButton.Location = new System.Drawing.Point(409, 475);
+            this.shiftPositionBackButton.Location = new System.Drawing.Point(345, 175);
             this.shiftPositionBackButton.Name = "shiftPositionBackButton";
             this.shiftPositionBackButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionBackButton.TabIndex = 5;
@@ -131,7 +136,7 @@
             // shiftPositionFwdButton
             // 
             this.shiftPositionFwdButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionFwdButton.Location = new System.Drawing.Point(455, 475);
+            this.shiftPositionFwdButton.Location = new System.Drawing.Point(391, 175);
             this.shiftPositionFwdButton.Name = "shiftPositionFwdButton";
             this.shiftPositionFwdButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionFwdButton.TabIndex = 6;
@@ -146,8 +151,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -167,7 +172,7 @@
             this.chaptersDGV.RowHeadersWidth = 30;
             this.chaptersDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.chaptersDGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.chaptersDGV.Size = new System.Drawing.Size(487, 459);
+            this.chaptersDGV.Size = new System.Drawing.Size(423, 200);
             this.chaptersDGV.TabIndex = 7;
             this.chaptersDGV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnChaptersDgvCellClick);
             this.chaptersDGV.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.chaptersDGV_CellEndEdit);
@@ -210,9 +215,9 @@
             this.lblLirycsTime,
             this.toolStripStatusLabel1,
             this.lblNext});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 542);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 771);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(509, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(1532, 24);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -259,7 +264,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(250, 19);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1273, 19);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // lblNext
@@ -281,58 +286,78 @@
             "Bridge",
             "Solo",
             "Outro"});
-            this.comboBoxNewChapterName.Location = new System.Drawing.Point(127, 483);
+            this.comboBoxNewChapterName.Location = new System.Drawing.Point(95, 183);
             this.comboBoxNewChapterName.Name = "comboBoxNewChapterName";
             this.comboBoxNewChapterName.Size = new System.Drawing.Size(85, 21);
             this.comboBoxNewChapterName.TabIndex = 9;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(509, 542);
+            this.tabControl1.Size = new System.Drawing.Size(1532, 771);
             this.tabControl1.TabIndex = 10;
             // 
-            // tabPage2
+            // tabPage5
             // 
-            this.tabPage2.Controls.Add(this.pnlPointer);
-            this.tabPage2.Controls.Add(this.pictureBox1);
-            this.tabPage2.Controls.Add(this.panel2);
-            this.tabPage2.Controls.Add(this.panel1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(501, 516);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Images";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage5.Controls.Add(this.splitContainer1);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1524, 745);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Show";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.pnlPointer);
+            this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.panel2);
+            this.splitContainer1.Panel1.Controls.Add(this.panel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.chkFindSelect);
+            this.splitContainer1.Panel2.Controls.Add(this.txtFilter);
+            this.splitContainer1.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(1524, 745);
+            this.splitContainer1.SplitterDistance = 1072;
+            this.splitContainer1.TabIndex = 8;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.ContextMenuStrip = this.contextMenuStrip1;
+            this.pictureBox1.ContextMenuStrip = this.imageContextMenu;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 24);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 21);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(495, 468);
+            this.pictureBox1.Size = new System.Drawing.Size(1072, 703);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // contextMenuStrip1
+            // imageContextMenu
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.imageContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reloadImagesToolStripMenuItem,
             this.jumpToNextImageToolStripMenuItem,
             this.copyImagesAsLyricsToolStripMenuItem,
-            this.saveAllImagesToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 92);
+            this.saveAllImagesToolStripMenuItem,
+            this.deleteThisImageToolStripMenuItem});
+            this.imageContextMenu.Name = "contextMenuStrip1";
+            this.imageContextMenu.Size = new System.Drawing.Size(188, 114);
             // 
             // reloadImagesToolStripMenuItem
             // 
@@ -367,10 +392,20 @@
             this.panel2.Controls.Add(this.cmdPointer);
             this.panel2.Controls.Add(this.cmdSetNextSlideTime);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 492);
+            this.panel2.Location = new System.Drawing.Point(0, 724);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(495, 21);
-            this.panel2.TabIndex = 5;
+            this.panel2.Size = new System.Drawing.Size(1072, 21);
+            this.panel2.TabIndex = 9;
+            // 
+            // cmdPointer
+            // 
+            this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdPointer.Location = new System.Drawing.Point(1009, 1);
+            this.cmdPointer.Name = "cmdPointer";
+            this.cmdPointer.Size = new System.Drawing.Size(60, 20);
+            this.cmdPointer.TabIndex = 5;
+            this.cmdPointer.Text = "Pointer";
+            this.cmdPointer.UseVisualStyleBackColor = true;
             // 
             // cmdSetNextSlideTime
             // 
@@ -390,10 +425,10 @@
             this.panel1.Controls.Add(this.txtImageName);
             this.panel1.Controls.Add(this.cmbImage);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(495, 21);
-            this.panel1.TabIndex = 3;
+            this.panel1.Size = new System.Drawing.Size(1072, 21);
+            this.panel1.TabIndex = 8;
             // 
             // button3
             // 
@@ -408,7 +443,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(215, 1);
+            this.button2.Location = new System.Drawing.Point(600, 1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 20);
             this.button2.TabIndex = 5;
@@ -419,7 +454,7 @@
             // cmdSetImageName
             // 
             this.cmdSetImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSetImageName.Location = new System.Drawing.Point(455, 0);
+            this.cmdSetImageName.Location = new System.Drawing.Point(1029, 1);
             this.cmdSetImageName.Name = "cmdSetImageName";
             this.cmdSetImageName.Size = new System.Drawing.Size(40, 20);
             this.cmdSetImageName.TabIndex = 4;
@@ -430,9 +465,9 @@
             // txtImageName
             // 
             this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageName.Location = new System.Drawing.Point(261, 0);
+            this.txtImageName.Location = new System.Drawing.Point(646, 0);
             this.txtImageName.Name = "txtImageName";
-            this.txtImageName.Size = new System.Drawing.Size(188, 20);
+            this.txtImageName.Size = new System.Drawing.Size(377, 20);
             this.txtImageName.TabIndex = 3;
             // 
             // cmbImage
@@ -443,29 +478,16 @@
             this.cmbImage.FormattingEnabled = true;
             this.cmbImage.Location = new System.Drawing.Point(54, 0);
             this.cmbImage.Name = "cmbImage";
-            this.cmbImage.Size = new System.Drawing.Size(155, 21);
+            this.cmbImage.Size = new System.Drawing.Size(540, 21);
             this.cmbImage.TabIndex = 2;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.chkFindSelect);
-            this.tabPage3.Controls.Add(this.txtFilter);
-            this.tabPage3.Controls.Add(this.listBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(501, 516);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Transcript";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(363, 15);
+            this.button1.Location = new System.Drawing.Point(315, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(125, 20);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 7;
             this.button1.Text = "Locate";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -476,10 +498,10 @@
             this.chkFindSelect.AutoSize = true;
             this.chkFindSelect.Checked = true;
             this.chkFindSelect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFindSelect.Location = new System.Drawing.Point(261, 17);
+            this.chkFindSelect.Location = new System.Drawing.Point(157, 12);
             this.chkFindSelect.Name = "chkFindSelect";
             this.chkFindSelect.Size = new System.Drawing.Size(67, 17);
-            this.chkFindSelect.TabIndex = 2;
+            this.chkFindSelect.TabIndex = 6;
             this.chkFindSelect.Text = "Highlight";
             this.chkFindSelect.UseVisualStyleBackColor = true;
             this.chkFindSelect.CheckedChanged += new System.EventHandler(this.chkFindSelect_CheckedChanged);
@@ -488,10 +510,10 @@
             // 
             this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilter.Location = new System.Drawing.Point(12, 15);
+            this.txtFilter.Location = new System.Drawing.Point(6, 10);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(243, 20);
-            this.txtFilter.TabIndex = 1;
+            this.txtFilter.Size = new System.Drawing.Size(145, 20);
+            this.txtFilter.TabIndex = 5;
             this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
             // 
             // listBox1
@@ -499,22 +521,23 @@
             this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.ContextMenuStrip = this.contextMenuStrip2;
+            this.listBox1.ContextMenuStrip = this.transcriptsContextMenu;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 41);
+            this.listBox1.Location = new System.Drawing.Point(6, 36);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox1.Size = new System.Drawing.Size(476, 459);
-            this.listBox1.TabIndex = 0;
+            this.listBox1.Size = new System.Drawing.Size(434, 706);
+            this.listBox1.TabIndex = 4;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
-            // contextMenuStrip2
+            // transcriptsContextMenu
             // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.transcriptsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyTextToolStripMenuItem,
             this.copyImageTimestampToolStripMenuItem,
             this.copyLyricsTimestampToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(201, 48);
+            this.transcriptsContextMenu.Name = "contextMenuStrip2";
+            this.transcriptsContextMenu.Size = new System.Drawing.Size(201, 92);
             // 
             // copyImageTimestampToolStripMenuItem
             // 
@@ -536,7 +559,7 @@
             this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(501, 516);
+            this.tabPage4.Size = new System.Drawing.Size(1524, 745);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Search";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -549,7 +572,7 @@
             this.treeView1.FullRowSelect = true;
             this.treeView1.Location = new System.Drawing.Point(12, 39);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(476, 465);
+            this.treeView1.Size = new System.Drawing.Size(412, 165);
             this.treeView1.TabIndex = 3;
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
@@ -559,7 +582,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAllTranscriptsFilter.Location = new System.Drawing.Point(12, 13);
             this.txtAllTranscriptsFilter.Name = "txtAllTranscriptsFilter";
-            this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(476, 20);
+            this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(412, 20);
             this.txtAllTranscriptsFilter.TabIndex = 2;
             this.txtAllTranscriptsFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
@@ -574,21 +597,17 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(501, 516);
+            this.tabPage1.Size = new System.Drawing.Size(1524, 745);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // cmdPointer
+            // deleteThisImageToolStripMenuItem
             // 
-            this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdPointer.Location = new System.Drawing.Point(435, 0);
-            this.cmdPointer.Name = "cmdPointer";
-            this.cmdPointer.Size = new System.Drawing.Size(60, 20);
-            this.cmdPointer.TabIndex = 5;
-            this.cmdPointer.Text = "Pointer";
-            this.cmdPointer.UseVisualStyleBackColor = true;
-            this.cmdPointer.Click += new System.EventHandler(this.cmdPointer_Click);
+            this.deleteThisImageToolStripMenuItem.Name = "deleteThisImageToolStripMenuItem";
+            this.deleteThisImageToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.deleteThisImageToolStripMenuItem.Text = "Delete this image";
+            this.deleteThisImageToolStripMenuItem.Click += new System.EventHandler(this.deleteThisImageToolStripMenuItem_Click);
             // 
             // pnlPointer
             // 
@@ -596,13 +615,20 @@
             this.pnlPointer.Location = new System.Drawing.Point(0, 0);
             this.pnlPointer.Name = "pnlPointer";
             this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-            this.pnlPointer.TabIndex = 6;
+            this.pnlPointer.TabIndex = 10;
+            // 
+            // copyTextToolStripMenuItem
+            // 
+            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
+            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.copyTextToolStripMenuItem.Text = "Copy text";
+            this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.copyTextToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 566);
+            this.ClientSize = new System.Drawing.Size(1532, 795);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.KeyPreview = true;
@@ -615,15 +641,18 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.imageContextMenu.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.contextMenuStrip2.ResumeLayout(false);
+            this.transcriptsContextMenu.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -649,38 +678,40 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn titleCol;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.TextBox txtFilter;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox txtAllTranscriptsFilter;
         private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip imageContextMenu;
         private System.Windows.Forms.ToolStripMenuItem reloadImagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblImageTime;
-        private System.Windows.Forms.CheckBox chkFindSelect;
         private System.Windows.Forms.ToolStripStatusLabel lblLirycsTime;
         private System.Windows.Forms.ToolStripStatusLabel lblTopmost;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ContextMenuStrip transcriptsContextMenu;
         private System.Windows.Forms.ToolStripMenuItem copyImageTimestampToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyLyricsTimestampToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jumpToNextImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyImagesAsLyricsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAllImagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel lblNext;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private RoundPanel pnlPointer;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button cmdPointer;
+        private System.Windows.Forms.Button cmdSetNextSlideTime;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button cmdSetImageName;
         private System.Windows.Forms.TextBox txtImageName;
         private System.Windows.Forms.ComboBox cmbImage;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ToolStripMenuItem copyImagesAsLyricsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAllImagesToolStripMenuItem;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button cmdSetNextSlideTime;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel lblNext;
-        private SyncView.RoundPanel pnlPointer;
-        private System.Windows.Forms.Button cmdPointer;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox chkFindSelect;
+        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripMenuItem deleteThisImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
     }
 }

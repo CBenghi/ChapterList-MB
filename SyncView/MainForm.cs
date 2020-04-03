@@ -152,7 +152,7 @@ namespace SyncView
             listBox1.SelectedItems.Clear();
             if (txtFilter.Text == "")
                 return;
-            for (int i = 0; i < listBox1.Items.Count; i++)
+            for (int i = listBox1.Items.Count-1; i >= 0; i--)
             {
                 if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(listBox1.Items[i].ToString(), txtFilter.Text, CompareOptions.IgnoreCase) >= 0)
                 {
@@ -550,6 +550,7 @@ namespace SyncView
                 }
             }
             listBox1.SelectedItems.Clear();
+            listBox1.SelectedIndex = listBox1.Items.Count - 1; // scroll selected element to first position?
             listBox1.SelectedIndex = last;
             listBox1.Refresh();
         }
@@ -668,7 +669,15 @@ namespace SyncView
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (ActiveControl.GetType() == typeof(TextBox))
+            var control = ActiveControl;
+            var container = control as IContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as IContainerControl;
+            }
+
+            if (control.GetType() == typeof(TextBox))
             {
                 e.Handled = false;
                 return;
@@ -677,6 +686,32 @@ namespace SyncView
             {
                 RequestPlayToggle(0);
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            RequestPlayToggle(0);
+        }
+
+        private void deleteThisImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var success = repo.DeleteCurrentImage();
+            if (success)
+            {
+                cmbImage.Items.Clear();
+                cmbImage.Items.AddRange(repo.Images.ToArray());
+            }
+        }
+
+        private void copyTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in listBox1.SelectedItems)
+            {
+                sb.AppendLine(item.ToString());
+            }
+            Clipboard.SetText(sb.ToString());
+
         }
     }
 }
