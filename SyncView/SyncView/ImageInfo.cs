@@ -7,7 +7,7 @@ namespace ChapterListMB.SyncView
 
     class ImageInfo : ITimedObject
     {
-        Regex rPositionPart = new Regex(@"^(\d+)[ ]*-", RegexOptions.Compiled);
+        static Regex rPositionPart = new Regex(@"^(\d+)[ ]*-", RegexOptions.Compiled);
 
         internal FileInfo file { get; set; }
         public int TimeStampMilliseconds { get; set; } = -1;
@@ -21,6 +21,11 @@ namespace ChapterListMB.SyncView
         internal ImageInfo(FileInfo file)
         {
             this.file = file;
+            TimeStampMilliseconds = GetMillisecondsFromFileName(file);
+        }
+
+        internal static int GetMillisecondsFromFileName(FileInfo file)
+        {
             var m = rPositionPart.Match(file.Name);
             if (m.Success)
             {
@@ -39,8 +44,9 @@ namespace ChapterListMB.SyncView
                     minutes = Convert.ToInt32(minString);
                 }
                 seconds = minutes * 60 + seconds;
-                TimeStampMilliseconds = seconds * 1000;
+                return seconds * 1000;
             }
+            return -1;
         }
 
         internal bool TrySetImageName(string text)

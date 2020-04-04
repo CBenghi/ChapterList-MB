@@ -15,9 +15,7 @@ namespace ChapterListMB.SyncView
     partial class SyncViewRepository
     {
         internal string mediaFileName { get; private set; }
-        // FileInfo[] images;
-        // int[] timesInMilliseconds;
-
+        
         internal TimedObjects<ImageInfo> Images;
         
         internal TimedObjects<PointerCoordinates> Pointers;
@@ -25,6 +23,14 @@ namespace ChapterListMB.SyncView
         private static string transcriptsFolder = @"C:\Data\Work\Esame Stato\SupportingMedia\Transcripts\";
 
         private static string audioFolder = @"C:\Data\Work\Esame Stato\Audio";
+
+        internal string GetLectureCode()
+        {
+            var m = regexGetLectureAndPart.Match(mediaFileName);
+            if (m.Success)
+                return m.Value;
+            return "";
+        }
 
         public IEnumerable<string> GetLyricsText(string filter)
         {
@@ -110,13 +116,23 @@ namespace ChapterListMB.SyncView
         internal FileInfo AudioFromTrascriptName(string transcriptFileName)
         {
             var m = regexGetLectureAndPart.Match(transcriptFileName);
-            
+
             if (!m.Success)
             {
                 return null;
             }
             var L = m.Groups[1].Value;
             var P = m.Groups[2].Value;
+
+            return AudioFromLP(L, P);
+        }
+
+        internal static FileInfo AudioFromLP(string L, string P)
+        {
+            while (L.Length < 2)
+                L = "0" + L;
+            while (P.Length < 2)
+                P = "0" + P;
             var path = Path.Combine(audioFolder, $"L{L}");
 
             DirectoryInfo d = new DirectoryInfo(path);
@@ -227,6 +243,15 @@ namespace ChapterListMB.SyncView
             sec += min * 60;
             mill += sec * 1000;
             return mill;
+        }
+
+        internal FileInfo GetLastImage()
+        {
+            if (Images.LastObjectPolled != -1)
+            {
+                return Images[Images.LastObjectPolled].file;
+            }
+            return null;
         }
 
         internal bool TrySetImageName(string text)

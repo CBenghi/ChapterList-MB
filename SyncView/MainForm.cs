@@ -79,6 +79,7 @@ namespace SyncView
                 {
                     // lblPos.Text = repo.GetiImageFile(imageIndex).ToString();
                     pictureBox1.ImageLocation = repo.Images[imageIndex].file.FullName;
+                    pnlPointer.Size = new Size(0, 0);
                     try
                     {
                         cmbImage.SelectedIndex = imageIndex;
@@ -105,7 +106,16 @@ namespace SyncView
             lastPC = pointerCoordinates;
             if (pictureBox1.Image == null)
                 return;
-            Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
+            if (pointerCoordinates == null)
+            {
+                pnlPointer.Size = new Size(0, 0);
+                return;
+            }
+
+            if (pnlPointer.Size.Width == 0)
+                pnlPointer.Size = new Size(pSize, pSize);
+
+            // Debug.WriteLine(pictureBox1.Image.PhysicalDimension.Width);
             Rectangle rectangle = (Rectangle)irProperty.GetValue(pictureBox1, null);
             var ratio = (double) rectangle.Width / pictureBox1.Image.PhysicalDimension.Width;
             var px = pictureBox1.Location.X + rectangle.X + pointerCoordinates.X * ratio;
@@ -441,16 +451,31 @@ namespace SyncView
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                searchAllTranscripts();
+                SearchOrLocate();
             }
         }
 
-        private void searchAllTranscripts()
+        private void SearchOrLocate()
+        {
+            var sought = txtAllTranscriptsFilter.Text;
+            // L1P1[042:22.200]
+            Regex r = new Regex(@"L(?<L>\d+)P(?<P>\d+)(?<position>\[.+])");
+            var m = r.Match(sought);
+            if (m.Success)
+            {
+                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mill = SyncViewRepository.GetMilli(m.Groups["position"].Value + " ");
+                AudioJumpTo(mediaFile, mill);
+            }
+            searchAllTranscripts(sought);
+        }
+
+        private void searchAllTranscripts(string sought)
         {
             treeView1.Nodes.Clear();
             foreach (var trsfile in SyncViewRepository.GetTranscripts())
             {
-                var thisList = SyncViewRepository.GetLyricsText(trsfile, txtAllTranscriptsFilter.Text).ToList();
+                var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
                 if (thisList.Any())
                 {
                     var node = new TreeNode()
@@ -489,9 +514,14 @@ namespace SyncView
 
             txt = folderNode.Text;
             var f = repo.AudioFromTrascriptName(txt);
-            if (f != null && f.FullName != repo.mediaFileName)
+            AudioJumpTo(f, mill);
+        }
+
+        private void AudioJumpTo(FileInfo mediaFile, int mill)
+        {
+            if (mediaFile != null && mediaFile.FullName != repo.mediaFileName)
             {
-                RequestPlayNow(f);
+                RequestPlayNow(mediaFile);
             }
             if (mill != -1)
             {
@@ -567,12 +597,23 @@ namespace SyncView
 
         private void copyLyricsTimestampToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var ret = GetSelectedTransriptTime();
+            if (ret != "")
+                Clipboard.SetText(ret);
+        }
+
+        private string GetSelectedTransriptTime()
+        {
             var txt = listBox1.SelectedItem.ToString();
             if (string.IsNullOrEmpty(txt))
-                return;
+                return "";
             int milli = SyncViewRepository.GetMilli(txt);
+            var ret = "";
             if (milli != -1)
-                Clipboard.SetText(SyncViewRepository.GetLyricsTimestamp(milli));
+            {
+                ret = SyncViewRepository.GetLyricsTimestamp(milli);
+            }
+            return ret;
         }
 
         private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -705,13 +746,103 @@ namespace SyncView
 
         private void copyTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string AllText = SelectedTranscriptText();
+            Clipboard.SetText(AllText);
+
+        }
+
+        private string SelectedTranscriptText()
+        {
             StringBuilder sb = new StringBuilder();
             foreach (var item in listBox1.SelectedItems)
             {
                 sb.AppendLine(item.ToString());
             }
-            Clipboard.SetText(sb.ToString());
+            var AllText = sb.ToString();
+            return AllText;
+        }
 
+        private void copyBareTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string AllText = SelectedTranscriptText();
+            Clipboard.SetText(SyncViewRepository.regexGetLyricsTime.Replace(AllText, ""));
+        }
+
+        private void copyAbsoluteTimestampToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var t = repo.GetLectureCode() + GetSelectedTransriptTime();
+            t = t.Trim();
+            if (!string.IsNullOrEmpty(t))
+                Clipboard.SetText(t);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SearchOrLocate();
+        }
+
+        private void pictureBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var first = files.FirstOrDefault();
+            if (first == null)
+                return;
+
+            // C:\Data\Work\Esame Stato\SupportingMedia\L04\P01\6627 - Orientamento - Serra solare apribile.png
+            Regex r = new Regex(@"\\L(?<L>\d+)\\(?<P>\d+)\\(?<t>\d+) -");
+            var m = r.Match(first);
+            if (m.Success)
+            {
+                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
+                AudioJumpTo(mediaFile, mill);
+            }
+        }
+
+        private void MainForm_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Link;
+        }
+
+        private void pictureBox1_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Link;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var first = files.FirstOrDefault();
+            if (first == null)
+                return;
+
+            // C:\Data\Work\Esame Stato\SupportingMedia\L04\P01\6627 - Orientamento - Serra solare apribile.png
+           
+            Regex r = new Regex(@"\\L(?<L>\d+)\\P(?<P>\d+)\\(?<t>\d+) -");
+            var m = r.Match(first);
+            if (m.Success)
+            {
+                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
+                AudioJumpTo(mediaFile, mill);
+            }
+        }
+
+        private void openInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var im = repo.GetLastImage();
+            
+            if (!im.Exists)
+            {
+                return;
+            }
+            // combine the arguments together
+            // it doesn't matter if there is a space after ','
+            string argument = "/select, \"" + im.FullName + "\"";
+
+            Process.Start("explorer.exe", argument);
         }
     }
 }
