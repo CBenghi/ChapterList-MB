@@ -463,9 +463,12 @@ namespace SyncView
             var m = r.Match(sought);
             if (m.Success)
             {
-                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var s = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mediaFile = s.GetAudioFile();
                 var mill = SyncViewRepository.GetMilli(m.Groups["position"].Value + " ");
                 AudioJumpTo(mediaFile, mill);
+                tabControl1.SelectedIndex = 0;
+                return;
             }
             searchAllTranscripts(sought);
         }
@@ -473,27 +476,51 @@ namespace SyncView
         private void searchAllTranscripts(string sought)
         {
             treeView1.Nodes.Clear();
+
+            List<Bookmark> bookmarks = new List<Bookmark>();
             foreach (var trsfile in SyncViewRepository.GetTranscripts())
             {
+                var curSession = Session.FromTranscriptFile(trsfile.Name); 
                 var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
-                if (thisList.Any())
+                foreach (var transcrriptLine in thisList)
                 {
-                    var node = new TreeNode()
-                    {
-                        Text = trsfile.Name
-                    };
-
-                    foreach (var transcrriptLine in thisList)
-                    {
-                        var subnode = new TreeNode()
-                        {
-                            Text = transcrriptLine
-                        };
-                        node.Nodes.Add(subnode);
-                    }
-                    treeView1.Nodes.Add(node);
-                }
+                    Bookmark b = new Bookmark();
+                    b.session = curSession;
+                    b.Text = transcrriptLine;
+                    b.Timing = SyncViewRepository.GetMilli(transcrriptLine);
+                    b.Type = Bookmark.SourceType.Transcript;
+                    bookmarks.Add(b);
+                }                
             }
+
+            bookmarks.AddRange(SyncViewRepository.FindImages(sought));
+
+            
+            bookmarks.Sort();
+
+            Session sortSession = null;
+            TreeNode n = null;
+            foreach (var item in bookmarks)
+            {
+                if (!item.session.Equals(sortSession))
+                {
+                    n = new TreeNode();
+                    n.Text = item.session.ToString();
+                    n.Tag = item.session;
+                    n.ImageIndex = 0;
+                    treeView1.Nodes.Add(n);
+                    sortSession = item.session;
+                }
+                TreeNode sub = new TreeNode();
+                sub.Text = item.Text;
+                sub.Tag = item;
+                if (item.Type == Bookmark.SourceType.Image)
+                    sub.ImageIndex = 1;
+                else
+                    sub.ImageIndex = 2;
+                n.Nodes.Add(sub);
+            }
+            treeView1.ExpandAll();
         }
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
@@ -504,17 +531,19 @@ namespace SyncView
             var txt = snd.SelectedNode.Text;
             if (string.IsNullOrEmpty(txt))
                 return;
-
-            var folderNode = snd.SelectedNode;
-            var mill = SyncViewRepository.GetMilli(txt);
-            if (mill != -1)
+            
+            if (snd.SelectedNode.Tag is Bookmark b)
             {
-                folderNode = snd.SelectedNode.Parent;
+                var f = b.session.GetAudioFile();
+                AudioJumpTo(f, b.Timing);
+                tabControl1.SelectedIndex = 0;
             }
-
-            txt = folderNode.Text;
-            var f = repo.AudioFromTrascriptName(txt);
-            AudioJumpTo(f, mill);
+            else if (snd.SelectedNode.Tag is Session s)
+            {
+                var f = s.GetAudioFile();
+                AudioJumpTo(f, 0);
+                tabControl1.SelectedIndex = 0;
+            }
         }
 
         private void AudioJumpTo(FileInfo mediaFile, int mill)
@@ -789,11 +818,12 @@ namespace SyncView
                 return;
 
             // C:\Data\Work\Esame Stato\SupportingMedia\L04\P01\6627 - Orientamento - Serra solare apribile.png
-            Regex r = new Regex(@"\\L(?<L>\d+)\\(?<P>\d+)\\(?<t>\d+) -");
+            Regex r = new Regex(@"\\L(?<L>\d+)\\P(?<P>\d+)\\(?<t>\d+) -");
             var m = r.Match(first);
             if (m.Success)
             {
-                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var ses = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mediaFile = ses.GetAudioFile();
                 var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
                 AudioJumpTo(mediaFile, mill);
             }
@@ -818,13 +848,12 @@ namespace SyncView
             if (first == null)
                 return;
 
-            // C:\Data\Work\Esame Stato\SupportingMedia\L04\P01\6627 - Orientamento - Serra solare apribile.png
-           
-            Regex r = new Regex(@"\\L(?<L>\d+)\\P(?<P>\d+)\\(?<t>\d+) -");
-            var m = r.Match(first);
-            if (m.Success)
+            // todo: use bookmark instead
+
+            var s = Session.FromImageFile(new FileInfo(first));
+            if (s != null)
             {
-                var mediaFile = SyncViewRepository.AudioFromLP(m.Groups["L"].Value, m.Groups["P"].Value);
+                var mediaFile = s.GetAudioFile();
                 var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
                 AudioJumpTo(mediaFile, mill);
             }

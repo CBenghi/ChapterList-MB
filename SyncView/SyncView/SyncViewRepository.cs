@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using SyncView;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -22,8 +24,6 @@ namespace ChapterListMB.SyncView
 
         private static string transcriptsFolder = @"C:\Data\Work\Esame Stato\SupportingMedia\Transcripts\";
 
-        private static string audioFolder = @"C:\Data\Work\Esame Stato\Audio";
-
         internal string GetLectureCode()
         {
             var m = regexGetLectureAndPart.Match(mediaFileName);
@@ -34,22 +34,32 @@ namespace ChapterListMB.SyncView
 
         public IEnumerable<string> GetLyricsText(string filter)
         {
+            var fp = GetAssociatedLyricsFile();
+            if (fp == null || !fp.Exists)
+                return Enumerable.Empty<string>();
+
+            return GetLyricsText(fp, filter);
+        }
+
+        public FileInfo GetAssociatedLyricsFile()
+        {
+            var inSameFolder = Path.ChangeExtension(mediaFileName, "lyrics.txt");
+            if (File.Exists(inSameFolder))
+            {
+                return new FileInfo(inSameFolder);
+            }
+
             FileInfo f = new FileInfo(mediaFileName);
-            
             var m = regexGetLectureAndPart.Match(f.Name);
             if (!m.Success)
-                return Enumerable.Empty<string>();
+                return null;
             var L = m.Groups[1].Value;
             var P = m.Groups[2].Value;
             var path = Path.Combine(transcriptsFolder, $@"L{L}\");
 
             DirectoryInfo d = new DirectoryInfo(path);
-
             var fp = d.GetFiles($"L{L}P{P}*.lyrics.txt").FirstOrDefault();
-            if (!fp.Exists)
-                return Enumerable.Empty<string>();
-
-            return GetLyricsText(fp, filter);
+            return fp;
         }
 
         internal static string GetLyricsTimestamp(int playerPositionMilliseconds)
@@ -72,19 +82,20 @@ namespace ChapterListMB.SyncView
             return seconds.ToString();
         }
 
-        public static IEnumerable<string> GetLyricsText(FileInfo fp, string filter)
+        public static IEnumerable<string> GetLyricsText(FileInfo sourceLyricsFile, string filter)
         {
-            if (!fp.Exists)
+            if (!sourceLyricsFile.Exists)
                 yield break;
 
-            using (var fr = fp.OpenText())
+            using (var fr = sourceLyricsFile.OpenText())
             {
                 string line;
                 while ((line = fr.ReadLine()) != null)
                 {
                     if (filter != "")
                     {
-                        if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(line, filter, CompareOptions.IgnoreCase) >= 0)
+                        bool val = DefaultTextMatch(filter, line);
+                        if (val)
                             yield return line;
                     }
                     else
@@ -93,51 +104,30 @@ namespace ChapterListMB.SyncView
             }
         }
 
-        Regex regexGetLectureAndPart = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled);
+        private static bool DefaultTextMatch(string filter, string text)
+        {
+            return CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, filter, CompareOptions.IgnoreCase) >= 0;
+        }
+
+        // TODO: Remove from here, move to session
+
+        Regex regexGetLectureAndPart { get; } = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled);
 
         internal SyncViewRepository(Track track)
         {
-            Debug.WriteLine(track.NowPlayingTrackInfo.FilePath.LocalPath);
             mediaFileName = track.NowPlayingTrackInfo.FilePath.LocalPath;
             ReloadImages();
             ReloadPointers();
         }
-
-        
 
         internal static IEnumerable<FileInfo> GetTranscripts()
         {
             DirectoryInfo d = new DirectoryInfo(transcriptsFolder);
             if (!d.Exists)
                 return Enumerable.Empty<FileInfo>();
-            return d.GetFiles("*.lyrics.txt", SearchOption.AllDirectories);
+            return d.GetFiles("*.lyrics.txt", System.IO.SearchOption.AllDirectories);
         }
-
-        internal FileInfo AudioFromTrascriptName(string transcriptFileName)
-        {
-            var m = regexGetLectureAndPart.Match(transcriptFileName);
-
-            if (!m.Success)
-            {
-                return null;
-            }
-            var L = m.Groups[1].Value;
-            var P = m.Groups[2].Value;
-
-            return AudioFromLP(L, P);
-        }
-
-        internal static FileInfo AudioFromLP(string L, string P)
-        {
-            while (L.Length < 2)
-                L = "0" + L;
-            while (P.Length < 2)
-                P = "0" + P;
-            var path = Path.Combine(audioFolder, $"L{L}");
-
-            DirectoryInfo d = new DirectoryInfo(path);
-            return d.GetFiles($"L{L}P{P}*.mp3").FirstOrDefault();
-        }
+      
 
         internal void ReloadImages()
         {
@@ -166,6 +156,12 @@ namespace ChapterListMB.SyncView
         private DirectoryInfo GetImagePath()
         {
             FileInfo f = new FileInfo(mediaFileName);
+            var lyr = GetAssociatedLyricsFile();
+            if (lyr != null && lyr.Directory.FullName == f.Directory.FullName)
+            {
+                // it's likely that all images are in the same folder.
+                return f.Directory;
+            }
             var m = regexGetLectureAndPart.Match(f.Name);
             if (!m.Success)
                 return null;
@@ -215,13 +211,15 @@ namespace ChapterListMB.SyncView
             return defaultTime;
         }
 
+        public static string SupportingMediaFolder = @"C:\Data\Work\Esame Stato\SupportingMedia";
+
         private static DirectoryInfo GetImagePath(string L, string P)
         {
-            DirectoryInfo d = new DirectoryInfo($@"C:\Data\Work\Esame Stato\SupportingMedia\L{L}\P{P}\");
+            DirectoryInfo d = new DirectoryInfo(Path.Combine(SupportingMediaFolder, $@"L{L}\P{P}\"));
             if (d.Exists)
                 return d;
             // see if there's a temporary path for images:
-            d = new DirectoryInfo($@"C:\Data\Work\Esame Stato\SupportingMedia\T{L}\P{P}\");
+            d = new DirectoryInfo(Path.Combine(SupportingMediaFolder, $@"T{L}\P{P}\"));
             if (d.Exists)
                 return d;
             return null;
@@ -272,12 +270,29 @@ namespace ChapterListMB.SyncView
             if (Images.LastObjectPolled != -1)
             {
                 var fname = Images[Images.LastObjectPolled].file;
-                fname.Delete();
+                FileSystem.DeleteFile(fname.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                 success = true;
             }
             if (success)
                 ReloadImages();
             return success;
+        }
+
+        static internal IEnumerable<Bookmark> FindImages(string sought)
+        {
+            var dir = new DirectoryInfo(SupportingMediaFolder);
+            if (!dir.Exists)
+                yield break;
+            foreach (var file in dir.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
+            {
+                var book = Bookmark.FromImageFile(file);
+                if (book == null)
+                    continue;
+                if (DefaultTextMatch(sought, book.Text))
+                {
+                    yield return book;
+                }
+            }
         }
     }
 }

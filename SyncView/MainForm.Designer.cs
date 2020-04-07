@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
             this.shiftPositionBackButton = new System.Windows.Forms.Button();
@@ -53,10 +54,13 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copyImagesAsLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteThisImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cmdPointer = new System.Windows.Forms.Button();
@@ -82,10 +86,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
             this.pnlPointer = new SyncView.RoundPanel();
-            this.openInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -368,7 +370,14 @@
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(203, 170);
+            this.imageContextMenu.Size = new System.Drawing.Size(203, 148);
+            // 
+            // jumpToNextImageToolStripMenuItem
+            // 
+            this.jumpToNextImageToolStripMenuItem.Name = "jumpToNextImageToolStripMenuItem";
+            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.jumpToNextImageToolStripMenuItem.Text = "Jump to next image";
+            this.jumpToNextImageToolStripMenuItem.Click += new System.EventHandler(this.jumpToNextImageToolStripMenuItem_Click);
             // 
             // reloadImagesToolStripMenuItem
             // 
@@ -377,12 +386,17 @@
             this.reloadImagesToolStripMenuItem.Text = "Reload images";
             this.reloadImagesToolStripMenuItem.Click += new System.EventHandler(this.reloadImagesToolStripMenuItem_Click);
             // 
-            // jumpToNextImageToolStripMenuItem
+            // openInExplorerToolStripMenuItem
             // 
-            this.jumpToNextImageToolStripMenuItem.Name = "jumpToNextImageToolStripMenuItem";
-            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.jumpToNextImageToolStripMenuItem.Text = "Jump to next image";
-            this.jumpToNextImageToolStripMenuItem.Click += new System.EventHandler(this.jumpToNextImageToolStripMenuItem_Click);
+            this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
+            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openInExplorerToolStripMenuItem.Text = "Open in explorer";
+            this.openInExplorerToolStripMenuItem.Click += new System.EventHandler(this.openInExplorerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // copyImagesAsLyricsToolStripMenuItem
             // 
@@ -397,6 +411,11 @@
             this.saveAllImagesToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.saveAllImagesToolStripMenuItem.Text = "Save all images";
             this.saveAllImagesToolStripMenuItem.Click += new System.EventHandler(this.saveAllImagesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // deleteThisImageToolStripMenuItem
             // 
@@ -609,6 +628,7 @@
             // 
             // button4
             // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Location = new System.Drawing.Point(887, 11);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(98, 23);
@@ -623,8 +643,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.FullRowSelect = true;
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.SearchTreeImageList;
             this.treeView1.Location = new System.Drawing.Point(12, 39);
             this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(973, 691);
             this.treeView1.TabIndex = 3;
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
@@ -655,6 +678,14 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // SearchTreeImageList
+            // 
+            this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
+            this.SearchTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.SearchTreeImageList.Images.SetKeyName(0, "Sound.png");
+            this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
+            this.SearchTreeImageList.Images.SetKeyName(2, "Text.png");
+            // 
             // pnlPointer
             // 
             this.pnlPointer.BackColor = System.Drawing.Color.Red;
@@ -662,23 +693,6 @@
             this.pnlPointer.Name = "pnlPointer";
             this.pnlPointer.Size = new System.Drawing.Size(11, 11);
             this.pnlPointer.TabIndex = 10;
-            // 
-            // openInExplorerToolStripMenuItem
-            // 
-            this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
-            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.openInExplorerToolStripMenuItem.Text = "Open in explorer";
-            this.openInExplorerToolStripMenuItem.Click += new System.EventHandler(this.openInExplorerToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // MainForm
             // 
@@ -778,5 +792,6 @@
         private System.Windows.Forms.ToolStripMenuItem openInExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ImageList SearchTreeImageList;
     }
 }

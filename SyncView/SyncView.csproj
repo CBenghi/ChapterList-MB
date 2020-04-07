@@ -36,6 +36,7 @@
     <AssemblyOriginatorKeyFile>myKeyFile.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -51,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SyncView\Bookmark.cs" />
     <Compile Include="Chapter.cs" />
     <Compile Include="ChapterChangeEventArgs.cs" />
     <Compile Include="ChapterList.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Controls\RoundPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SyncView\Session.cs" />
     <Compile Include="SyncView\ITimedObject.cs" />
     <Compile Include="SyncView\PointerCoordinates.cs" />
     <Compile Include="SyncView\SyncViewRepository.cs" />
