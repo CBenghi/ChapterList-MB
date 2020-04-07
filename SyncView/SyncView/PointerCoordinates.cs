@@ -21,10 +21,12 @@ namespace ChapterListMB.SyncView
         public int X { get; set; }
         public int Y { get; set; }
 
+        //  [008:20.769] 1440, 578
+        static Regex re = new Regex(@"(^\[[\d:\.]+\] ) *(\d+) *, *(\d+)", RegexOptions.Compiled); // ok
+
         internal static PointerCoordinates FromString(string line)
         {
-            //  [008:20.769] 1440, 578
-            Regex re = new Regex(@"(^\[[\d:\.]+\] ) *(\d+) *, *(\d+)");
+            
             var m = re.Match(line);
             if (!m.Success)
                 return null;

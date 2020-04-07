@@ -85,6 +85,7 @@
     <Compile Include="Controls\RoundPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SyncView\Regexes.cs" />
     <Compile Include="SyncView\Session.cs" />
     <Compile Include="SyncView\ITimedObject.cs" />
     <Compile Include="SyncView\PointerCoordinates.cs" />

@@ -430,11 +430,7 @@ namespace SyncView
                     setLirics();
             }
         }
-
         
-
-        
-
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             var snd = sender as ListBox;
@@ -458,9 +454,7 @@ namespace SyncView
         private void SearchOrLocate()
         {
             var sought = txtAllTranscriptsFilter.Text;
-            // L1P1[042:22.200]
-            Regex r = new Regex(@"L(?<L>\d+)P(?<P>\d+)(?<position>\[.+])");
-            var m = r.Match(sought);
+            var m = Regexes.regexUnnamedAbsolutePosition.Match(sought);
             if (m.Success)
             {
                 var s = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
@@ -816,17 +810,17 @@ namespace SyncView
             var first = files.FirstOrDefault();
             if (first == null)
                 return;
-
-            // C:\Data\Work\Esame Stato\SupportingMedia\L04\P01\6627 - Orientamento - Serra solare apribile.png
-            Regex r = new Regex(@"\\L(?<L>\d+)\\P(?<P>\d+)\\(?<t>\d+) -");
-            var m = r.Match(first);
-            if (m.Success)
+            
+            var b = Bookmark.FromImageFile(new FileInfo(first));
+            if (b!= null)
             {
-                var ses = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
-                var mediaFile = ses.GetAudioFile();
-                var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
-                AudioJumpTo(mediaFile, mill);
+                AudioJumpTo(b);
             }
+        }
+
+        private void AudioJumpTo(Bookmark b)
+        {
+            AudioJumpTo(b.session.GetAudioFile(), b.Timing);
         }
 
         private void MainForm_DragOver(object sender, DragEventArgs e)
