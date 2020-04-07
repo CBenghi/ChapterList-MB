@@ -62,6 +62,7 @@ namespace SyncView
         }
 
         int CurrentMilli = -1;
+        int lastTranscriptLocate = -1;
 
         public void SetCurrentTime(int playerPosition)
         {
@@ -71,6 +72,13 @@ namespace SyncView
                 lblImageTime.Text = SyncViewRepository.GetImagesTimestamp(playerPosition);
                 lblLirycsTime.Text = SyncViewRepository.GetLyricsTimestamp(playerPosition);
                 lblNext.Text = $"- {(repo.Images.NextObjectTime - playerPosition ) / 1000} sec.";
+
+                var diffmilli = Math.Abs(playerPosition - lastTranscriptLocate);
+                if (diffmilli > 500)
+                {
+                    LocateTranscript();
+                }
+
                 CurrentMilli = playerPosition;
                 
                 // load image
@@ -95,6 +103,21 @@ namespace SyncView
                     SetPointer(repo.Pointers[pointerIndex]);
                 }
             }
+        }
+
+        int lastCurrent = -1;
+
+        private void LocateTranscript()
+        {
+            var now = GetCurrentTranscriptIndex();
+            if (lastCurrent == now)
+                return;
+            if (lastCurrent != -1 && lstBookmarks.Items.Count > lastCurrent)
+            {
+                lstBookmarks.Items[lastCurrent].ImageIndex = -1;
+            }
+            lastCurrent = now;
+            lstBookmarks.Items[now].ImageIndex = 0;
         }
 
         int lastPointerTime = -1;
@@ -147,26 +170,28 @@ namespace SyncView
 
         private void setLirics()
         {
-            listBox1.Items.Clear();
-            if (chkFindSelect.Checked == false)
-                listBox1.Items.AddRange(repo.GetLyricsText(txtFilter.Text).ToArray());
+            lstBookmarks.Items.Clear();
+            if (chkHiglightTranscript.Checked == false)
+            {
+                lstBookmarks.Items.AddRange(repo.GetLyricsText(txtFilter.Text).Select(x=> new ListViewItem() {Text = x} ).ToArray());
+            }
             else
             {
-                listBox1.Items.AddRange(repo.GetLyricsText("").ToArray());
+                lstBookmarks.Items.AddRange(repo.GetLyricsText("").Select(x => new ListViewItem() { Text = x }).ToArray());
                 filterLirics();
             }
         }
 
         private void filterLirics()
         {
-            listBox1.SelectedItems.Clear();
+            lstBookmarks.SelectedItems.Clear();
             if (txtFilter.Text == "")
                 return;
-            for (int i = listBox1.Items.Count-1; i >= 0; i--)
+            for (int i = lstBookmarks.Items.Count-1; i >= 0; i--)
             {
-                if (CultureInfo.CurrentCulture.CompareInfo.IndexOf(listBox1.Items[i].ToString(), txtFilter.Text, CompareOptions.IgnoreCase) >= 0)
+                if (SyncViewRepository.DefaultTextMatch(txtFilter.Text, lstBookmarks.Items[i].Text))
                 {
-                    listBox1.SelectedIndices.Add(i);
+                    lstBookmarks.SelectedIndices.Add(i);
                 }
             }
         }
@@ -422,9 +447,10 @@ namespace SyncView
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                if (chkFindSelect.Checked == true)
+                if (chkHiglightTranscript.Checked == true)
                 {
                     filterLirics();
+                    lstBookmarks.Focus();
                 }
                 else
                     setLirics();
@@ -433,10 +459,10 @@ namespace SyncView
         
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            var snd = sender as ListBox;
+            var snd = sender as ListView;
             if (snd == null)
                 return;
-            var txt = snd.SelectedItem.ToString();
+            var txt = snd.SelectedItems[0].Text;
 
             var mill = SyncViewRepository.GetMilli(txt);
 
@@ -590,27 +616,33 @@ namespace SyncView
             lblLirycsTime.Text = "Clip";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLocate_Click(object sender, EventArgs e)
+        {
+            lstBookmarks.SelectedItems.Clear();
+            int last = GetCurrentTranscriptIndex();
+            lstBookmarks.Items[lstBookmarks.Items.Count - 1].EnsureVisible();
+            lstBookmarks.Items[last].EnsureVisible();
+            // listBox1.SelectedIndices.Add(last);
+        }
+
+        private int GetCurrentTranscriptIndex()
         {
             var last = 0;
-            for (int i = listBox1.Items.Count-1; i > 0; i--)
+            for (int i = lstBookmarks.Items.Count - 1; i > 0; i--)
             {
-                var itemMilli = SyncViewRepository.GetMilli(listBox1.Items[i].ToString());
+                var itemMilli = SyncViewRepository.GetMilli(lstBookmarks.Items[i].Text);
                 if (itemMilli < CurrentMilli)
                 {
                     last = i;
                     break;
                 }
             }
-            listBox1.SelectedItems.Clear();
-            listBox1.SelectedIndex = listBox1.Items.Count - 1; // scroll selected element to first position?
-            listBox1.SelectedIndex = last;
-            listBox1.Refresh();
+            return last;
         }
 
         private void copyImageTimestampToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var txt = listBox1.SelectedItem.ToString();
+            var txt = lstBookmarks.SelectedItems[0].ToString();
             if (string.IsNullOrEmpty(txt))
                 return;
             int milli = SyncViewRepository.GetMilli(txt);
@@ -627,7 +659,7 @@ namespace SyncView
 
         private string GetSelectedTransriptTime()
         {
-            var txt = listBox1.SelectedItem.ToString();
+            var txt = lstBookmarks.SelectedItems[0].ToString();
             if (string.IsNullOrEmpty(txt))
                 return "";
             int milli = SyncViewRepository.GetMilli(txt);
@@ -777,7 +809,7 @@ namespace SyncView
         private string SelectedTranscriptText()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var item in listBox1.SelectedItems)
+            foreach (var item in lstBookmarks.SelectedItems)
             {
                 sb.AppendLine(item.ToString());
             }
@@ -866,6 +898,11 @@ namespace SyncView
             string argument = "/select, \"" + im.FullName + "\"";
 
             Process.Start("explorer.exe", argument);
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -104,7 +104,7 @@ namespace ChapterListMB.SyncView
             }
         }
 
-        private static bool DefaultTextMatch(string filter, string text)
+        internal static bool DefaultTextMatch(string filter, string text)
         {
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, filter, CompareOptions.IgnoreCase) >= 0;
         }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -72,9 +72,9 @@
             this.txtImageName = new System.Windows.Forms.TextBox();
             this.cmbImage = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.chkFindSelect = new System.Windows.Forms.CheckBox();
+            this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
             this.txtFilter = new System.Windows.Forms.TextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lstBookmarks = new System.Windows.Forms.ListView();
             this.transcriptsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyBareTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,9 +84,10 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlPointer = new SyncView.RoundPanel();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -159,8 +160,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -337,9 +338,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Panel2.Controls.Add(this.chkFindSelect);
+            this.splitContainer1.Panel2.Controls.Add(this.chkHiglightTranscript);
             this.splitContainer1.Panel2.Controls.Add(this.txtFilter);
-            this.splitContainer1.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.lstBookmarks);
             this.splitContainer1.Size = new System.Drawing.Size(993, 745);
             this.splitContainer1.SplitterDistance = 624;
             this.splitContainer1.TabIndex = 8;
@@ -528,21 +529,21 @@
             this.button1.TabIndex = 7;
             this.button1.Text = "Locate";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.btnLocate_Click);
             // 
-            // chkFindSelect
+            // chkHiglightTranscript
             // 
-            this.chkFindSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkFindSelect.AutoSize = true;
-            this.chkFindSelect.Checked = true;
-            this.chkFindSelect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFindSelect.Location = new System.Drawing.Point(159, 12);
-            this.chkFindSelect.Name = "chkFindSelect";
-            this.chkFindSelect.Size = new System.Drawing.Size(67, 17);
-            this.chkFindSelect.TabIndex = 6;
-            this.chkFindSelect.Text = "Highlight";
-            this.chkFindSelect.UseVisualStyleBackColor = true;
-            this.chkFindSelect.CheckedChanged += new System.EventHandler(this.chkFindSelect_CheckedChanged);
+            this.chkHiglightTranscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkHiglightTranscript.AutoSize = true;
+            this.chkHiglightTranscript.Checked = true;
+            this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHiglightTranscript.Location = new System.Drawing.Point(159, 12);
+            this.chkHiglightTranscript.Name = "chkHiglightTranscript";
+            this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
+            this.chkHiglightTranscript.TabIndex = 6;
+            this.chkHiglightTranscript.Text = "Highlight";
+            this.chkHiglightTranscript.UseVisualStyleBackColor = true;
+            this.chkHiglightTranscript.CheckedChanged += new System.EventHandler(this.chkFindSelect_CheckedChanged);
             // 
             // txtFilter
             // 
@@ -552,21 +553,26 @@
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(147, 20);
             this.txtFilter.TabIndex = 5;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
             // 
-            // listBox1
+            // lstBookmarks
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lstBookmarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.ContextMenuStrip = this.transcriptsContextMenu;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(6, 36);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox1.Size = new System.Drawing.Size(351, 706);
-            this.listBox1.TabIndex = 4;
-            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
+            this.lstBookmarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.lstBookmarks.ContextMenuStrip = this.transcriptsContextMenu;
+            this.lstBookmarks.HideSelection = false;
+            this.lstBookmarks.Location = new System.Drawing.Point(6, 36);
+            this.lstBookmarks.Name = "lstBookmarks";
+            this.lstBookmarks.Size = new System.Drawing.Size(351, 706);
+            this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
+            this.lstBookmarks.TabIndex = 4;
+            this.lstBookmarks.UseCompatibleStateImageBehavior = false;
+            this.lstBookmarks.View = System.Windows.Forms.View.Details;
+            this.lstBookmarks.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
             // transcriptsContextMenu
             // 
@@ -652,6 +658,14 @@
             this.treeView1.TabIndex = 3;
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
+            // SearchTreeImageList
+            // 
+            this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
+            this.SearchTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.SearchTreeImageList.Images.SetKeyName(0, "Sound.png");
+            this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
+            this.SearchTreeImageList.Images.SetKeyName(2, "Text.png");
+            // 
             // txtAllTranscriptsFilter
             // 
             this.txtAllTranscriptsFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -678,13 +692,10 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // SearchTreeImageList
+            // columnHeader1
             // 
-            this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
-            this.SearchTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.SearchTreeImageList.Images.SetKeyName(0, "Sound.png");
-            this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
-            this.SearchTreeImageList.Images.SetKeyName(2, "Text.png");
+            this.columnHeader1.Text = "Transcript";
+            this.columnHeader1.Width = 337;
             // 
             // pnlPointer
             // 
@@ -781,9 +792,9 @@
         private System.Windows.Forms.TextBox txtImageName;
         private System.Windows.Forms.ComboBox cmbImage;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox chkFindSelect;
+        private System.Windows.Forms.CheckBox chkHiglightTranscript;
         private System.Windows.Forms.TextBox txtFilter;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListView lstBookmarks;
         private System.Windows.Forms.ToolStripMenuItem deleteThisImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyBareTextToolStripMenuItem;
@@ -793,5 +804,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ImageList SearchTreeImageList;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
