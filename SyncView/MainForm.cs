@@ -109,15 +109,24 @@ namespace SyncView
 
         private void LocateTranscript()
         {
+            bool doRef = false;
             var now = GetCurrentTranscriptIndex();
             if (lastCurrent == now)
                 return;
             if (lastCurrent != -1 && lstBookmarks.Items.Count > lastCurrent)
             {
+                if (lstBookmarks.Items[lastCurrent].ImageIndex != 0)
+                    doRef = true;
                 lstBookmarks.Items[lastCurrent].ImageIndex = -1;
+            }
+            else
+            {
+                doRef = true;
             }
             lastCurrent = now;
             lstBookmarks.Items[now].ImageIndex = 0;
+            if (doRef)
+                lstBookmarks.Refresh();
         }
 
         int lastPointerTime = -1;
@@ -355,6 +364,7 @@ namespace SyncView
         protected virtual void RequestPlayerTime(int position)
         {   
             RequestPositionEvent?.Invoke(this, position);
+            lstBookmarks.Refresh();
         }
 
         public event EventHandler<string> AddChapterButtonClickedRouted;
@@ -679,21 +689,6 @@ namespace SyncView
             RequestPlayerTime(next);
         }
 
-        private void cmdSetImageName_Click(object sender, EventArgs e)
-        {
-            if (txtImageName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
-            {
-                txtImageName.Text = "INVALID - " + txtImageName.Text;
-                return;
-            }
-            var success = repo.TrySetImageName(txtImageName.Text);
-            if (success)
-            {
-                cmbImage.Items.Clear();
-                cmbImage.Items.AddRange(repo.Images.ToArray());
-            }
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             var img = cmbImage.SelectedItem as ImageInfo;
@@ -900,9 +895,26 @@ namespace SyncView
             Process.Start("explorer.exe", argument);
         }
 
-        private void txtFilter_TextChanged(object sender, EventArgs e)
-        {
 
+        private void cmdSetImageName_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button ==  MouseButtons.Right)
+            {
+                jumpToNextImageToolStripMenuItem_Click(null, null);
+                return;
+            }
+
+            if (txtImageName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                txtImageName.Text = "INVALID - " + txtImageName.Text;
+                return;
+            }
+            var success = repo.TrySetImageName(txtImageName.Text);
+            if (success)
+            {
+                cmbImage.Items.Clear();
+                cmbImage.Items.AddRange(repo.Images.ToArray());
+            }
         }
     }
 }
