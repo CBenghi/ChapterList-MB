@@ -32,12 +32,11 @@ namespace ChapterListMB.SyncView
             return "";
         }
 
-        public IEnumerable<string> GetLyricsText(string filter)
+        public IEnumerable<string> GetTranscriptsText(string filter)
         {
             var fp = GetAssociatedLyricsFile();
             if (fp == null || !fp.Exists)
                 return Enumerable.Empty<string>();
-
             return GetLyricsText(fp, filter);
         }
 
@@ -211,6 +210,22 @@ namespace ChapterListMB.SyncView
             return defaultTime;
         }
 
+        internal IEnumerable<Bookmark> GetTranscriptBookmarks(string sought)
+        {
+            var f = GetAssociatedLyricsFile();
+            var curSession = Session.FromTranscriptFile(f.Name);
+            var thisList = SyncViewRepository.GetLyricsText(f, sought).ToList();
+            foreach (var transcrriptLine in thisList)
+            {
+                Bookmark b = new Bookmark();
+                b.session = curSession;
+                b.Text = transcrriptLine;
+                b.Timing = SyncViewRepository.GetMilli(transcrriptLine);
+                b.Type = Bookmark.SourceType.Transcript;
+                yield return b;
+            }
+        }
+
         public static string SupportingMediaFolder = @"C:\Data\Work\Esame Stato\SupportingMedia";
 
         private static DirectoryInfo GetImagePath(string L, string P)
@@ -278,7 +293,7 @@ namespace ChapterListMB.SyncView
             return success;
         }
 
-        static internal IEnumerable<Bookmark> FindImages(string sought)
+        static internal IEnumerable<Bookmark> FindImagesAllRepos(string sought)
         {
             var dir = new DirectoryInfo(SupportingMediaFolder);
             if (!dir.Exists)
@@ -286,6 +301,21 @@ namespace ChapterListMB.SyncView
             foreach (var file in dir.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
             {
                 var book = Bookmark.FromImageFile(file);
+                if (book == null)
+                    continue;
+                if (DefaultTextMatch(sought, book.Text))
+                {
+                    yield return book;
+                }
+            }
+        }
+        internal IEnumerable<Bookmark> GetImagesBookmarks(string sought)
+        {
+            if (Images == null)
+                yield break;
+            foreach (var img in Images)
+            {
+                var book = Bookmark.FromImageFile(img.file);
                 if (book == null)
                     continue;
                 if (DefaultTextMatch(sought, book.Text))

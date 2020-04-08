@@ -64,24 +64,27 @@ namespace SyncView
         int CurrentMilli = -1;
         int lastTranscriptLocate = -1;
 
+
+        // TIMER BASED, not called from musicBee
         public void SetCurrentTime(int playerPosition)
         {
             // lblPos.Text = playerPosition.ToString();
             if (repo != null)
             {
+                // status bar
                 lblImageTime.Text = SyncViewRepository.GetImagesTimestamp(playerPosition);
                 lblLirycsTime.Text = SyncViewRepository.GetLyricsTimestamp(playerPosition);
                 lblNext.Text = $"- {(repo.Images.NextObjectTime - playerPosition ) / 1000} sec.";
 
+                // update transcript current
                 var diffmilli = Math.Abs(playerPosition - lastTranscriptLocate);
                 if (diffmilli > 500)
                 {
                     LocateTranscript();
                 }
-
                 CurrentMilli = playerPosition;
                 
-                // load image
+                // update image current
                 var imageIndex = repo.Images.GetIndex(playerPosition);
                 if (imageIndex != -1)
                 {
@@ -97,6 +100,10 @@ namespace SyncView
 
                     }
                 }
+                if (requestBookMarkLocate)
+                    BookmarkLocate();
+
+                // update pointer current
                 var pointerIndex = repo.Pointers.GetIndex(playerPosition);
                 if (pointerIndex != -1)
                 {
@@ -109,23 +116,31 @@ namespace SyncView
 
         private void LocateTranscript()
         {
-            bool doRef = false;
+            bool doRefresh = false;
             var now = GetCurrentTranscriptIndex();
             if (lastCurrent == now)
                 return;
             if (lastCurrent != -1 && lstBookmarks.Items.Count > lastCurrent)
             {
                 if (lstBookmarks.Items[lastCurrent].ImageIndex != 0)
-                    doRef = true;
-                lstBookmarks.Items[lastCurrent].ImageIndex = -1;
+                    doRefresh = true;
+                var index = (int)((lstBookmarks.Items[lastCurrent].Tag as Bookmark)?.Type);
+                lstBookmarks.Items[lastCurrent].ImageIndex = index;
             }
             else
             {
-                doRef = true;
+                doRefresh = true;
             }
             lastCurrent = now;
-            lstBookmarks.Items[now].ImageIndex = 0;
-            if (doRef)
+            try
+            {
+                lstBookmarks.Items[now].ImageIndex = 0;
+            }
+            catch (Exception)
+            {
+
+            }
+            if (doRefresh)
                 lstBookmarks.Refresh();
         }
 
@@ -164,7 +179,7 @@ namespace SyncView
             repo = new SyncViewRepository(track);
             if (repo.Images != null)
                 cmbImage.Items.AddRange(repo.Images.ToArray());
-            setLirics();
+            populateBookmarks();
 
             this.Text = "SyncView - " + repo.mediaFileName;
             
@@ -177,21 +192,39 @@ namespace SyncView
                 chaptersCountStatusLabel.Text = "No Chapters";
         }
 
-        private void setLirics()
+        private void populateBookmarks()
         {
-            lstBookmarks.Items.Clear();
-            if (chkHiglightTranscript.Checked == false)
+            var bks = new List<Bookmark>();           
+            if (!chkHiglightTranscript.Checked)
             {
-                lstBookmarks.Items.AddRange(repo.GetLyricsText(txtFilter.Text).Select(x=> new ListViewItem() {Text = x} ).ToArray());
+                bks.AddRange(repo.GetTranscriptBookmarks(txtFilter.Text));
+                bks.AddRange(repo.GetImagesBookmarks(txtFilter.Text));
+                setBookmarks(bks);
             }
             else
             {
-                lstBookmarks.Items.AddRange(repo.GetLyricsText("").Select(x => new ListViewItem() { Text = x }).ToArray());
-                filterLirics();
+                bks.AddRange(repo.GetTranscriptBookmarks(""));
+                bks.AddRange(repo.GetImagesBookmarks(""));
+                setBookmarks(bks);
+                highlightBookmarks();
             }
         }
 
-        private void filterLirics()
+        private void setBookmarks(List<Bookmark> bks)
+        {
+            bks.Sort();
+            lstBookmarks.Items.Clear();
+            foreach (var item in bks)
+            {
+                var newLvi = new ListViewItem();
+                newLvi.Tag = item;
+                newLvi.Text = item.Text;
+                newLvi.ImageIndex = (int)item.Type;
+                lstBookmarks.Items.Add(newLvi);
+            }
+        }
+
+        private void highlightBookmarks()
         {
             lstBookmarks.SelectedItems.Clear();
             if (txtFilter.Text == "")
@@ -459,11 +492,11 @@ namespace SyncView
             {
                 if (chkHiglightTranscript.Checked == true)
                 {
-                    filterLirics();
+                    highlightBookmarks();
                     lstBookmarks.Focus();
                 }
                 else
-                    setLirics();
+                    populateBookmarks();
             }
         }
         
@@ -472,11 +505,10 @@ namespace SyncView
             var snd = sender as ListView;
             if (snd == null)
                 return;
-            var txt = snd.SelectedItems[0].Text;
-
-            var mill = SyncViewRepository.GetMilli(txt);
-
-            RequestPlayerTime(mill);
+            var txt = snd.SelectedItems[0].Tag as Bookmark;
+            if (txt == null)
+                return;
+            RequestPlayerTime(txt.Timing);
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -500,12 +532,12 @@ namespace SyncView
                 tabControl1.SelectedIndex = 0;
                 return;
             }
-            searchAllTranscripts(sought);
+            searchAll(sought);
         }
 
-        private void searchAllTranscripts(string sought)
+        private void searchAll(string sought)
         {
-            treeView1.Nodes.Clear();
+            allReposSearchResults.Nodes.Clear();
 
             List<Bookmark> bookmarks = new List<Bookmark>();
             foreach (var trsfile in SyncViewRepository.GetTranscripts())
@@ -523,7 +555,7 @@ namespace SyncView
                 }                
             }
 
-            bookmarks.AddRange(SyncViewRepository.FindImages(sought));
+            bookmarks.AddRange(SyncViewRepository.FindImagesAllRepos(sought));
 
             
             bookmarks.Sort();
@@ -538,7 +570,7 @@ namespace SyncView
                     n.Text = item.session.ToString();
                     n.Tag = item.session;
                     n.ImageIndex = 0;
-                    treeView1.Nodes.Add(n);
+                    allReposSearchResults.Nodes.Add(n);
                     sortSession = item.session;
                 }
                 TreeNode sub = new TreeNode();
@@ -550,7 +582,7 @@ namespace SyncView
                     sub.ImageIndex = 2;
                 n.Nodes.Add(sub);
             }
-            treeView1.ExpandAll();
+            allReposSearchResults.ExpandAll();
         }
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
@@ -593,6 +625,8 @@ namespace SyncView
             repo.ReloadImages();
             cmbImage.Items.Clear();
             cmbImage.Items.AddRange(repo.Images.ToArray());
+            populateBookmarks();
+            requestBookMarkLocate = true;
         }
 
         private void lblImageTime_Click(object sender, EventArgs e)
@@ -603,7 +637,7 @@ namespace SyncView
 
         private void chkFindSelect_CheckedChanged(object sender, EventArgs e)
         {
-            setLirics();
+            populateBookmarks();
         }
 
         private void lblLyricsTime_Click(object sender, EventArgs e)
@@ -628,11 +662,15 @@ namespace SyncView
 
         private void btnLocate_Click(object sender, EventArgs e)
         {
-            lstBookmarks.SelectedItems.Clear();
-            int last = GetCurrentTranscriptIndex();
-            lstBookmarks.Items[lstBookmarks.Items.Count - 1].EnsureVisible();
-            lstBookmarks.Items[last].EnsureVisible();
-            // listBox1.SelectedIndices.Add(last);
+            BookmarkLocate();
+        }
+
+        private void BookmarkLocate()
+        {
+            int last = GetCurrentTranscriptIndex() - 3;
+            last = Math.Max(last, 0);
+            lstBookmarks.TopItem = lstBookmarks.Items[last];
+            requestBookMarkLocate = false;
         }
 
         private int GetCurrentTranscriptIndex()
@@ -640,8 +678,9 @@ namespace SyncView
             var last = 0;
             for (int i = lstBookmarks.Items.Count - 1; i > 0; i--)
             {
-                var itemMilli = SyncViewRepository.GetMilli(lstBookmarks.Items[i].Text);
-                if (itemMilli < CurrentMilli)
+                if (!(lstBookmarks.Items[i].Tag is Bookmark bk))
+                    continue;
+                if (bk.Timing < CurrentMilli)   
                 {
                     last = i;
                     break;
@@ -652,10 +691,10 @@ namespace SyncView
 
         private void copyImageTimestampToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var txt = lstBookmarks.SelectedItems[0].ToString();
-            if (string.IsNullOrEmpty(txt))
+            var bk = lstBookmarks.SelectedItems[0].Tag as Bookmark;
+            if (bk == null)
                 return;
-            int milli = SyncViewRepository.GetMilli(txt);
+            int milli = bk.Timing;
             if (milli != -1)
                 Clipboard.SetText(SyncViewRepository.GetImagesTimestamp(milli) + " - ");
         }
@@ -669,10 +708,11 @@ namespace SyncView
 
         private string GetSelectedTransriptTime()
         {
-            var txt = lstBookmarks.SelectedItems[0].ToString();
-            if (string.IsNullOrEmpty(txt))
+            var bk = lstBookmarks.SelectedItems[0].Tag as Bookmark;
+            if (bk == null)
                 return "";
-            int milli = SyncViewRepository.GetMilli(txt);
+
+            var milli = bk.Timing;
             var ret = "";
             if (milli != -1)
             {
@@ -687,6 +727,7 @@ namespace SyncView
             if (next == -1 || next == int.MaxValue) 
                 return;
             RequestPlayerTime(next);
+            requestBookMarkLocate = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -697,6 +738,7 @@ namespace SyncView
             if (img.TimeStampMilliseconds == -1)
                 return;
             RequestPlayerTime(img.TimeStampMilliseconds);
+            requestBookMarkLocate = true;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -801,12 +843,20 @@ namespace SyncView
 
         }
 
-        private string SelectedTranscriptText()
+        private string SelectedTranscriptText(bool bare = false)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var item in lstBookmarks.SelectedItems)
+            foreach (ListViewItem item in lstBookmarks.SelectedItems)
             {
-                sb.AppendLine(item.ToString());
+                if (bare)
+                {
+                    Bookmark b = item.Tag as Bookmark;
+                    sb.AppendLine(SyncViewRepository.regexGetLyricsTime.Replace(b.Text, ""));
+                }
+                else
+                {
+                    sb.AppendLine(item.Text);
+                }
             }
             var AllText = sb.ToString();
             return AllText;
@@ -814,8 +864,7 @@ namespace SyncView
 
         private void copyBareTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string AllText = SelectedTranscriptText();
-            Clipboard.SetText(SyncViewRepository.regexGetLyricsTime.Replace(AllText, ""));
+            Clipboard.SetText(SelectedTranscriptText(true));
         }
 
         private void copyAbsoluteTimestampToolStripMenuItem_Click(object sender, EventArgs e)
@@ -895,15 +944,21 @@ namespace SyncView
             Process.Start("explorer.exe", argument);
         }
 
-
         private void cmdSetImageName_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button ==  MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 jumpToNextImageToolStripMenuItem_Click(null, null);
                 return;
             }
 
+            SaveImageName();
+        }
+
+        bool requestBookMarkLocate = true;
+
+        private void SaveImageName()
+        {
             if (txtImageName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
             {
                 txtImageName.Text = "INVALID - " + txtImageName.Text;
@@ -914,7 +969,30 @@ namespace SyncView
             {
                 cmbImage.Items.Clear();
                 cmbImage.Items.AddRange(repo.Images.ToArray());
+                populateBookmarks();
+                requestBookMarkLocate = true;             
             }
+        }
+
+        private void lstBookmarks_Resize(object sender, EventArgs e)
+        {
+            lstBookmarks.Columns[0].Width = lstBookmarks.Width - 16;
+        }
+
+        private void txtImageName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                SaveImageName();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var t = cmbImage.SelectedItem as ImageInfo;
+            if (t == null)
+                return;
+            txtImageName.Text = t.GetName();
         }
     }
 }

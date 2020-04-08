@@ -15,8 +15,8 @@ namespace SyncView
 
         internal enum SourceType
         {
-            Image = 0,
-            Transcript = 1
+            Image = 1,
+            Transcript = 2,
         }
 
         public static Bookmark FromImageFile(FileInfo fileInfo)

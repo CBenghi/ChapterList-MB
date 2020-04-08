@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -75,20 +75,21 @@
             this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.lstBookmarks = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.transcriptsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyBareTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAbsoluteTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyLyricsTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
+            this.allReposSearchResults = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlPointer = new SyncView.RoundPanel();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -160,8 +161,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -458,6 +459,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.cmdSetImageName);
@@ -504,10 +506,11 @@
             // txtImageName
             // 
             this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageName.Location = new System.Drawing.Point(249, 0);
+            this.txtImageName.Location = new System.Drawing.Point(295, 0);
             this.txtImageName.Name = "txtImageName";
-            this.txtImageName.Size = new System.Drawing.Size(326, 20);
+            this.txtImageName.Size = new System.Drawing.Size(280, 20);
             this.txtImageName.TabIndex = 3;
+            this.txtImageName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtImageName_KeyPress);
             // 
             // cmbImage
             // 
@@ -522,10 +525,9 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(232, 9);
+            this.button1.Location = new System.Drawing.Point(2, 1);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(125, 20);
+            this.button1.Size = new System.Drawing.Size(75, 20);
             this.button1.TabIndex = 7;
             this.button1.Text = "Locate";
             this.button1.UseVisualStyleBackColor = true;
@@ -537,7 +539,7 @@
             this.chkHiglightTranscript.AutoSize = true;
             this.chkHiglightTranscript.Checked = true;
             this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHiglightTranscript.Location = new System.Drawing.Point(159, 12);
+            this.chkHiglightTranscript.Location = new System.Drawing.Point(290, 3);
             this.chkHiglightTranscript.Name = "chkHiglightTranscript";
             this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
             this.chkHiglightTranscript.TabIndex = 6;
@@ -549,9 +551,9 @@
             // 
             this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilter.Location = new System.Drawing.Point(6, 10);
+            this.txtFilter.Location = new System.Drawing.Point(83, 0);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(147, 20);
+            this.txtFilter.Size = new System.Drawing.Size(201, 20);
             this.txtFilter.TabIndex = 5;
             this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
             // 
@@ -572,6 +574,12 @@
             this.lstBookmarks.UseCompatibleStateImageBehavior = false;
             this.lstBookmarks.View = System.Windows.Forms.View.Details;
             this.lstBookmarks.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
+            this.lstBookmarks.Resize += new System.EventHandler(this.lstBookmarks_Resize);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Transcript";
+            this.columnHeader1.Width = 337;
             // 
             // transcriptsContextMenu
             // 
@@ -619,10 +627,18 @@
             this.copyLyricsTimestampToolStripMenuItem.Text = "Copy Lyrics Timestamp";
             this.copyLyricsTimestampToolStripMenuItem.Click += new System.EventHandler(this.copyLyricsTimestampToolStripMenuItem_Click);
             // 
+            // SearchTreeImageList
+            // 
+            this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
+            this.SearchTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.SearchTreeImageList.Images.SetKeyName(0, "Sound.png");
+            this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
+            this.SearchTreeImageList.Images.SetKeyName(2, "TextSmall.png");
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.button4);
-            this.tabPage4.Controls.Add(this.treeView1);
+            this.tabPage4.Controls.Add(this.allReposSearchResults);
             this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
@@ -642,28 +658,20 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // treeView1
+            // allReposSearchResults
             // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.allReposSearchResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.FullRowSelect = true;
-            this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = this.SearchTreeImageList;
-            this.treeView1.Location = new System.Drawing.Point(12, 39);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(973, 691);
-            this.treeView1.TabIndex = 3;
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
-            // 
-            // SearchTreeImageList
-            // 
-            this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
-            this.SearchTreeImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.SearchTreeImageList.Images.SetKeyName(0, "Sound.png");
-            this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
-            this.SearchTreeImageList.Images.SetKeyName(2, "Text.png");
+            this.allReposSearchResults.FullRowSelect = true;
+            this.allReposSearchResults.ImageIndex = 0;
+            this.allReposSearchResults.ImageList = this.SearchTreeImageList;
+            this.allReposSearchResults.Location = new System.Drawing.Point(12, 39);
+            this.allReposSearchResults.Name = "allReposSearchResults";
+            this.allReposSearchResults.SelectedImageIndex = 0;
+            this.allReposSearchResults.Size = new System.Drawing.Size(973, 691);
+            this.allReposSearchResults.TabIndex = 3;
+            this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // txtAllTranscriptsFilter
             // 
@@ -691,11 +699,6 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Transcript";
-            this.columnHeader1.Width = 337;
-            // 
             // pnlPointer
             // 
             this.pnlPointer.BackColor = System.Drawing.Color.Red;
@@ -703,6 +706,17 @@
             this.pnlPointer.Name = "pnlPointer";
             this.pnlPointer.Size = new System.Drawing.Size(11, 11);
             this.pnlPointer.TabIndex = 10;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(249, 0);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(40, 20);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "=>";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // MainForm
             // 
@@ -763,7 +777,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox txtAllTranscriptsFilter;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView allReposSearchResults;
         private System.Windows.Forms.ContextMenuStrip imageContextMenu;
         private System.Windows.Forms.ToolStripMenuItem reloadImagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblImageTime;
@@ -804,5 +818,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ImageList SearchTreeImageList;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.Button button5;
     }
 }
