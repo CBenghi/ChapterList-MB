@@ -33,7 +33,12 @@ namespace SyncView
                 ret.Timing = ImageInfo.GetMillisecondsFromFileName(fileInfo);
    
                 ret.Type = SourceType.Image;
-                ret.Text = m.Groups["txt"].Value;
+                var nm = m.Groups["txt"].Value;
+                if (nm == ".png")
+                {
+                    nm = fileInfo.Name;
+                }
+                ret.Text = nm;
                 return ret;
             }
             return null;

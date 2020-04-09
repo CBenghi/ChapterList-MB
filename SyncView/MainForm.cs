@@ -1,5 +1,6 @@
 ﻿using ChapterListMB;
 using ChapterListMB.SyncView;
+using PresentationGrab;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -993,6 +994,14 @@ namespace SyncView
             if (t == null)
                 return;
             txtImageName.Text = t.GetName();
+        }
+
+        private void openImageManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PreProcess p = new PreProcess();
+            p.Repository = this.repo;
+            p.ShowDialog();
+            reloadImagesToolStripMenuItem_Click(null, null);
         }
     }
 }

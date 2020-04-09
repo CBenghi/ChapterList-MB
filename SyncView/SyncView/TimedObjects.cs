@@ -13,6 +13,8 @@ namespace ChapterListMB.SyncView
         {
             get
             {
+                if (index >= images.Count)
+                    return default;
                 return images[index];
             }
             // get and set accessors  

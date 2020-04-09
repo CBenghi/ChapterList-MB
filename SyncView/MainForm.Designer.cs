@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -66,6 +66,7 @@
             this.cmdPointer = new System.Windows.Forms.Button();
             this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.cmdSetImageName = new System.Windows.Forms.Button();
@@ -89,7 +90,7 @@
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pnlPointer = new SyncView.RoundPanel();
-            this.button5 = new System.Windows.Forms.Button();
+            this.openImageManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -161,8 +162,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -366,13 +367,14 @@
             this.jumpToNextImageToolStripMenuItem,
             this.reloadImagesToolStripMenuItem,
             this.openInExplorerToolStripMenuItem,
+            this.openImageManagerToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyImagesAsLyricsToolStripMenuItem,
             this.saveAllImagesToolStripMenuItem,
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(203, 148);
+            this.imageContextMenu.Size = new System.Drawing.Size(203, 192);
             // 
             // jumpToNextImageToolStripMenuItem
             // 
@@ -470,6 +472,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(624, 21);
             this.panel1.TabIndex = 8;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(249, 0);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(40, 20);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "=>";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button3
             // 
@@ -707,16 +720,12 @@
             this.pnlPointer.Size = new System.Drawing.Size(11, 11);
             this.pnlPointer.TabIndex = 10;
             // 
-            // button5
+            // openImageManagerToolStripMenuItem
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(249, 0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(40, 20);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "=>";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.openImageManagerToolStripMenuItem.Name = "openImageManagerToolStripMenuItem";
+            this.openImageManagerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openImageManagerToolStripMenuItem.Text = "Open image manager";
+            this.openImageManagerToolStripMenuItem.Click += new System.EventHandler(this.openImageManagerToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -819,5 +828,6 @@
         private System.Windows.Forms.ImageList SearchTreeImageList;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ToolStripMenuItem openImageManagerToolStripMenuItem;
     }
 }
