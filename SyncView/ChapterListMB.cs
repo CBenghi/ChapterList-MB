@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
 using ChapterListMB;
 using Timer = System.Timers.Timer;
 using System.IO;
 using SyncView;
+using System.Diagnostics;
+using System.Threading;
 
 namespace MusicBeePlugin
 {
@@ -106,18 +104,19 @@ namespace MusicBeePlugin
                     }
                     //if (ChapterListMB.Properties.Settings.Default.StartWithMusicBee)
                     //    OnMenuClicked(null, null);
+                    // ShowPluginWindow();
                     break;
                 case NotificationType.TrackChanged:
-                    if (_mainForm == null)
-                        return;
-                    RepeatSection.Clear();
-                    _currentChapter = null;
-                    _track = GetTrack();
-                    _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
+                    SetTrack();
+                    break;
+                case NotificationType.PlayingTracksChanged: // copied from trackchanged
+                    SetTrack();
                     break;
                 case NotificationType.TrackChanging:
                     if (!_timer.Enabled) 
                         _timer.Stop();
+                    break;
+                case NotificationType.MusicBeeStarted:
                     break;
                 case NotificationType.PlayStateChanged:
                     if (_track == null)
@@ -137,11 +136,22 @@ namespace MusicBeePlugin
                     }
                     break;
             }
+            Debug.WriteLine($"Processed msg:{type}, timer enabled: {_timer.Enabled}");
+        }
+
+        private void SetTrack()
+        {
+            _currentChapter = null;
+            _track = GetTrack();
+            if (_mainForm == null || _mainForm.IsDisposed)
+                return;
+            RepeatSection.Clear();
+            _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_mainForm == null)
+            if (_mainForm == null || _mainForm.IsDisposed)
                 return;
             int playerPosition = mbApiInterface.Player_GetPosition();
             if (nextTimerEventPositionRequest > 0)
@@ -199,6 +209,18 @@ namespace MusicBeePlugin
 
         private void OnMenuClicked(object sender, EventArgs args)
         {
+            ShowPluginWindow();
+        }
+
+        private void ShowPluginWindow()
+        {
+            if (_mainForm != null && !_mainForm.IsDisposed)
+            {
+                _mainForm.Show();
+                _mainForm.Focus();
+                return;
+            }
+            
             _mainForm = new MainForm();
             //mbApiInterface.MB_AddPanel(_mainForm.DataGridView, PluginPanelDock.);
             _mainForm.Show();

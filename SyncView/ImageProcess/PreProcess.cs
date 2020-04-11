@@ -1,4 +1,5 @@
-﻿using Accord.Imaging.Filters;
+﻿using Accord.Imaging;
+using Accord.Imaging.Filters;
 using ChapterListMB.SyncView;
 using Microsoft.VisualBasic.FileIO;
 using System;
@@ -19,9 +20,20 @@ namespace PresentationGrab
     {
         private SyncViewRepository repository;
 
+        readonly BlobCounterBase differenceBlobFounder;
+
         public PreProcess()
         {
             InitializeComponent();
+
+            differenceBlobFounder = new BlobCounter
+            {
+                // set filtering options
+                FilterBlobs = true,
+                MinWidth = 6,
+                MinHeight = 6,
+                ObjectsOrder = ObjectsOrder.XY
+            };
         }
 
         internal SyncViewRepository Repository
@@ -43,12 +55,11 @@ namespace PresentationGrab
             UpdateImages();
         }
 
-        private void UpdateImages()
+        private int UpdateImages()
         {
-            var delta = repository.Images[currentImage+1].TimeStampMilliseconds
+            var delta = repository.Images[currentImage + 1].TimeStampMilliseconds
                 - repository.Images[currentImage].TimeStampMilliseconds;
             TimeSpan t = new TimeSpan(0, 0, 0, 0, delta);
-            
 
             Bitmap b0 = getB(repository.Images[currentImage].file.FullName);
             lblCurr.Text = repository.Images[currentImage].file.Name + " " + t.ToString();
@@ -59,36 +70,61 @@ namespace PresentationGrab
             Bitmap b1 = getB(repository.Images[currentImage + 1].file.FullName);
             lblNext.Text = repository.Images[currentImage + 1].file.Name;
 
-            UpdateDifference(b0, b1);
+            var ret = UpdateDifference(b0, b1);
+
+            var size = (b0.Width * b0.Height) + 1.0;
+            var perc = 100 * ret / size;
+
+            lblPosition.Text = $"#{currentImage + 1} of {repository.Images.Count()} - Delta: {perc:0.0}%, {ret} px ";
 
             imgLeft.Image = b0;
             imgRight.Image = b1;
-            
+            return ret;
         }
 
-        private void UpdateDifference(Bitmap b0, Bitmap b1)
+        private int UpdateDifference(Bitmap b0, Bitmap b1)
         {
             Difference d = new Difference(b0);
-            var diff = d.Apply(b1);
-            var unm = Accord.Imaging.UnmanagedImage.FromManagedImage(diff);
+            var unmmanagedDiff = Accord.Imaging.UnmanagedImage.FromManagedImage(d.Apply(b1));
 
-            if (chkEnhanceDiff.Checked)
+            Add a = null;
+            Multiply m = null;
+            int i = (int)nudEnhanceDiff.Value;
+            while (i-- > 0)
             {
-                Add a = new Add(unm);
-                Multiply m = new Multiply(unm);
-             
-                a.ApplyInPlace(unm);
-
-                a.ApplyInPlace(unm);
+                if (a == null)
+                    a = new Add(unmmanagedDiff);
+                if (m == null)
+                    m = new Multiply(unmmanagedDiff);
+                a.ApplyInPlace(unmmanagedDiff);
+                // m.ApplyInPlace(unmmanagedDiff);
             }
-            imgBig.Image = unm.ToManagedImage();
+
+            //else if (i == 2)
+            //{
+            //    Bitmap basegrey = new Bitmap(unmmanagedDiff.Width, unmmanagedDiff.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            //    Graphics graphics = Graphics.FromImage(basegrey as System.Drawing.Image);
+            //    int intensity = 255;
+            //    graphics.Clear(System.Drawing.Color.FromArgb(255, intensity, intensity, intensity));
+            //    m = new Multiply(basegrey);
+            //    m.ApplyInPlace(unmmanagedDiff);
+            //}
+
+            differenceBlobFounder.ProcessImage(unmmanagedDiff);
+
+            Blob[] blobs = differenceBlobFounder.GetObjectsInformation();
+            var totArea = blobs.Sum(x => x.Area);
+
+
+            imgBig.Image = unmmanagedDiff.ToManagedImage();
+            return totArea;
         }
 
         private Bitmap getB(string path)
         {
             var bytes = File.ReadAllBytes(path);
             var ms = new MemoryStream(bytes);
-            var img = Image.FromStream(ms);
+            var img = System.Drawing.Image.FromStream(ms);
             return (Bitmap)img;
         }
 
@@ -160,7 +196,7 @@ namespace PresentationGrab
             }
         }
 
-        private void chkEnhanceDiff_CheckedChanged(object sender, EventArgs e)
+        private void nudEnhanceDiff_ValueChanged(object sender, EventArgs e)
         {
             UpdateImages();
         }

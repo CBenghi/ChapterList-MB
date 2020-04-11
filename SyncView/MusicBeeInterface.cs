@@ -334,7 +334,12 @@ namespace MusicBeePlugin
             FileAddedToInbox = 31,
             SynchCompleted = 32,
             DownloadCompleted = 33,
-            MusicBeeStarted = 34
+            MusicBeeStarted = 34,
+            PlayingTracksChanged = 35, // added manually... should upgrade API?
+            PlayingTracksQueueChanged = 36,
+            PlaylistCreated = 37,
+            PlaylistUpdated = 38,
+            PlaylistDeleted = 39
         }
 
         public enum PluginCloseReason

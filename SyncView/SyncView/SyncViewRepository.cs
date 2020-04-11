@@ -213,6 +213,8 @@ namespace ChapterListMB.SyncView
         internal IEnumerable<Bookmark> GetTranscriptBookmarks(string sought)
         {
             var f = GetAssociatedLyricsFile();
+            if (f == null)
+                yield break;
             var curSession = Session.FromTranscriptFile(f.Name);
             var thisList = SyncViewRepository.GetLyricsText(f, sought).ToList();
             foreach (var transcrriptLine in thisList)

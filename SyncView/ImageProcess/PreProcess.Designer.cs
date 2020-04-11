@@ -29,27 +29,31 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.imgRight = new System.Windows.Forms.PictureBox();
-            this.imgLeft = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.imgBig = new System.Windows.Forms.PictureBox();
-            this.cmdNext = new System.Windows.Forms.Button();
-            this.cmdPrev = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblNext = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.chkEnhanceDiff = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.imgRight = new System.Windows.Forms.PictureBox();
+            this.imgLeft = new System.Windows.Forms.PictureBox();
             this.lblCurr = new System.Windows.Forms.Label();
-            this.lblNext = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudEnhanceDiff = new System.Windows.Forms.NumericUpDown();
+            this.cmdPrev = new System.Windows.Forms.Button();
+            this.cmdNext = new System.Windows.Forms.Button();
+            this.imgBig = new System.Windows.Forms.PictureBox();
+            this.lblPosition = new System.Windows.Forms.Label();
+            this.cmdNextSimilar = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgLeft)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgBig)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEnhanceDiff)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBig)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -67,65 +71,42 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1395, 972);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // imgRight
+            // tableLayoutPanel2
             // 
-            this.imgRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgRight.Location = new System.Drawing.Point(3, 503);
-            this.imgRight.Name = "imgRight";
-            this.imgRight.Size = new System.Drawing.Size(406, 374);
-            this.imgRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgRight.TabIndex = 3;
-            this.imgRight.TabStop = false;
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.lblNext, 0, 6);
+            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.button2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button3, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.imgRight, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.imgLeft, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.lblCurr, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 7;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(412, 966);
+            this.tableLayoutPanel2.TabIndex = 8;
             // 
-            // imgLeft
+            // lblNext
             // 
-            this.imgLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgLeft.Location = new System.Drawing.Point(3, 123);
-            this.imgLeft.Name = "imgLeft";
-            this.imgLeft.Size = new System.Drawing.Size(406, 374);
-            this.imgLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgLeft.TabIndex = 2;
-            this.imgLeft.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.chkEnhanceDiff);
-            this.panel1.Controls.Add(this.cmdPrev);
-            this.panel1.Controls.Add(this.cmdNext);
-            this.panel1.Location = new System.Drawing.Point(3, 863);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(831, 100);
-            this.panel1.TabIndex = 0;
-            // 
-            // imgBig
-            // 
-            this.imgBig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgBig.Location = new System.Drawing.Point(3, 3);
-            this.imgBig.Name = "imgBig";
-            this.imgBig.Size = new System.Drawing.Size(965, 854);
-            this.imgBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgBig.TabIndex = 1;
-            this.imgBig.TabStop = false;
-            // 
-            // cmdNext
-            // 
-            this.cmdNext.Location = new System.Drawing.Point(94, 15);
-            this.cmdNext.Name = "cmdNext";
-            this.cmdNext.Size = new System.Drawing.Size(75, 23);
-            this.cmdNext.TabIndex = 0;
-            this.cmdNext.Text = "Next";
-            this.cmdNext.UseVisualStyleBackColor = true;
-            this.cmdNext.Click += new System.EventHandler(this.cmdNext_Click);
-            // 
-            // cmdPrev
-            // 
-            this.cmdPrev.Location = new System.Drawing.Point(13, 15);
-            this.cmdPrev.Name = "cmdPrev";
-            this.cmdPrev.Size = new System.Drawing.Size(75, 23);
-            this.cmdPrev.TabIndex = 1;
-            this.cmdPrev.Text = "Prev";
-            this.cmdPrev.UseVisualStyleBackColor = true;
-            this.cmdPrev.Click += new System.EventHandler(this.cmdPrev_Click);
+            this.lblNext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNext.Location = new System.Drawing.Point(5, 920);
+            this.lblNext.Margin = new System.Windows.Forms.Padding(5);
+            this.lblNext.Name = "lblNext";
+            this.lblNext.Size = new System.Drawing.Size(402, 41);
+            this.lblNext.TabIndex = 8;
+            this.lblNext.Text = "label2";
+            this.lblNext.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
@@ -163,56 +144,25 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // chkEnhanceDiff
+            // imgRight
             // 
-            this.chkEnhanceDiff.AutoSize = true;
-            this.chkEnhanceDiff.Location = new System.Drawing.Point(235, 19);
-            this.chkEnhanceDiff.Name = "chkEnhanceDiff";
-            this.chkEnhanceDiff.Size = new System.Drawing.Size(88, 17);
-            this.chkEnhanceDiff.TabIndex = 4;
-            this.chkEnhanceDiff.Text = "Enhance Diff";
-            this.chkEnhanceDiff.UseVisualStyleBackColor = true;
-            this.chkEnhanceDiff.CheckedChanged += new System.EventHandler(this.chkEnhanceDiff_CheckedChanged);
+            this.imgRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgRight.Location = new System.Drawing.Point(3, 503);
+            this.imgRight.Name = "imgRight";
+            this.imgRight.Size = new System.Drawing.Size(406, 374);
+            this.imgRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgRight.TabIndex = 3;
+            this.imgRight.TabStop = false;
             // 
-            // tableLayoutPanel2
+            // imgLeft
             // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.lblNext, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.button3, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.imgRight, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.imgLeft, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.lblCurr, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 7;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(412, 966);
-            this.tableLayoutPanel2.TabIndex = 8;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.imgBig, 0, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(421, 3);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(971, 966);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.imgLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgLeft.Location = new System.Drawing.Point(3, 123);
+            this.imgLeft.Name = "imgLeft";
+            this.imgLeft.Size = new System.Drawing.Size(406, 374);
+            this.imgLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgLeft.TabIndex = 2;
+            this.imgLeft.TabStop = false;
             // 
             // lblCurr
             // 
@@ -226,17 +176,106 @@
             this.lblCurr.Text = "label1";
             this.lblCurr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblNext
+            // tableLayoutPanel3
             // 
-            this.lblNext.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNext.Location = new System.Drawing.Point(5, 920);
-            this.lblNext.Margin = new System.Windows.Forms.Padding(5);
-            this.lblNext.Name = "lblNext";
-            this.lblNext.Size = new System.Drawing.Size(402, 41);
-            this.lblNext.TabIndex = 8;
-            this.lblNext.Text = "label2";
-            this.lblNext.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.imgBig, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(421, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(971, 966);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cmdNextSimilar);
+            this.panel1.Controls.Add(this.lblPosition);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.nudEnhanceDiff);
+            this.panel1.Controls.Add(this.cmdPrev);
+            this.panel1.Controls.Add(this.cmdNext);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(831, 100);
+            this.panel1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(182, 58);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Enhance diff";
+            // 
+            // nudEnhanceDiff
+            // 
+            this.nudEnhanceDiff.Location = new System.Drawing.Point(255, 56);
+            this.nudEnhanceDiff.Name = "nudEnhanceDiff";
+            this.nudEnhanceDiff.Size = new System.Drawing.Size(120, 20);
+            this.nudEnhanceDiff.TabIndex = 5;
+            this.nudEnhanceDiff.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudEnhanceDiff.ValueChanged += new System.EventHandler(this.nudEnhanceDiff_ValueChanged);
+            // 
+            // cmdPrev
+            // 
+            this.cmdPrev.Location = new System.Drawing.Point(10, 53);
+            this.cmdPrev.Name = "cmdPrev";
+            this.cmdPrev.Size = new System.Drawing.Size(75, 23);
+            this.cmdPrev.TabIndex = 1;
+            this.cmdPrev.Text = "Prev";
+            this.cmdPrev.UseVisualStyleBackColor = true;
+            this.cmdPrev.Click += new System.EventHandler(this.cmdPrev_Click);
+            // 
+            // cmdNext
+            // 
+            this.cmdNext.Location = new System.Drawing.Point(91, 53);
+            this.cmdNext.Name = "cmdNext";
+            this.cmdNext.Size = new System.Drawing.Size(75, 23);
+            this.cmdNext.TabIndex = 0;
+            this.cmdNext.Text = "Next";
+            this.cmdNext.UseVisualStyleBackColor = true;
+            this.cmdNext.Click += new System.EventHandler(this.cmdNext_Click);
+            // 
+            // imgBig
+            // 
+            this.imgBig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imgBig.Location = new System.Drawing.Point(3, 109);
+            this.imgBig.Name = "imgBig";
+            this.imgBig.Size = new System.Drawing.Size(965, 854);
+            this.imgBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgBig.TabIndex = 1;
+            this.imgBig.TabStop = false;
+            // 
+            // lblPosition
+            // 
+            this.lblPosition.AutoSize = true;
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.Location = new System.Drawing.Point(5, 8);
+            this.lblPosition.Margin = new System.Windows.Forms.Padding(5);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(24, 25);
+            this.lblPosition.TabIndex = 8;
+            this.lblPosition.Text = "#";
+            this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmdNextSimilar
+            // 
+            this.cmdNextSimilar.Location = new System.Drawing.Point(447, 53);
+            this.cmdNextSimilar.Name = "cmdNextSimilar";
+            this.cmdNextSimilar.Size = new System.Drawing.Size(113, 23);
+            this.cmdNextSimilar.TabIndex = 9;
+            this.cmdNextSimilar.Text = "NextSimilar";
+            this.cmdNextSimilar.UseVisualStyleBackColor = true;
             // 
             // PreProcess
             // 
@@ -248,13 +287,14 @@
             this.Text = "PreProcess";
             this.Load += new System.EventHandler(this.PreProcess_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgLeft)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEnhanceDiff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgBig)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -271,10 +311,13 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckBox chkEnhanceDiff;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label lblNext;
         private System.Windows.Forms.Label lblCurr;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudEnhanceDiff;
+        private System.Windows.Forms.Label lblPosition;
+        private System.Windows.Forms.Button cmdNextSimilar;
     }
 }

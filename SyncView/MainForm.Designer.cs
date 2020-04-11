@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -52,11 +52,16 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pnlPointer = new SyncView.RoundPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paintNetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.openImageManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copyImagesAsLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,12 +90,12 @@
             this.copyLyricsTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkSearchI = new System.Windows.Forms.CheckBox();
+            this.chkSearchT = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.allReposSearchResults = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.pnlPointer = new SyncView.RoundPanel();
-            this.openImageManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -162,8 +167,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -347,6 +352,14 @@
             this.splitContainer1.SplitterDistance = 624;
             this.splitContainer1.TabIndex = 8;
             // 
+            // pnlPointer
+            // 
+            this.pnlPointer.BackColor = System.Drawing.Color.Red;
+            this.pnlPointer.Location = new System.Drawing.Point(0, 0);
+            this.pnlPointer.Name = "pnlPointer";
+            this.pnlPointer.Size = new System.Drawing.Size(11, 11);
+            this.pnlPointer.TabIndex = 10;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.ContextMenuStrip = this.imageContextMenu;
@@ -367,6 +380,7 @@
             this.jumpToNextImageToolStripMenuItem,
             this.reloadImagesToolStripMenuItem,
             this.openInExplorerToolStripMenuItem,
+            this.toolStripSeparator3,
             this.openImageManagerToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyImagesAsLyricsToolStripMenuItem,
@@ -374,7 +388,7 @@
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(203, 192);
+            this.imageContextMenu.Size = new System.Drawing.Size(203, 198);
             // 
             // jumpToNextImageToolStripMenuItem
             // 
@@ -392,10 +406,38 @@
             // 
             // openInExplorerToolStripMenuItem
             // 
+            this.openInExplorerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileExplorerToolStripMenuItem,
+            this.paintNetToolStripMenuItem});
             this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
             this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.openInExplorerToolStripMenuItem.Text = "Open in explorer";
-            this.openInExplorerToolStripMenuItem.Click += new System.EventHandler(this.openInExplorerToolStripMenuItem_Click);
+            this.openInExplorerToolStripMenuItem.Text = "Open in";
+            // 
+            // fileExplorerToolStripMenuItem
+            // 
+            this.fileExplorerToolStripMenuItem.Name = "fileExplorerToolStripMenuItem";
+            this.fileExplorerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fileExplorerToolStripMenuItem.Text = "File explorer";
+            this.fileExplorerToolStripMenuItem.Click += new System.EventHandler(this.fileExplorerToolStripMenuItem_Click);
+            // 
+            // paintNetToolStripMenuItem
+            // 
+            this.paintNetToolStripMenuItem.Name = "paintNetToolStripMenuItem";
+            this.paintNetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paintNetToolStripMenuItem.Text = "Paint Net";
+            this.paintNetToolStripMenuItem.Click += new System.EventHandler(this.paintNetToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+            // 
+            // openImageManagerToolStripMenuItem
+            // 
+            this.openImageManagerToolStripMenuItem.Name = "openImageManagerToolStripMenuItem";
+            this.openImageManagerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openImageManagerToolStripMenuItem.Text = "Open image manager";
+            this.openImageManagerToolStripMenuItem.Click += new System.EventHandler(this.openImageManagerToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -414,6 +456,7 @@
             this.saveAllImagesToolStripMenuItem.Name = "saveAllImagesToolStripMenuItem";
             this.saveAllImagesToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.saveAllImagesToolStripMenuItem.Text = "Save all images";
+            this.saveAllImagesToolStripMenuItem.Visible = false;
             this.saveAllImagesToolStripMenuItem.Click += new System.EventHandler(this.saveAllImagesToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
@@ -650,6 +693,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chkSearchI);
+            this.tabPage4.Controls.Add(this.chkSearchT);
             this.tabPage4.Controls.Add(this.button4);
             this.tabPage4.Controls.Add(this.allReposSearchResults);
             this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
@@ -659,6 +704,30 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Search";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chkSearchI
+            // 
+            this.chkSearchI.AutoSize = true;
+            this.chkSearchI.Checked = true;
+            this.chkSearchI.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSearchI.Location = new System.Drawing.Point(96, 39);
+            this.chkSearchI.Name = "chkSearchI";
+            this.chkSearchI.Size = new System.Drawing.Size(60, 17);
+            this.chkSearchI.TabIndex = 6;
+            this.chkSearchI.Text = "Images";
+            this.chkSearchI.UseVisualStyleBackColor = true;
+            // 
+            // chkSearchT
+            // 
+            this.chkSearchT.AutoSize = true;
+            this.chkSearchT.Checked = true;
+            this.chkSearchT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSearchT.Location = new System.Drawing.Point(12, 39);
+            this.chkSearchT.Name = "chkSearchT";
+            this.chkSearchT.Size = new System.Drawing.Size(78, 17);
+            this.chkSearchT.TabIndex = 5;
+            this.chkSearchT.Text = "Transcripts";
+            this.chkSearchT.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -679,10 +748,10 @@
             this.allReposSearchResults.FullRowSelect = true;
             this.allReposSearchResults.ImageIndex = 0;
             this.allReposSearchResults.ImageList = this.SearchTreeImageList;
-            this.allReposSearchResults.Location = new System.Drawing.Point(12, 39);
+            this.allReposSearchResults.Location = new System.Drawing.Point(12, 68);
             this.allReposSearchResults.Name = "allReposSearchResults";
             this.allReposSearchResults.SelectedImageIndex = 0;
-            this.allReposSearchResults.Size = new System.Drawing.Size(973, 691);
+            this.allReposSearchResults.Size = new System.Drawing.Size(973, 662);
             this.allReposSearchResults.TabIndex = 3;
             this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
@@ -712,21 +781,6 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // pnlPointer
-            // 
-            this.pnlPointer.BackColor = System.Drawing.Color.Red;
-            this.pnlPointer.Location = new System.Drawing.Point(0, 0);
-            this.pnlPointer.Name = "pnlPointer";
-            this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-            this.pnlPointer.TabIndex = 10;
-            // 
-            // openImageManagerToolStripMenuItem
-            // 
-            this.openImageManagerToolStripMenuItem.Name = "openImageManagerToolStripMenuItem";
-            this.openImageManagerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.openImageManagerToolStripMenuItem.Text = "Open image manager";
-            this.openImageManagerToolStripMenuItem.Click += new System.EventHandler(this.openImageManagerToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -739,6 +793,7 @@
             this.MinimumSize = new System.Drawing.Size(325, 350);
             this.Name = "MainForm";
             this.Text = "SyncView";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.MainForm_DragOver);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
@@ -829,5 +884,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ToolStripMenuItem openImageManagerToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSearchI;
+        private System.Windows.Forms.CheckBox chkSearchT;
+        private System.Windows.Forms.ToolStripMenuItem fileExplorerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem paintNetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

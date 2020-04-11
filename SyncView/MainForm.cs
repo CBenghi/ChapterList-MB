@@ -541,24 +541,27 @@ namespace SyncView
             allReposSearchResults.Nodes.Clear();
 
             List<Bookmark> bookmarks = new List<Bookmark>();
-            foreach (var trsfile in SyncViewRepository.GetTranscripts())
+            if (chkSearchT.Checked)
             {
-                var curSession = Session.FromTranscriptFile(trsfile.Name); 
-                var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
-                foreach (var transcrriptLine in thisList)
+                foreach (var trsfile in SyncViewRepository.GetTranscripts())
                 {
-                    Bookmark b = new Bookmark();
-                    b.session = curSession;
-                    b.Text = transcrriptLine;
-                    b.Timing = SyncViewRepository.GetMilli(transcrriptLine);
-                    b.Type = Bookmark.SourceType.Transcript;
-                    bookmarks.Add(b);
-                }                
+                    var curSession = Session.FromTranscriptFile(trsfile.Name);
+                    var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
+                    foreach (var transcrriptLine in thisList)
+                    {
+                        Bookmark b = new Bookmark();
+                        b.session = curSession;
+                        b.Text = transcrriptLine;
+                        b.Timing = SyncViewRepository.GetMilli(transcrriptLine);
+                        b.Type = Bookmark.SourceType.Transcript;
+                        bookmarks.Add(b);
+                    }
+                }
             }
-
-            bookmarks.AddRange(SyncViewRepository.FindImagesAllRepos(sought));
-
-            
+            if (chkSearchI.Checked)
+            {
+                bookmarks.AddRange(SyncViewRepository.FindImagesAllRepos(sought));
+            }
             bookmarks.Sort();
 
             Session sortSession = null;
@@ -668,8 +671,11 @@ namespace SyncView
 
         private void BookmarkLocate()
         {
+            if (lstBookmarks.Items.Count == 0)
+                return;
             int last = GetCurrentTranscriptIndex() - 3;
             last = Math.Max(last, 0);
+            
             lstBookmarks.TopItem = lstBookmarks.Items[last];
             requestBookMarkLocate = false;
         }
@@ -785,6 +791,7 @@ namespace SyncView
         {
             if (lastPC != null)
                 SetPointer(lastPC);
+            cmbImage.DropDownWidth = pictureBox1.Width - cmbImage.Left;
         }
 
         int pSize = 5;
@@ -841,7 +848,6 @@ namespace SyncView
         {
             string AllText = SelectedTranscriptText();
             Clipboard.SetText(AllText);
-
         }
 
         private string SelectedTranscriptText(bool bare = false)
@@ -930,20 +936,7 @@ namespace SyncView
             }
         }
 
-        private void openInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var im = repo.GetLastImage();
-            
-            if (!im.Exists)
-            {
-                return;
-            }
-            // combine the arguments together
-            // it doesn't matter if there is a space after ','
-            string argument = "/select, \"" + im.FullName + "\"";
-
-            Process.Start("explorer.exe", argument);
-        }
+     
 
         private void cmdSetImageName_MouseUp(object sender, MouseEventArgs e)
         {
@@ -1002,6 +995,39 @@ namespace SyncView
             p.Repository = this.repo;
             p.ShowDialog();
             reloadImagesToolStripMenuItem_Click(null, null);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            MainForm_Resize(null, null); // sets the combo width
+        }
+
+        private void fileExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var im = repo.GetLastImage();
+
+            if (im == null || !im.Exists)
+            {
+                return;
+            }
+            // combine the arguments together
+            // it doesn't matter if there is a space after ','
+            string argument = $"/select, \"{im.FullName}\"";
+            Process.Start("explorer.exe", argument);
+        }
+
+        private void paintNetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var im = repo.GetLastImage();
+
+            if (im == null || !im.Exists)
+            {
+                return;
+            }
+            // combine the arguments together
+            // it doesn't matter if there is a space after ','
+            string argument = $"\"{im.FullName}\"";
+            Process.Start(@"C:\Program Files\paint.net\PaintDotNet.exe", argument);
         }
     }
 }
