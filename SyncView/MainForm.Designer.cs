@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -77,6 +77,8 @@
             this.cmdSetImageName = new System.Windows.Forms.Button();
             this.txtImageName = new System.Windows.Forms.TextBox();
             this.cmbImage = new System.Windows.Forms.ComboBox();
+            this.chkSingleAudioShowImages = new System.Windows.Forms.CheckBox();
+            this.chkSingleAudioShowTranscripts = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
             this.txtFilter = new System.Windows.Forms.TextBox();
@@ -167,8 +169,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -344,6 +346,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.chkSingleAudioShowImages);
+            this.splitContainer1.Panel2.Controls.Add(this.chkSingleAudioShowTranscripts);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.chkHiglightTranscript);
             this.splitContainer1.Panel2.Controls.Add(this.txtFilter);
@@ -373,6 +377,7 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.pictureBox1_DragDrop);
             this.pictureBox1.DragOver += new System.Windows.Forms.DragEventHandler(this.pictureBox1_DragOver);
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // imageContextMenu
             // 
@@ -388,7 +393,7 @@
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(203, 198);
+            this.imageContextMenu.Size = new System.Drawing.Size(203, 176);
             // 
             // jumpToNextImageToolStripMenuItem
             // 
@@ -416,14 +421,14 @@
             // fileExplorerToolStripMenuItem
             // 
             this.fileExplorerToolStripMenuItem.Name = "fileExplorerToolStripMenuItem";
-            this.fileExplorerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fileExplorerToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.fileExplorerToolStripMenuItem.Text = "File explorer";
             this.fileExplorerToolStripMenuItem.Click += new System.EventHandler(this.fileExplorerToolStripMenuItem_Click);
             // 
             // paintNetToolStripMenuItem
             // 
             this.paintNetToolStripMenuItem.Name = "paintNetToolStripMenuItem";
-            this.paintNetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paintNetToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.paintNetToolStripMenuItem.Text = "Paint Net";
             this.paintNetToolStripMenuItem.Click += new System.EventHandler(this.paintNetToolStripMenuItem_Click);
             // 
@@ -579,6 +584,32 @@
             this.cmbImage.Size = new System.Drawing.Size(143, 21);
             this.cmbImage.TabIndex = 2;
             // 
+            // chkSingleAudioShowImages
+            // 
+            this.chkSingleAudioShowImages.AutoSize = true;
+            this.chkSingleAudioShowImages.Checked = true;
+            this.chkSingleAudioShowImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSingleAudioShowImages.Location = new System.Drawing.Point(90, 27);
+            this.chkSingleAudioShowImages.Name = "chkSingleAudioShowImages";
+            this.chkSingleAudioShowImages.Size = new System.Drawing.Size(60, 17);
+            this.chkSingleAudioShowImages.TabIndex = 9;
+            this.chkSingleAudioShowImages.Text = "Images";
+            this.chkSingleAudioShowImages.UseVisualStyleBackColor = true;
+            this.chkSingleAudioShowImages.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
+            // 
+            // chkSingleAudioShowTranscripts
+            // 
+            this.chkSingleAudioShowTranscripts.AutoSize = true;
+            this.chkSingleAudioShowTranscripts.Checked = true;
+            this.chkSingleAudioShowTranscripts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSingleAudioShowTranscripts.Location = new System.Drawing.Point(6, 27);
+            this.chkSingleAudioShowTranscripts.Name = "chkSingleAudioShowTranscripts";
+            this.chkSingleAudioShowTranscripts.Size = new System.Drawing.Size(78, 17);
+            this.chkSingleAudioShowTranscripts.TabIndex = 8;
+            this.chkSingleAudioShowTranscripts.Text = "Transcripts";
+            this.chkSingleAudioShowTranscripts.UseVisualStyleBackColor = true;
+            this.chkSingleAudioShowTranscripts.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(2, 1);
@@ -622,9 +653,9 @@
             this.columnHeader1});
             this.lstBookmarks.ContextMenuStrip = this.transcriptsContextMenu;
             this.lstBookmarks.HideSelection = false;
-            this.lstBookmarks.Location = new System.Drawing.Point(6, 36);
+            this.lstBookmarks.Location = new System.Drawing.Point(6, 50);
             this.lstBookmarks.Name = "lstBookmarks";
-            this.lstBookmarks.Size = new System.Drawing.Size(351, 706);
+            this.lstBookmarks.Size = new System.Drawing.Size(351, 692);
             this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
             this.lstBookmarks.TabIndex = 4;
             this.lstBookmarks.UseCompatibleStateImageBehavior = false;
@@ -634,7 +665,7 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Transcript";
+            this.columnHeader1.Text = "Bookmarks";
             this.columnHeader1.Width = 337;
             // 
             // transcriptsContextMenu
@@ -889,5 +920,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem paintNetToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.CheckBox chkSingleAudioShowImages;
+        private System.Windows.Forms.CheckBox chkSingleAudioShowTranscripts;
     }
 }

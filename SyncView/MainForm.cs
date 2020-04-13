@@ -195,17 +195,25 @@ namespace SyncView
 
         private void populateBookmarks()
         {
+            //StackTrace st = new StackTrace();
+            //var frms = st.GetFrames().Select(x => x.GetMethod()).Where(m => m.Module.Assembly == Assembly.GetExecutingAssembly()).Select(f => f.Name);
+            //Debug.WriteLine("  Calling from: " + string.Join(", ", frms));
             var bks = new List<Bookmark>();           
             if (!chkHiglightTranscript.Checked)
             {
-                bks.AddRange(repo.GetTranscriptBookmarks(txtFilter.Text));
-                bks.AddRange(repo.GetImagesBookmarks(txtFilter.Text));
+                if (chkSingleAudioShowTranscripts.Checked)
+                    bks.AddRange(repo.GetTranscriptBookmarks(txtFilter.Text));
+                if (chkSingleAudioShowImages.Checked)
+                    bks.AddRange(repo.GetImagesBookmarks(txtFilter.Text));
                 setBookmarks(bks);
             }
             else
             {
-                bks.AddRange(repo.GetTranscriptBookmarks(""));
-                bks.AddRange(repo.GetImagesBookmarks(""));
+                if (chkSingleAudioShowTranscripts.Checked)
+                    bks.AddRange(repo.GetTranscriptBookmarks(""));
+                if (chkSingleAudioShowImages.Checked)
+                    bks.AddRange(repo.GetImagesBookmarks(""));
+
                 setBookmarks(bks);
                 highlightBookmarks();
             }
@@ -214,6 +222,9 @@ namespace SyncView
         private void setBookmarks(List<Bookmark> bks)
         {
             bks.Sort();
+
+            
+
             lstBookmarks.Items.Clear();
             foreach (var item in bks)
             {
@@ -491,16 +502,21 @@ namespace SyncView
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                if (chkHiglightTranscript.Checked == true)
-                {
-                    highlightBookmarks();
-                    lstBookmarks.Focus();
-                }
-                else
-                    populateBookmarks();
+                RefreshSearch();
             }
         }
-        
+
+        private void RefreshSearch()
+        {
+            if (chkHiglightTranscript.Checked == true)
+            {
+                highlightBookmarks();
+                lstBookmarks.Focus();
+            }
+            else
+                populateBookmarks();
+        }
+
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             var snd = sender as ListView;
@@ -730,8 +746,13 @@ namespace SyncView
 
         private void jumpToNextImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            JumpToNextImage();
+        }
+
+        private void JumpToNextImage()
+        {
             var next = repo.Images.NextObjectTime;
-            if (next == -1 || next == int.MaxValue) 
+            if (next == -1 || next == int.MaxValue)
                 return;
             RequestPlayerTime(next);
             requestBookMarkLocate = true;
@@ -1028,6 +1049,16 @@ namespace SyncView
             // it doesn't matter if there is a space after ','
             string argument = $"\"{im.FullName}\"";
             Process.Start(@"C:\Program Files\paint.net\PaintDotNet.exe", argument);
+        }
+
+        private void chkSingleAudioShow_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshSearch();
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            JumpToNextImage();
         }
     }
 }

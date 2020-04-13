@@ -89,6 +89,7 @@ namespace MusicBeePlugin
         // you need to set about.ReceiveNotificationFlags = PlayerEvents to receive all notifications, and not just the startup event
         public void ReceiveNotification(string sourceFileUrl, NotificationType type)
         {
+            // Debug.WriteLine($"Processing msg:{type}, timer enabled at start: {_timer.Enabled}");
             // perform some action depending on the notification type
             switch (type)
             {
@@ -136,7 +137,7 @@ namespace MusicBeePlugin
                     }
                     break;
             }
-            Debug.WriteLine($"Processed msg:{type}, timer enabled: {_timer.Enabled}");
+            // Debug.WriteLine($"Processed msg:{type}, timer enabled: at end {_timer.Enabled}");
         }
 
         private void SetTrack()
@@ -146,7 +147,8 @@ namespace MusicBeePlugin
             if (_mainForm == null || _mainForm.IsDisposed)
                 return;
             RepeatSection.Clear();
-            _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
+            if (_timer.Enabled)
+                _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
