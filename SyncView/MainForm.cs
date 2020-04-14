@@ -223,8 +223,6 @@ namespace SyncView
         {
             bks.Sort();
 
-            
-
             lstBookmarks.Items.Clear();
             foreach (var item in bks)
             {

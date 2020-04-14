@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -103,14 +104,24 @@ namespace ChapterListMB.SyncView
             }
         }
 
+        static Regex re = null;
+
+        static string lastFilterString = string.Empty;
+
         internal static bool DefaultTextMatch(string filter, string text)
         {
-            return CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, filter, CompareOptions.IgnoreCase) >= 0;
+            if (filter != lastFilterString)
+            {
+                re = null;
+                re = new Regex(filter, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                lastFilterString = filter;
+            }
+            if (re == null)
+                return CultureInfo.CurrentCulture.CompareInfo.IndexOf(text, filter, CompareOptions.IgnoreCase) >= 0;
+            return re.IsMatch(text);
         }
 
-        // TODO: Remove from here, move to session
-
-        Regex regexGetLectureAndPart { get; } = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled);
+        Regex regexGetLectureAndPart { get; } = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled); // TODO: Remove from here, and move to session class
 
         internal SyncViewRepository(Track track)
         {
