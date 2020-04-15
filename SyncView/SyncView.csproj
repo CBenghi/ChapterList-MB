@@ -77,6 +77,11 @@
     <Compile Include="ImageProcess\PreProcess.Designer.cs">
       <DependentUpon>PreProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SyncView\Bookmark.cs" />
     <Compile Include="Chapter.cs" />
     <Compile Include="ChapterChangeEventArgs.cs" />
@@ -146,6 +151,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\activechapter-black.png" />
     <EmbeddedResource Include="Resources\activechapter-gray.png" />
     <EmbeddedResource Include="Resources\activechapter-white.png" />

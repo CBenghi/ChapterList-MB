@@ -85,39 +85,50 @@ namespace PresentationGrab
         private int UpdateDifference(Bitmap b0, Bitmap b1)
         {
             Difference d = new Difference(b0);
-            var unmmanagedDiff = Accord.Imaging.UnmanagedImage.FromManagedImage(d.Apply(b1));
 
-            Add a = null;
-            Multiply m = null;
-            int i = (int)nudEnhanceDiff.Value;
-            while (i-- > 0)
+            try
             {
-                if (a == null)
-                    a = new Add(unmmanagedDiff);
-                if (m == null)
-                    m = new Multiply(unmmanagedDiff);
-                a.ApplyInPlace(unmmanagedDiff);
-                // m.ApplyInPlace(unmmanagedDiff);
+                var unmmanagedDiff = Accord.Imaging.UnmanagedImage.FromManagedImage(d.Apply(b1));
+
+                Add a = null;
+                Multiply m = null;
+                int i = (int)nudEnhanceDiff.Value;
+                while (i-- > 0)
+                {
+                    if (a == null)
+                        a = new Add(unmmanagedDiff);
+                    if (m == null)
+                        m = new Multiply(unmmanagedDiff);
+                    a.ApplyInPlace(unmmanagedDiff);
+                    // m.ApplyInPlace(unmmanagedDiff);
+                }
+
+                //else if (i == 2)
+                //{
+                //    Bitmap basegrey = new Bitmap(unmmanagedDiff.Width, unmmanagedDiff.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                //    Graphics graphics = Graphics.FromImage(basegrey as System.Drawing.Image);
+                //    int intensity = 255;
+                //    graphics.Clear(System.Drawing.Color.FromArgb(255, intensity, intensity, intensity));
+                //    m = new Multiply(basegrey);
+                //    m.ApplyInPlace(unmmanagedDiff);
+                //}
+
+                differenceBlobFounder.ProcessImage(unmmanagedDiff);
+
+                Blob[] blobs = differenceBlobFounder.GetObjectsInformation();
+                var totArea = blobs.Sum(x => x.Area);
+
+
+                imgBig.Image = unmmanagedDiff.ToManagedImage();
+                return totArea;
             }
-
-            //else if (i == 2)
-            //{
-            //    Bitmap basegrey = new Bitmap(unmmanagedDiff.Width, unmmanagedDiff.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            //    Graphics graphics = Graphics.FromImage(basegrey as System.Drawing.Image);
-            //    int intensity = 255;
-            //    graphics.Clear(System.Drawing.Color.FromArgb(255, intensity, intensity, intensity));
-            //    m = new Multiply(basegrey);
-            //    m.ApplyInPlace(unmmanagedDiff);
-            //}
-
-            differenceBlobFounder.ProcessImage(unmmanagedDiff);
-
-            Blob[] blobs = differenceBlobFounder.GetObjectsInformation();
-            var totArea = blobs.Sum(x => x.Area);
-
-
-            imgBig.Image = unmmanagedDiff.ToManagedImage();
-            return totArea;
+            catch (Exception)
+            {
+                imgBig.Image = null;
+                return b0.Width * b0.Height;
+            }
+            
+           
         }
 
         private Bitmap getB(string path)

@@ -39,13 +39,13 @@
             this.lblCurr = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmdNextSimilar = new System.Windows.Forms.Button();
+            this.lblPosition = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.nudEnhanceDiff = new System.Windows.Forms.NumericUpDown();
             this.cmdPrev = new System.Windows.Forms.Button();
             this.cmdNext = new System.Windows.Forms.Button();
             this.imgBig = new System.Windows.Forms.PictureBox();
-            this.lblPosition = new System.Windows.Forms.Label();
-            this.cmdNextSimilar = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRight)).BeginInit();
@@ -68,7 +68,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1395, 972);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1398, 1006);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -93,17 +93,17 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(412, 966);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(413, 1000);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // lblNext
             // 
             this.lblNext.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNext.Location = new System.Drawing.Point(5, 920);
+            this.lblNext.Location = new System.Drawing.Point(5, 954);
             this.lblNext.Margin = new System.Windows.Forms.Padding(5);
             this.lblNext.Name = "lblNext";
-            this.lblNext.Size = new System.Drawing.Size(402, 41);
+            this.lblNext.Size = new System.Drawing.Size(403, 41);
             this.lblNext.TabIndex = 8;
             this.lblNext.Text = "label2";
             this.lblNext.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -114,7 +114,7 @@
             this.button1.Location = new System.Drawing.Point(6, 91);
             this.button1.Margin = new System.Windows.Forms.Padding(6);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(400, 23);
+            this.button1.Size = new System.Drawing.Size(401, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "|<-- Delete and Move next here";
             this.button1.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             this.button2.Location = new System.Drawing.Point(6, 56);
             this.button2.Margin = new System.Windows.Forms.Padding(6);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(400, 23);
+            this.button2.Size = new System.Drawing.Size(401, 23);
             this.button2.TabIndex = 5;
             this.button2.Text = "Just delete";
             this.button2.UseVisualStyleBackColor = true;
@@ -135,10 +135,10 @@
             // button3
             // 
             this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(6, 886);
+            this.button3.Location = new System.Drawing.Point(6, 920);
             this.button3.Margin = new System.Windows.Forms.Padding(6);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(400, 23);
+            this.button3.Size = new System.Drawing.Size(401, 23);
             this.button3.TabIndex = 6;
             this.button3.Text = "Just delete";
             this.button3.UseVisualStyleBackColor = true;
@@ -147,9 +147,9 @@
             // imgRight
             // 
             this.imgRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgRight.Location = new System.Drawing.Point(3, 503);
+            this.imgRight.Location = new System.Drawing.Point(3, 520);
             this.imgRight.Name = "imgRight";
-            this.imgRight.Size = new System.Drawing.Size(406, 374);
+            this.imgRight.Size = new System.Drawing.Size(407, 391);
             this.imgRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgRight.TabIndex = 3;
             this.imgRight.TabStop = false;
@@ -159,7 +159,7 @@
             this.imgLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgLeft.Location = new System.Drawing.Point(3, 123);
             this.imgLeft.Name = "imgLeft";
-            this.imgLeft.Size = new System.Drawing.Size(406, 374);
+            this.imgLeft.Size = new System.Drawing.Size(407, 391);
             this.imgLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgLeft.TabIndex = 2;
             this.imgLeft.TabStop = false;
@@ -171,7 +171,7 @@
             this.lblCurr.Location = new System.Drawing.Point(5, 5);
             this.lblCurr.Margin = new System.Windows.Forms.Padding(5);
             this.lblCurr.Name = "lblCurr";
-            this.lblCurr.Size = new System.Drawing.Size(402, 40);
+            this.lblCurr.Size = new System.Drawing.Size(403, 40);
             this.lblCurr.TabIndex = 7;
             this.lblCurr.Text = "label1";
             this.lblCurr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -183,12 +183,12 @@
             this.tableLayoutPanel3.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.imgBig, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(421, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(422, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(971, 966);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(973, 1000);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // panel1
@@ -203,6 +203,27 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(831, 100);
             this.panel1.TabIndex = 0;
+            // 
+            // cmdNextSimilar
+            // 
+            this.cmdNextSimilar.Location = new System.Drawing.Point(447, 53);
+            this.cmdNextSimilar.Name = "cmdNextSimilar";
+            this.cmdNextSimilar.Size = new System.Drawing.Size(113, 23);
+            this.cmdNextSimilar.TabIndex = 9;
+            this.cmdNextSimilar.Text = "NextSimilar";
+            this.cmdNextSimilar.UseVisualStyleBackColor = true;
+            // 
+            // lblPosition
+            // 
+            this.lblPosition.AutoSize = true;
+            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPosition.Location = new System.Drawing.Point(5, 8);
+            this.lblPosition.Margin = new System.Windows.Forms.Padding(5);
+            this.lblPosition.Name = "lblPosition";
+            this.lblPosition.Size = new System.Drawing.Size(24, 25);
+            this.lblPosition.TabIndex = 8;
+            this.lblPosition.Text = "#";
+            this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
@@ -251,37 +272,16 @@
             this.imgBig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgBig.Location = new System.Drawing.Point(3, 109);
             this.imgBig.Name = "imgBig";
-            this.imgBig.Size = new System.Drawing.Size(965, 854);
+            this.imgBig.Size = new System.Drawing.Size(967, 888);
             this.imgBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgBig.TabIndex = 1;
             this.imgBig.TabStop = false;
-            // 
-            // lblPosition
-            // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPosition.Location = new System.Drawing.Point(5, 8);
-            this.lblPosition.Margin = new System.Windows.Forms.Padding(5);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(24, 25);
-            this.lblPosition.TabIndex = 8;
-            this.lblPosition.Text = "#";
-            this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cmdNextSimilar
-            // 
-            this.cmdNextSimilar.Location = new System.Drawing.Point(447, 53);
-            this.cmdNextSimilar.Name = "cmdNextSimilar";
-            this.cmdNextSimilar.Size = new System.Drawing.Size(113, 23);
-            this.cmdNextSimilar.TabIndex = 9;
-            this.cmdNextSimilar.Text = "NextSimilar";
-            this.cmdNextSimilar.UseVisualStyleBackColor = true;
             // 
             // PreProcess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1395, 972);
+            this.ClientSize = new System.Drawing.Size(1398, 1006);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PreProcess";
             this.Text = "PreProcess";

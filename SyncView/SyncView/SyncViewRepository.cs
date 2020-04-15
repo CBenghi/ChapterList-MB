@@ -58,6 +58,8 @@ namespace ChapterListMB.SyncView
             var path = Path.Combine(transcriptsFolder, $@"L{L}\");
 
             DirectoryInfo d = new DirectoryInfo(path);
+            if (!d.Exists)
+                return null;
             var fp = d.GetFiles($"L{L}P{P}*.lyrics.txt").FirstOrDefault();
             return fp;
         }
