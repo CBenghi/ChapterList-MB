@@ -51,7 +51,7 @@ namespace PresentationGrab
             if (repository == null)
                 return;
             currentImage = repository.Images.LastObjectPolled;
-            Move(0);
+            MoveToRelativeImage(0);
             UpdateImages();
         }
 
@@ -141,10 +141,10 @@ namespace PresentationGrab
 
         private void cmdPrev_Click(object sender, EventArgs e)
         {
-            Move(-1);
+            MoveToRelativeImage(-1);
         }
 
-        private void Move(int delta)
+        private void MoveToRelativeImage(int delta)
         {
             var t = currentImage + delta;
             if (t < 0)
@@ -161,7 +161,7 @@ namespace PresentationGrab
 
         private void cmdNext_Click(object sender, EventArgs e)
         {
-            Move(1);
+            MoveToRelativeImage(1);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -171,14 +171,12 @@ namespace PresentationGrab
                 var fname = repository.Images[currentImage].file;
                 FileSystem.DeleteFile(fname.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                 repository.ReloadImages();
-                Move(0);
+                MoveToRelativeImage(0);
             }
             catch (Exception)
             {
 
             }
-
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -189,7 +187,7 @@ namespace PresentationGrab
             FileSystem.DeleteFile(fullRetainName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             File.Move(fileRetainImage.FullName, fullRetainName);
             repository.ReloadImages();
-            Move(0);
+            MoveToRelativeImage(0);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -199,7 +197,7 @@ namespace PresentationGrab
                 var fname = repository.Images[currentImage+1].file;
                 FileSystem.DeleteFile(fname.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                 repository.ReloadImages();
-                Move(0);
+                MoveToRelativeImage(0);
             }
             catch (Exception)
             {

@@ -541,7 +541,7 @@ namespace SyncView
             if (m.Success)
             {
                 var s = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
-                var mediaFile = s.GetAudioFile();
+                var mediaFile = s.GetAudioFile(repo);
                 var mill = SyncViewRepository.GetMilli(m.Groups["position"].Value + " ");
                 AudioJumpTo(mediaFile, mill);
                 tabControl1.SelectedIndex = 0;
@@ -557,7 +557,7 @@ namespace SyncView
             List<Bookmark> bookmarks = new List<Bookmark>();
             if (chkSearchT.Checked)
             {
-                foreach (var trsfile in SyncViewRepository.GetTranscripts())
+                foreach (var trsfile in repo.GetTranscripts())
                 {
                     var curSession = Session.FromTranscriptFile(trsfile.Name);
                     var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
@@ -574,7 +574,7 @@ namespace SyncView
             }
             if (chkSearchI.Checked)
             {
-                bookmarks.AddRange(SyncViewRepository.FindImagesAllRepos(sought));
+                bookmarks.AddRange(repo.FindImagesAllRepos(sought));
             }
             bookmarks.Sort();
 
@@ -614,13 +614,13 @@ namespace SyncView
             
             if (snd.SelectedNode.Tag is Bookmark b)
             {
-                var f = b.session.GetAudioFile();
+                var f = b.session.GetAudioFile(repo);
                 AudioJumpTo(f, b.Timing);
                 tabControl1.SelectedIndex = 0;
             }
             else if (snd.SelectedNode.Tag is Session s)
             {
-                var f = s.GetAudioFile();
+                var f = s.GetAudioFile(repo);
                 AudioJumpTo(f, 0);
                 tabControl1.SelectedIndex = 0;
             }
@@ -640,6 +640,8 @@ namespace SyncView
 
         private void reloadImagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            repo.Save();
+
             repo.ReloadImages();
             cmbImage.Items.Clear();
             cmbImage.Items.AddRange(repo.Images.ToArray());
@@ -922,7 +924,7 @@ namespace SyncView
 
         private void AudioJumpTo(Bookmark b)
         {
-            AudioJumpTo(b.session.GetAudioFile(), b.Timing);
+            AudioJumpTo(b.session.GetAudioFile(repo), b.Timing);
         }
 
         private void MainForm_DragOver(object sender, DragEventArgs e)
@@ -943,19 +945,16 @@ namespace SyncView
             var first = files.FirstOrDefault();
             if (first == null)
                 return;
-
+            
             // todo: use bookmark instead
-
             var s = Session.FromImageFile(new FileInfo(first));
             if (s != null)
             {
-                var mediaFile = s.GetAudioFile();
+                var mediaFile = s.GetAudioFile(repo);
                 var mill = ImageInfo.GetMillisecondsFromFileName(new FileInfo(first));
                 AudioJumpTo(mediaFile, mill);
             }
         }
-
-     
 
         private void cmdSetImageName_MouseUp(object sender, MouseEventArgs e)
         {
@@ -964,7 +963,6 @@ namespace SyncView
                 jumpToNextImageToolStripMenuItem_Click(null, null);
                 return;
             }
-
             SaveImageName();
         }
 

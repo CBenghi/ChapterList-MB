@@ -10,9 +10,7 @@ namespace SyncView
     {
         private string l;
         private string p;
-
-        internal static string audioFolder { get; } = @"C:\Data\Work\Esame Stato\Audio";
-
+        
         public Session(string l, string p)
         {
             this.l = l;
@@ -79,9 +77,9 @@ namespace SyncView
             }
         }
 
-        internal FileInfo GetAudioFile()
+        internal FileInfo GetAudioFile(ChapterListMB.SyncView.SyncViewRepository repo)
         {
-            var path = Path.Combine(Session.audioFolder, $"L{L}");
+            var path = Path.Combine(repo.AudioFolder, $"L{L}");
 
             DirectoryInfo d = new DirectoryInfo(path);
             return d.GetFiles($"L{L}P{P}*.mp3").FirstOrDefault();

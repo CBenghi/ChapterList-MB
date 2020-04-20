@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
 using SyncView;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,52 @@ namespace ChapterListMB.SyncView
 {
     partial class SyncViewRepository
     {
+        public SyncViewRepository()
+        {
+
+        }
+
         internal string mediaFileName { get; private set; }
         
         internal TimedObjects<ImageInfo> Images;
         
         internal TimedObjects<PointerCoordinates> Pointers;
 
-        private static string transcriptsFolder = @"C:\Data\Work\Esame Stato\SupportingMedia\Transcripts\";
+        /// <summary>
+        /// This changes if you have a SyncView.json file in the directory tree of the selected media.
+        /// </summary>
+        private DirectoryInfo RepoBaseDirectory { get; set; } = new DirectoryInfo(@"C:\Data\Work\Esame Stato\SupportingMedia");
+
+        public string AudioFolder { get; set; } = @"C:\Data\Work\Esame Stato\Audio";
+
+        private string transcriptsFolder
+        {
+            get
+            {
+                return Path.Combine(RepoBaseDirectory.FullName, "Transcripts");
+            }
+        }
+
+        public string SupportingMediaFolder { get => RepoBaseDirectory.FullName; }
+
+        private void LocateRepoRoot()
+        {
+            FileInfo f = new FileInfo(mediaFileName);
+            var d = f.Directory;
+            while (d != null && d.Exists)
+            {
+                var ini = d.GetFiles("SyncView.json").FirstOrDefault();
+                if (ini != null && ini.Exists)
+                {
+                    var content = File.ReadAllText(ini.FullName);
+                    var deserializedProduct = JsonConvert.DeserializeObject<SyncViewRepository>(content);
+                    RepoBaseDirectory = deserializedProduct.RepoBaseDirectory;
+                    AudioFolder = deserializedProduct.AudioFolder;
+                    return;
+                }
+                d = d.Parent;
+            }
+        }
 
         internal string GetLectureCode()
         {
@@ -128,11 +168,12 @@ namespace ChapterListMB.SyncView
         internal SyncViewRepository(Track track)
         {
             mediaFileName = track.NowPlayingTrackInfo.FilePath.LocalPath;
+            LocateRepoRoot();
             ReloadImages();
             ReloadPointers();
         }
 
-        internal static IEnumerable<FileInfo> GetTranscripts()
+        internal IEnumerable<FileInfo> GetTranscripts()
         {
             DirectoryInfo d = new DirectoryInfo(transcriptsFolder);
             if (!d.Exists)
@@ -241,9 +282,7 @@ namespace ChapterListMB.SyncView
             }
         }
 
-        public static string SupportingMediaFolder = @"C:\Data\Work\Esame Stato\SupportingMedia";
-
-        private static DirectoryInfo GetImagePath(string L, string P)
+        private DirectoryInfo GetImagePath(string L, string P)
         {
             DirectoryInfo d = new DirectoryInfo(Path.Combine(SupportingMediaFolder, $@"L{L}\P{P}\"));
             if (d.Exists)
@@ -308,12 +347,12 @@ namespace ChapterListMB.SyncView
             return success;
         }
 
-        static internal IEnumerable<Bookmark> FindImagesAllRepos(string sought)
+        internal IEnumerable<Bookmark> FindImagesAllRepos(string sought)
         {
-            var dir = new DirectoryInfo(SupportingMediaFolder);
-            if (!dir.Exists)
+            
+            if (!RepoBaseDirectory.Exists)
                 yield break;
-            foreach (var file in dir.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
+            foreach (var file in RepoBaseDirectory.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
             {
                 var book = Bookmark.FromImageFile(file);
                 if (book == null)
@@ -338,6 +377,12 @@ namespace ChapterListMB.SyncView
                     yield return book;
                 }
             }
+        }
+
+        internal void Save()
+        {
+            string output = JsonConvert.SerializeObject(this);
+            Debug.WriteLine(output);
         }
     }
 }
