@@ -52,7 +52,12 @@ namespace SyncView
         {
             if (other == null)
                 return 1;
-            var t = session.ToString().CompareTo(other.session.ToString());
+
+            int t = 0;
+            if (session != null && other.session != null)
+            {
+                t = session.ToString().CompareTo(other.session.ToString());
+            }
             if (t != 0)
                 return t;
             t = Timing.CompareTo(other.Timing);
