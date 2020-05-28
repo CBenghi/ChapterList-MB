@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.addChapterButton = new System.Windows.Forms.Button();
             this.removeChapterButton = new System.Windows.Forms.Button();
@@ -98,6 +98,7 @@
             this.allReposSearchResults = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.createHTMLFromImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -169,8 +170,8 @@
             this.chaptersDGV.AllowUserToDeleteRows = false;
             this.chaptersDGV.AllowUserToResizeColumns = false;
             this.chaptersDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            this.chaptersDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.chaptersDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -389,23 +390,24 @@
             this.openImageManagerToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyImagesAsLyricsToolStripMenuItem,
+            this.createHTMLFromImagesToolStripMenuItem,
             this.saveAllImagesToolStripMenuItem,
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(203, 176);
+            this.imageContextMenu.Size = new System.Drawing.Size(216, 220);
             // 
             // jumpToNextImageToolStripMenuItem
             // 
             this.jumpToNextImageToolStripMenuItem.Name = "jumpToNextImageToolStripMenuItem";
-            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.jumpToNextImageToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.jumpToNextImageToolStripMenuItem.Text = "Jump to next image";
             this.jumpToNextImageToolStripMenuItem.Click += new System.EventHandler(this.jumpToNextImageToolStripMenuItem_Click);
             // 
             // reloadImagesToolStripMenuItem
             // 
             this.reloadImagesToolStripMenuItem.Name = "reloadImagesToolStripMenuItem";
-            this.reloadImagesToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.reloadImagesToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.reloadImagesToolStripMenuItem.Text = "Reload images";
             this.reloadImagesToolStripMenuItem.Click += new System.EventHandler(this.reloadImagesToolStripMenuItem_Click);
             // 
@@ -415,7 +417,7 @@
             this.fileExplorerToolStripMenuItem,
             this.paintNetToolStripMenuItem});
             this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
-            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.openInExplorerToolStripMenuItem.Text = "Open in";
             // 
             // fileExplorerToolStripMenuItem
@@ -435,31 +437,31 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(212, 6);
             // 
             // openImageManagerToolStripMenuItem
             // 
             this.openImageManagerToolStripMenuItem.Name = "openImageManagerToolStripMenuItem";
-            this.openImageManagerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openImageManagerToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.openImageManagerToolStripMenuItem.Text = "Open image manager";
             this.openImageManagerToolStripMenuItem.Click += new System.EventHandler(this.openImageManagerToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
             // 
             // copyImagesAsLyricsToolStripMenuItem
             // 
             this.copyImagesAsLyricsToolStripMenuItem.Name = "copyImagesAsLyricsToolStripMenuItem";
-            this.copyImagesAsLyricsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.copyImagesAsLyricsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.copyImagesAsLyricsToolStripMenuItem.Text = "Copy all images as lyrics";
             this.copyImagesAsLyricsToolStripMenuItem.Click += new System.EventHandler(this.copyImagesAsLyricsToolStripMenuItem_Click);
             // 
             // saveAllImagesToolStripMenuItem
             // 
             this.saveAllImagesToolStripMenuItem.Name = "saveAllImagesToolStripMenuItem";
-            this.saveAllImagesToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.saveAllImagesToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.saveAllImagesToolStripMenuItem.Text = "Save all images";
             this.saveAllImagesToolStripMenuItem.Visible = false;
             this.saveAllImagesToolStripMenuItem.Click += new System.EventHandler(this.saveAllImagesToolStripMenuItem_Click);
@@ -467,12 +469,12 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(212, 6);
             // 
             // deleteThisImageToolStripMenuItem
             // 
             this.deleteThisImageToolStripMenuItem.Name = "deleteThisImageToolStripMenuItem";
-            this.deleteThisImageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.deleteThisImageToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.deleteThisImageToolStripMenuItem.Text = "Delete this image";
             this.deleteThisImageToolStripMenuItem.Click += new System.EventHandler(this.deleteThisImageToolStripMenuItem_Click);
             // 
@@ -812,6 +814,13 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // createHTMLFromImagesToolStripMenuItem
+            // 
+            this.createHTMLFromImagesToolStripMenuItem.Name = "createHTMLFromImagesToolStripMenuItem";
+            this.createHTMLFromImagesToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.createHTMLFromImagesToolStripMenuItem.Text = "Create HTML From images";
+            this.createHTMLFromImagesToolStripMenuItem.Click += new System.EventHandler(this.createHTMLFromImagesToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -922,5 +931,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.CheckBox chkSingleAudioShowImages;
         private System.Windows.Forms.CheckBox chkSingleAudioShowTranscripts;
+        private System.Windows.Forms.ToolStripMenuItem createHTMLFromImagesToolStripMenuItem;
     }
 }

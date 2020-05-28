@@ -79,7 +79,7 @@ namespace SyncView
 
         internal FileInfo GetAudioFile(ChapterListMB.SyncView.SyncViewRepository repo)
         {
-            var path = Path.Combine(repo.AudioFolder, $"L{L}");
+            var path = Path.Combine(repo.AudioFolder.FullName, $"L{L}");
 
             DirectoryInfo d = new DirectoryInfo(path);
             return d.GetFiles($"L{L}P{P}*.mp3").FirstOrDefault();

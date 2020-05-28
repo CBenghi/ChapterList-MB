@@ -23,6 +23,15 @@ namespace ChapterListMB.SyncView
 
         }
 
+        public enum FileLocation
+        {
+            MediaFollowsAudio,
+            SeparateSupportingMedia
+        }
+
+        public FileLocation FileLocationMode { get; set; }
+
+
         internal string mediaFileName { get; private set; }
         
         internal TimedObjects<ImageInfo> Images;
@@ -32,19 +41,20 @@ namespace ChapterListMB.SyncView
         /// <summary>
         /// This changes if you have a SyncView.json file in the directory tree of the selected media.
         /// </summary>
-        private DirectoryInfo RepoBaseDirectory { get; set; } = new DirectoryInfo(@"C:\Data\Work\Esame Stato\SupportingMedia");
+        private DirectoryInfo SupportingMediaFolder { get; set; } = new DirectoryInfo(@"C:\Data\Work\Esame Stato\SupportingMedia");
 
-        public string AudioFolder { get; set; } = @"C:\Data\Work\Esame Stato\Audio";
+        public DirectoryInfo AudioFolder { get; set; } = new DirectoryInfo(@"C:\Data\Work\Esame Stato\Audio");
 
         private string transcriptsFolder
         {
             get
             {
-                return Path.Combine(RepoBaseDirectory.FullName, "Transcripts");
+                if (FileLocationMode == FileLocation.SeparateSupportingMedia)
+                    return Path.Combine(SupportingMediaFolder.FullName, "Transcripts");
+                return RepoRootFolder.FullName;
             }
         }
-
-        public string SupportingMediaFolder { get => RepoBaseDirectory.FullName; }
+                
 
         private void LocateRepoRoot()
         {
@@ -56,12 +66,81 @@ namespace ChapterListMB.SyncView
                 if (ini != null && ini.Exists)
                 {
                     var content = File.ReadAllText(ini.FullName);
-                    var deserializedProduct = JsonConvert.DeserializeObject<SyncViewRepository>(content);
-                    RepoBaseDirectory = deserializedProduct.RepoBaseDirectory;
-                    AudioFolder = deserializedProduct.AudioFolder;
+                    var deserializedProduct = JsonConvert.DeserializeObject<RepoPersistence>(content);
+                    deserializedProduct.SetJsonFolder(d);
+                    if (deserializedProduct.FileLocationMode == FileLocation.SeparateSupportingMedia)
+                    {
+                        SupportingMediaFolder = deserializedProduct.ResolvedSupportingMediaFolder;
+                        AudioFolder = deserializedProduct.ResolvedAudioFolder;
+                    }
+                    else 
+                        RepoRootFolder = d;
+                    FileLocationMode = deserializedProduct.FileLocationMode;
                     return;
                 }
                 d = d.Parent;
+            }
+        }
+
+        public class RepoPersistence
+        {
+            private string supportingMediaFolder;
+            public string SupportingMediaFolder
+            {
+                get => supportingMediaFolder; 
+                set
+                {
+                    FileLocationMode = FileLocation.SeparateSupportingMedia;
+                    supportingMediaFolder = value;
+                }
+            }
+
+            private string audioFolder;
+            public string AudioFolder
+            {
+                get => audioFolder; 
+                set
+                {
+                    FileLocationMode = FileLocation.SeparateSupportingMedia;
+                    audioFolder = value;
+                }
+            }
+
+            public FileLocation FileLocationMode { get; set; } = FileLocation.MediaFollowsAudio;
+
+            DirectoryInfo persistenceFileFolder;
+            
+
+            internal void SetJsonFolder(DirectoryInfo d)
+            {
+                persistenceFileFolder = d;
+            }
+
+            internal DirectoryInfo ResolvedSupportingMediaFolder
+            {
+                get
+                {
+                    return ResolveFolder(SupportingMediaFolder);
+                }
+            }
+
+            internal DirectoryInfo ResolvedAudioFolder
+            {
+                get
+                {
+                    return ResolveFolder(AudioFolder);
+                }
+            }
+
+            private DirectoryInfo ResolveFolder(string directoryString)
+            {
+                if (Path.IsPathRooted(directoryString))
+                {
+                    return new DirectoryInfo(directoryString);
+                }
+                return new DirectoryInfo(
+                    Path.Combine(persistenceFileFolder.FullName, directoryString)
+                    );
             }
         }
 
@@ -164,6 +243,7 @@ namespace ChapterListMB.SyncView
         }
 
         Regex regexGetLectureAndPart { get; } = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled); // TODO: Remove from here, and move to session class
+        public DirectoryInfo RepoRootFolder { get; private set; }
 
         internal SyncViewRepository(Track track)
         {
@@ -206,9 +286,12 @@ namespace ChapterListMB.SyncView
             Images = new TimedObjects<ImageInfo>(timedImages.OrderBy(x => x.TimeStampMilliseconds).ToList());
         }
 
-        private DirectoryInfo GetImagePath()
+        internal DirectoryInfo GetImagePath()
         {
             FileInfo f = new FileInfo(mediaFileName);
+            if (FileLocationMode == FileLocation.MediaFollowsAudio)
+                return f.Directory;
+
             var lyr = GetAssociatedLyricsFile();
             if (lyr != null && lyr.Directory.FullName == f.Directory.FullName)
             {
@@ -284,11 +367,11 @@ namespace ChapterListMB.SyncView
 
         private DirectoryInfo GetImagePath(string L, string P)
         {
-            DirectoryInfo d = new DirectoryInfo(Path.Combine(SupportingMediaFolder, $@"L{L}\P{P}\"));
+            DirectoryInfo d = new DirectoryInfo(Path.Combine(SupportingMediaFolder.FullName, $@"L{L}\P{P}\"));
             if (d.Exists)
                 return d;
             // see if there's a temporary path for images:
-            d = new DirectoryInfo(Path.Combine(SupportingMediaFolder, $@"T{L}\P{P}\"));
+            d = new DirectoryInfo(Path.Combine(SupportingMediaFolder.FullName, $@"T{L}\P{P}\"));
             if (d.Exists)
                 return d;
             return null;
@@ -350,9 +433,9 @@ namespace ChapterListMB.SyncView
         internal IEnumerable<Bookmark> FindImagesAllRepos(string sought)
         {
             
-            if (!RepoBaseDirectory.Exists)
+            if (!SupportingMediaFolder.Exists)
                 yield break;
-            foreach (var file in RepoBaseDirectory.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
+            foreach (var file in SupportingMediaFolder.GetFiles("*.png", System.IO.SearchOption.AllDirectories))
             {
                 var book = Bookmark.FromImageFile(file);
                 if (book == null)

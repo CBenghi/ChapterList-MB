@@ -1056,5 +1056,57 @@ namespace SyncView
         {
             JumpToNextImage();
         }
+
+        private void createHTMLFromImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var imgp = repo.GetImagePath();
+
+            var fi = new FileInfo(repo.mediaFileName);
+            var pageName = Path.ChangeExtension(fi.Name, "html");
+            var FullPage = new FileInfo(Path.Combine(imgp.FullName, pageName));
+
+            var style = @"
+<style>
+.cropped {
+    width: 1800px; /* width of container */
+    height: 920px; /* height of container */
+    overflow: hidden;
+    /* border: 1px solid white; */
+	margin: 30px;
+}
+
+.cropped img {
+	/* top, right, bottom, left */
+    margin: -95px 0px 0px -80px;
+}
+</style>
+";
+
+
+            using (var p = FullPage.CreateText())
+            {
+                p.WriteLine("<!DOCTYPE html>");
+                p.WriteLine("<html>");
+
+                p.WriteLine("<head>");
+                p.WriteLine($"<title>AFC - {repo.mediaFileName}</title>");
+                p.WriteLine($"{style}");
+
+                p.WriteLine("</head>");
+
+                p.WriteLine("<body>");
+                foreach (var image in repo.Images)
+                {
+                    p.WriteLine($"<h1>{image.GetName()}</h1>");
+                    p.WriteLine($"<div class=\"cropped\"><img src=\"{image.file.Name}\" /></div>");
+                }
+                
+                p.WriteLine("</body>");
+                p.WriteLine("</html>");
+            }
+
+
+            
+        }
     }
 }
