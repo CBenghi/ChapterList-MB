@@ -179,7 +179,8 @@ namespace ChapterListMB.SyncView
             DirectoryInfo d = new DirectoryInfo(path);
             if (!d.Exists)
                 return null;
-            var fp = d.GetFiles($"L{L}P{P}*.lyrics.txt").FirstOrDefault();
+            var fileFilter = $"L{L}P{P}*.lyrics.txt";
+            var fp = d.GetFiles(fileFilter).FirstOrDefault();
             return fp;
         }
 
