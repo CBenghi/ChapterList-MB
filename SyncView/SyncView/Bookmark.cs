@@ -1,4 +1,5 @@
-﻿using ChapterListMB.SyncView;
+﻿using Accord.Math.Geometry;
+using ChapterListMB.SyncView;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -17,6 +18,7 @@ namespace SyncView
         {
             Image = 1,
             Transcript = 2,
+            Skip = 3
         }
 
         public static Bookmark FromImageFile(FileInfo fileInfo)
@@ -65,6 +67,26 @@ namespace SyncView
                 return t;
             t = Type.CompareTo(other.Type);
             return t;
+        }
+
+        internal int GetSkipIndex()
+        {
+            var restIndex = Text.IndexOf("#skip");
+            var rest = Text.Substring(restIndex+5).Trim();
+
+            // Int => absolute value in milliseconds
+            // +/-Int => Relative to current position
+
+            if (Int32.TryParse(rest, out var parsed))
+            {
+                if (rest.StartsWith("-") || rest.StartsWith("+"))
+                {
+                    return Timing + parsed;
+                }
+                return parsed;
+            }
+            
+            return -1;
         }
     }
 

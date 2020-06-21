@@ -46,6 +46,7 @@
             this.cmdPrev = new System.Windows.Forms.Button();
             this.cmdNext = new System.Windows.Forms.Button();
             this.imgBig = new System.Windows.Forms.PictureBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRight)).BeginInit();
@@ -193,6 +194,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.cmdNextSimilar);
             this.panel1.Controls.Add(this.lblPosition);
             this.panel1.Controls.Add(this.label1);
@@ -277,6 +279,16 @@
             this.imgBig.TabIndex = 1;
             this.imgBig.TabStop = false;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(566, 53);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(113, 23);
+            this.button4.TabIndex = 10;
+            this.button4.Text = "Crop";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // PreProcess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -319,5 +331,6 @@
         private System.Windows.Forms.NumericUpDown nudEnhanceDiff;
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Button cmdNextSimilar;
+        private System.Windows.Forms.Button button4;
     }
 }

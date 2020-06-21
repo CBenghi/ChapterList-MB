@@ -36,5 +36,10 @@ namespace ChapterListMB.SyncView
             int y = Convert.ToInt32(m.Groups[3].Value);
             return new PointerCoordinates(t, x, y);
         }
+
+        public override string ToString()
+        {
+            return $"{SyncViewRepository.GetLyricsTimestamp(TimeStampMilliseconds)}{X}, {Y}, \"capture\"";
+        }
     }
 }

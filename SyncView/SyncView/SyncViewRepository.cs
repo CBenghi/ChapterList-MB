@@ -190,7 +190,6 @@ namespace ChapterListMB.SyncView
             int milliseconds = playerPositionMilliseconds % 1000;
             int minutes = seconds / 60;
             seconds = seconds % 60;
-
             return $"[{minutes:D3}:{seconds:D2}.{milliseconds:D3}] ";
         }
 
@@ -361,7 +360,10 @@ namespace ChapterListMB.SyncView
                 b.session = curSession;
                 b.Text = transcrriptLine;
                 b.Timing = SyncViewRepository.GetMilli(transcrriptLine);
-                b.Type = Bookmark.SourceType.Transcript;
+                if (transcrriptLine.Contains("#skip"))
+                    b.Type = Bookmark.SourceType.Skip;
+                else             
+                    b.Type = Bookmark.SourceType.Transcript;
                 yield return b;
             }
         }

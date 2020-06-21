@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 
 namespace PresentationGrab
@@ -208,6 +209,63 @@ namespace PresentationGrab
         private void nudEnhanceDiff_ValueChanged(object sender, EventArgs e)
         {
             UpdateImages();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var dx = 24; // 18
+            var dy = 94;
+
+            var sizeX = 1916;
+            var sizeY = 1015;
+
+
+            var oneFolder = "";
+            foreach (var im in repository.Images)
+            {
+                var fName = im.file.FullName;
+
+                FileInfo f = new FileInfo(fName);
+
+                oneFolder = Path.Combine(f.DirectoryName, "1");
+                var outName = Path.Combine(oneFolder, f.Name);
+                var fOut = new FileInfo(outName);
+                if (!fOut.Directory.Exists)
+                    fOut.Directory.Create();
+
+                Rectangle cropper = new Rectangle(dx, dy, sizeX, sizeY);
+                Crop cropFilter = new Crop(cropper);
+                Bitmap b0 = getB(fName);
+                var cropped = cropFilter.Apply(b0);
+
+                cropped.Save(outName);
+            }
+            if (oneFolder != "")
+            {
+                var fC = Path.Combine(oneFolder, "cursor.txt");
+                var fcI = new FileInfo(fC);
+                using (var w = fcI.CreateText())
+                {
+                    foreach (var item in repository.Pointers)
+                    {
+                        item.X -= dx;
+                        item.Y -= dy;
+
+                        item.X = fix(item.X, sizeX);
+                        item.Y = fix(item.Y, sizeY);
+                        w.WriteLine(item.ToString());
+                    }
+                }
+            }
+        }
+
+        private int fix(int x, int sizeX)
+        {
+            if (x < 0)
+                return 0;
+            if (x > sizeX)
+                return sizeX;
+            return x;
         }
     }
 }

@@ -121,6 +121,12 @@ namespace SyncView
             var now = GetCurrentTranscriptIndex();
             if (lastCurrent == now)
                 return;
+
+            if (lstBookmarks.Items[now].ImageIndex == 3) // this is a skip
+            {
+                DoSkipCommand(lstBookmarks.Items[now].Tag as Bookmark);
+            }
+
             if (lastCurrent != -1 && lstBookmarks.Items.Count > lastCurrent)
             {
                 if (lstBookmarks.Items[lastCurrent].ImageIndex != 0)
@@ -143,6 +149,20 @@ namespace SyncView
             }
             if (doRefresh)
                 lstBookmarks.Refresh();
+        }
+
+        private void DoSkipCommand(Bookmark item)
+        {
+            if (item == null)
+                return;
+            var position = item.GetSkipIndex();
+            if (position != -1)
+            {
+                RequestPlayerTime(position);
+            }
+            else
+                JumpToNextImage();
+            
         }
 
         int lastPointerTime = -1;
