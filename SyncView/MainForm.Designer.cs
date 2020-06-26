@@ -99,6 +99,7 @@
             this.allReposSearchResults = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.skipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -684,9 +685,10 @@
             this.copyBareTextToolStripMenuItem,
             this.copyAbsoluteTimestampToolStripMenuItem,
             this.copyImageTimestampToolStripMenuItem,
-            this.copyLyricsTimestampToolStripMenuItem});
+            this.copyLyricsTimestampToolStripMenuItem,
+            this.skipToolStripMenuItem});
             this.transcriptsContextMenu.Name = "contextMenuStrip2";
-            this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 114);
+            this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 158);
             // 
             // copyTextToolStripMenuItem
             // 
@@ -822,6 +824,13 @@
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // skipToolStripMenuItem
+            // 
+            this.skipToolStripMenuItem.Name = "skipToolStripMenuItem";
+            this.skipToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.skipToolStripMenuItem.Text = "Skip";
+            this.skipToolStripMenuItem.Click += new System.EventHandler(this.skipToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -933,5 +942,6 @@
         private System.Windows.Forms.CheckBox chkSingleAudioShowImages;
         private System.Windows.Forms.CheckBox chkSingleAudioShowTranscripts;
         private System.Windows.Forms.ToolStripMenuItem createHTMLFromImagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem skipToolStripMenuItem;
     }
 }

@@ -39,6 +39,7 @@
             this.lblCurr = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
             this.cmdNextSimilar = new System.Windows.Forms.Button();
             this.lblPosition = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -46,7 +47,10 @@
             this.cmdPrev = new System.Windows.Forms.Button();
             this.cmdNext = new System.Windows.Forms.Button();
             this.imgBig = new System.Windows.Forms.PictureBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.nudX = new System.Windows.Forms.NumericUpDown();
+            this.nudY = new System.Windows.Forms.NumericUpDown();
+            this.nudH = new System.Windows.Forms.NumericUpDown();
+            this.nudW = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgRight)).BeginInit();
@@ -55,6 +59,10 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEnhanceDiff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgBig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -194,6 +202,10 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.nudH);
+            this.panel1.Controls.Add(this.nudW);
+            this.panel1.Controls.Add(this.nudY);
+            this.panel1.Controls.Add(this.nudX);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.cmdNextSimilar);
             this.panel1.Controls.Add(this.lblPosition);
@@ -205,6 +217,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(831, 100);
             this.panel1.TabIndex = 0;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(566, 53);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(113, 23);
+            this.button4.TabIndex = 10;
+            this.button4.Text = "Crop";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // cmdNextSimilar
             // 
@@ -279,15 +301,77 @@
             this.imgBig.TabIndex = 1;
             this.imgBig.TabStop = false;
             // 
-            // button4
+            // nudX
             // 
-            this.button4.Location = new System.Drawing.Point(566, 53);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(113, 23);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Crop";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.nudX.Location = new System.Drawing.Point(566, 8);
+            this.nudX.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.nudX.Name = "nudX";
+            this.nudX.Size = new System.Drawing.Size(74, 20);
+            this.nudX.TabIndex = 11;
+            this.nudX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudX.Value = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            // 
+            // nudY
+            // 
+            this.nudY.Location = new System.Drawing.Point(566, 27);
+            this.nudY.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.nudY.Name = "nudY";
+            this.nudY.Size = new System.Drawing.Size(74, 20);
+            this.nudY.TabIndex = 12;
+            this.nudY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudY.Value = new decimal(new int[] {
+            94,
+            0,
+            0,
+            0});
+            // 
+            // nudH
+            // 
+            this.nudH.Location = new System.Drawing.Point(660, 27);
+            this.nudH.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.nudH.Name = "nudH";
+            this.nudH.Size = new System.Drawing.Size(74, 20);
+            this.nudH.TabIndex = 14;
+            this.nudH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudH.Value = new decimal(new int[] {
+            1015,
+            0,
+            0,
+            0});
+            // 
+            // nudW
+            // 
+            this.nudW.Location = new System.Drawing.Point(660, 8);
+            this.nudW.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.nudW.Name = "nudW";
+            this.nudW.Size = new System.Drawing.Size(74, 20);
+            this.nudW.TabIndex = 13;
+            this.nudW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudW.Value = new decimal(new int[] {
+            1916,
+            0,
+            0,
+            0});
             // 
             // PreProcess
             // 
@@ -307,6 +391,10 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEnhanceDiff)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgBig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -332,5 +420,9 @@
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Button cmdNextSimilar;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.NumericUpDown nudH;
+        private System.Windows.Forms.NumericUpDown nudW;
+        private System.Windows.Forms.NumericUpDown nudY;
+        private System.Windows.Forms.NumericUpDown nudX;
     }
 }

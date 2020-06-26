@@ -1124,9 +1124,15 @@ namespace SyncView
                 p.WriteLine("</body>");
                 p.WriteLine("</html>");
             }
+        }
 
-
-            
+        private void skipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var sel1 = lstBookmarks.SelectedItems.Cast<ListViewItem>().ToList();
+            var sel2 = sel1.Select(x => x.Tag as Bookmark);
+            var min = sel2.Min(x => x.Timing);
+            var max = sel2.Max(x => x.Timing);
+            repo.AddSkip(min, max);
         }
     }
 }

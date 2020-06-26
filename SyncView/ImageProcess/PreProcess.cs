@@ -213,12 +213,11 @@ namespace PresentationGrab
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var dx = 24; // 18
-            var dy = 94;
+            int dx = (int)nudX.Value;
+            int dy = (int)nudY.Value;
 
-            var sizeX = 1916;
-            var sizeY = 1015;
-
+            int sizeX = (int)nudW.Value;
+            int sizeY = (int)nudH.Value;
 
             var oneFolder = "";
             foreach (var im in repository.Images)

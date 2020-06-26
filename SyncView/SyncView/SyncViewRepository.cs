@@ -470,5 +470,23 @@ namespace ChapterListMB.SyncView
             string output = JsonConvert.SerializeObject(this);
             Debug.WriteLine(output);
         }
+
+        internal void AddSkip(int min, int max)
+        {
+            var same = (min == max);
+            var f = GetAssociatedLyricsFile();
+            using (var w = f.AppendText())
+            {
+                var pos = min - 50; // 50 milliseconds earlier than first line to skip
+                var ts = new TimeSpan(0, 0, 0, 0, pos);
+                int mins = (int)ts.TotalMinutes;
+                int secss = ts.Seconds;
+                int mlss = ts.Milliseconds;
+                var m = $"[{mins:D3}:{secss:D2}.{mins:D3}] #skip";
+                if (!same)
+                    m = $"[{mins:D3}:{secss:D2}.{mins:D3}] #skip +{max - pos}";
+                w.WriteLine(m);
+            }
+        }
     }
 }
