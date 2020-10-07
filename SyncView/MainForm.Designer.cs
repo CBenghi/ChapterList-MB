@@ -57,6 +57,7 @@
             this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paintNetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,11 +79,6 @@
             this.cmdSetImageName = new System.Windows.Forms.Button();
             this.txtImageName = new System.Windows.Forms.TextBox();
             this.cmbImage = new System.Windows.Forms.ComboBox();
-            this.chkSingleAudioShowImages = new System.Windows.Forms.CheckBox();
-            this.chkSingleAudioShowTranscripts = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
-            this.txtFilter = new System.Windows.Forms.TextBox();
             this.lstBookmarks = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.transcriptsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -91,7 +87,14 @@
             this.copyAbsoluteTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyLyricsTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.skipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.chkSingleAudioShowImages = new System.Windows.Forms.CheckBox();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.chkSingleAudioShowTranscripts = new System.Windows.Forms.CheckBox();
+            this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.chkSearchI = new System.Windows.Forms.CheckBox();
             this.chkSearchT = new System.Windows.Forms.CheckBox();
@@ -99,7 +102,6 @@
             this.allReposSearchResults = new System.Windows.Forms.TreeView();
             this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.skipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chaptersDGV)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -113,6 +115,7 @@
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.transcriptsContextMenu.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -120,7 +123,7 @@
             // addChapterButton
             // 
             this.addChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addChapterButton.Location = new System.Drawing.Point(7, 175);
+            this.addChapterButton.Location = new System.Drawing.Point(7, 163);
             this.addChapterButton.Name = "addChapterButton";
             this.addChapterButton.Size = new System.Drawing.Size(40, 35);
             this.addChapterButton.TabIndex = 0;
@@ -132,7 +135,7 @@
             // removeChapterButton
             // 
             this.removeChapterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeChapterButton.Location = new System.Drawing.Point(53, 175);
+            this.removeChapterButton.Location = new System.Drawing.Point(53, 163);
             this.removeChapterButton.Name = "removeChapterButton";
             this.removeChapterButton.Size = new System.Drawing.Size(57, 35);
             this.removeChapterButton.TabIndex = 2;
@@ -144,7 +147,7 @@
             // shiftPositionBackButton
             // 
             this.shiftPositionBackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionBackButton.Location = new System.Drawing.Point(-186, 175);
+            this.shiftPositionBackButton.Location = new System.Drawing.Point(-186, 163);
             this.shiftPositionBackButton.Name = "shiftPositionBackButton";
             this.shiftPositionBackButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionBackButton.TabIndex = 5;
@@ -156,7 +159,7 @@
             // shiftPositionFwdButton
             // 
             this.shiftPositionFwdButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPositionFwdButton.Location = new System.Drawing.Point(-140, 175);
+            this.shiftPositionFwdButton.Location = new System.Drawing.Point(-140, 163);
             this.shiftPositionFwdButton.Name = "shiftPositionFwdButton";
             this.shiftPositionFwdButton.Size = new System.Drawing.Size(40, 35);
             this.shiftPositionFwdButton.TabIndex = 6;
@@ -202,6 +205,7 @@
             // ChapterStatus
             // 
             this.ChapterStatus.HeaderText = "";
+            this.ChapterStatus.MinimumWidth = 8;
             this.ChapterStatus.Name = "ChapterStatus";
             this.ChapterStatus.ReadOnly = true;
             this.ChapterStatus.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -212,6 +216,7 @@
             this.positionCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.positionCol.DataPropertyName = "TimeCode";
             this.positionCol.HeaderText = "Position";
+            this.positionCol.MinimumWidth = 8;
             this.positionCol.Name = "positionCol";
             this.positionCol.ReadOnly = true;
             this.positionCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -222,11 +227,13 @@
             this.titleCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.titleCol.DataPropertyName = "Title";
             this.titleCol.HeaderText = "Chapter Title";
+            this.titleCol.MinimumWidth = 8;
             this.titleCol.Name = "titleCol";
             this.titleCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblTopmost,
             this.titleArtistStatusLabel,
@@ -306,7 +313,7 @@
             "Bridge",
             "Solo",
             "Outro"});
-            this.comboBoxNewChapterName.Location = new System.Drawing.Point(-171, 183);
+            this.comboBoxNewChapterName.Location = new System.Drawing.Point(-171, 171);
             this.comboBoxNewChapterName.Name = "comboBoxNewChapterName";
             this.comboBoxNewChapterName.Size = new System.Drawing.Size(85, 21);
             this.comboBoxNewChapterName.TabIndex = 9;
@@ -348,14 +355,10 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.chkSingleAudioShowImages);
-            this.splitContainer1.Panel2.Controls.Add(this.chkSingleAudioShowTranscripts);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Panel2.Controls.Add(this.chkHiglightTranscript);
-            this.splitContainer1.Panel2.Controls.Add(this.txtFilter);
             this.splitContainer1.Panel2.Controls.Add(this.lstBookmarks);
+            this.splitContainer1.Panel2.Controls.Add(this.panel3);
             this.splitContainer1.Size = new System.Drawing.Size(993, 745);
-            this.splitContainer1.SplitterDistance = 624;
+            this.splitContainer1.SplitterDistance = 623;
             this.splitContainer1.TabIndex = 8;
             // 
             // pnlPointer
@@ -372,7 +375,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 21);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(624, 703);
+            this.pictureBox1.Size = new System.Drawing.Size(623, 703);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
@@ -383,9 +386,11 @@
             // 
             // imageContextMenu
             // 
+            this.imageContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.imageContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.jumpToNextImageToolStripMenuItem,
             this.reloadImagesToolStripMenuItem,
+            this.copyImageToolStripMenuItem,
             this.openInExplorerToolStripMenuItem,
             this.toolStripSeparator3,
             this.openImageManagerToolStripMenuItem,
@@ -396,7 +401,7 @@
             this.toolStripSeparator2,
             this.deleteThisImageToolStripMenuItem});
             this.imageContextMenu.Name = "contextMenuStrip1";
-            this.imageContextMenu.Size = new System.Drawing.Size(216, 198);
+            this.imageContextMenu.Size = new System.Drawing.Size(216, 220);
             // 
             // jumpToNextImageToolStripMenuItem
             // 
@@ -411,6 +416,13 @@
             this.reloadImagesToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.reloadImagesToolStripMenuItem.Text = "Reload images";
             this.reloadImagesToolStripMenuItem.Click += new System.EventHandler(this.reloadImagesToolStripMenuItem_Click);
+            // 
+            // copyImageToolStripMenuItem
+            // 
+            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
+            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.copyImageToolStripMenuItem.Text = "Copy Image to Clipboard";
+            this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
             // 
             // openInExplorerToolStripMenuItem
             // 
@@ -493,7 +505,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 724);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(624, 21);
+            this.panel2.Size = new System.Drawing.Size(623, 21);
             this.panel2.TabIndex = 9;
             // 
             // cmdPointer
@@ -528,7 +540,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(624, 21);
+            this.panel1.Size = new System.Drawing.Size(623, 21);
             this.panel1.TabIndex = 8;
             // 
             // button5
@@ -555,7 +567,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(203, 0);
+            this.button2.Location = new System.Drawing.Point(202, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 20);
             this.button2.TabIndex = 5;
@@ -577,7 +589,7 @@
             // txtImageName
             // 
             this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageName.Location = new System.Drawing.Point(295, 0);
+            this.txtImageName.Location = new System.Drawing.Point(294, 0);
             this.txtImageName.Name = "txtImageName";
             this.txtImageName.Size = new System.Drawing.Size(280, 20);
             this.txtImageName.TabIndex = 3;
@@ -591,81 +603,19 @@
             this.cmbImage.FormattingEnabled = true;
             this.cmbImage.Location = new System.Drawing.Point(54, 0);
             this.cmbImage.Name = "cmbImage";
-            this.cmbImage.Size = new System.Drawing.Size(143, 21);
+            this.cmbImage.Size = new System.Drawing.Size(142, 21);
             this.cmbImage.TabIndex = 2;
-            // 
-            // chkSingleAudioShowImages
-            // 
-            this.chkSingleAudioShowImages.AutoSize = true;
-            this.chkSingleAudioShowImages.Checked = true;
-            this.chkSingleAudioShowImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSingleAudioShowImages.Location = new System.Drawing.Point(90, 27);
-            this.chkSingleAudioShowImages.Name = "chkSingleAudioShowImages";
-            this.chkSingleAudioShowImages.Size = new System.Drawing.Size(60, 17);
-            this.chkSingleAudioShowImages.TabIndex = 9;
-            this.chkSingleAudioShowImages.Text = "Images";
-            this.chkSingleAudioShowImages.UseVisualStyleBackColor = true;
-            this.chkSingleAudioShowImages.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
-            // 
-            // chkSingleAudioShowTranscripts
-            // 
-            this.chkSingleAudioShowTranscripts.AutoSize = true;
-            this.chkSingleAudioShowTranscripts.Checked = true;
-            this.chkSingleAudioShowTranscripts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSingleAudioShowTranscripts.Location = new System.Drawing.Point(6, 27);
-            this.chkSingleAudioShowTranscripts.Name = "chkSingleAudioShowTranscripts";
-            this.chkSingleAudioShowTranscripts.Size = new System.Drawing.Size(78, 17);
-            this.chkSingleAudioShowTranscripts.TabIndex = 8;
-            this.chkSingleAudioShowTranscripts.Text = "Transcripts";
-            this.chkSingleAudioShowTranscripts.UseVisualStyleBackColor = true;
-            this.chkSingleAudioShowTranscripts.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(2, 1);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 20);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Locate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnLocate_Click);
-            // 
-            // chkHiglightTranscript
-            // 
-            this.chkHiglightTranscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkHiglightTranscript.AutoSize = true;
-            this.chkHiglightTranscript.Checked = true;
-            this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHiglightTranscript.Location = new System.Drawing.Point(290, 3);
-            this.chkHiglightTranscript.Name = "chkHiglightTranscript";
-            this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
-            this.chkHiglightTranscript.TabIndex = 6;
-            this.chkHiglightTranscript.Text = "Highlight";
-            this.chkHiglightTranscript.UseVisualStyleBackColor = true;
-            this.chkHiglightTranscript.CheckedChanged += new System.EventHandler(this.chkFindSelect_CheckedChanged);
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilter.Location = new System.Drawing.Point(83, 0);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(201, 20);
-            this.txtFilter.TabIndex = 5;
-            this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
             // 
             // lstBookmarks
             // 
-            this.lstBookmarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstBookmarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
             this.lstBookmarks.ContextMenuStrip = this.transcriptsContextMenu;
+            this.lstBookmarks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstBookmarks.HideSelection = false;
-            this.lstBookmarks.Location = new System.Drawing.Point(6, 50);
+            this.lstBookmarks.Location = new System.Drawing.Point(0, 100);
             this.lstBookmarks.Name = "lstBookmarks";
-            this.lstBookmarks.Size = new System.Drawing.Size(351, 692);
+            this.lstBookmarks.Size = new System.Drawing.Size(366, 645);
             this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
             this.lstBookmarks.TabIndex = 4;
             this.lstBookmarks.UseCompatibleStateImageBehavior = false;
@@ -680,6 +630,7 @@
             // 
             // transcriptsContextMenu
             // 
+            this.transcriptsContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.transcriptsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyTextToolStripMenuItem,
             this.copyBareTextToolStripMenuItem,
@@ -688,7 +639,7 @@
             this.copyLyricsTimestampToolStripMenuItem,
             this.skipToolStripMenuItem});
             this.transcriptsContextMenu.Name = "contextMenuStrip2";
-            this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 158);
+            this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 136);
             // 
             // copyTextToolStripMenuItem
             // 
@@ -725,6 +676,13 @@
             this.copyLyricsTimestampToolStripMenuItem.Text = "Copy Lyrics Timestamp";
             this.copyLyricsTimestampToolStripMenuItem.Click += new System.EventHandler(this.copyLyricsTimestampToolStripMenuItem_Click);
             // 
+            // skipToolStripMenuItem
+            // 
+            this.skipToolStripMenuItem.Name = "skipToolStripMenuItem";
+            this.skipToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.skipToolStripMenuItem.Text = "Skip";
+            this.skipToolStripMenuItem.Click += new System.EventHandler(this.skipToolStripMenuItem_Click);
+            // 
             // SearchTreeImageList
             // 
             this.SearchTreeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SearchTreeImageList.ImageStream")));
@@ -733,6 +691,79 @@
             this.SearchTreeImageList.Images.SetKeyName(1, "Image.png");
             this.SearchTreeImageList.Images.SetKeyName(2, "TextSmall.png");
             this.SearchTreeImageList.Images.SetKeyName(3, "Skip.png");
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.button1);
+            this.panel3.Controls.Add(this.chkSingleAudioShowImages);
+            this.panel3.Controls.Add(this.txtFilter);
+            this.panel3.Controls.Add(this.chkSingleAudioShowTranscripts);
+            this.panel3.Controls.Add(this.chkHiglightTranscript);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(366, 100);
+            this.panel3.TabIndex = 10;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(278, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 20);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Locate";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnLocate_Click);
+            // 
+            // chkSingleAudioShowImages
+            // 
+            this.chkSingleAudioShowImages.AutoSize = true;
+            this.chkSingleAudioShowImages.Checked = true;
+            this.chkSingleAudioShowImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSingleAudioShowImages.Location = new System.Drawing.Point(10, 53);
+            this.chkSingleAudioShowImages.Name = "chkSingleAudioShowImages";
+            this.chkSingleAudioShowImages.Size = new System.Drawing.Size(60, 17);
+            this.chkSingleAudioShowImages.TabIndex = 9;
+            this.chkSingleAudioShowImages.Text = "Images";
+            this.chkSingleAudioShowImages.UseVisualStyleBackColor = true;
+            this.chkSingleAudioShowImages.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilter.Location = new System.Drawing.Point(10, 5);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(263, 20);
+            this.txtFilter.TabIndex = 5;
+            this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
+            // 
+            // chkSingleAudioShowTranscripts
+            // 
+            this.chkSingleAudioShowTranscripts.AutoSize = true;
+            this.chkSingleAudioShowTranscripts.Checked = true;
+            this.chkSingleAudioShowTranscripts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSingleAudioShowTranscripts.Location = new System.Drawing.Point(10, 75);
+            this.chkSingleAudioShowTranscripts.Name = "chkSingleAudioShowTranscripts";
+            this.chkSingleAudioShowTranscripts.Size = new System.Drawing.Size(78, 17);
+            this.chkSingleAudioShowTranscripts.TabIndex = 8;
+            this.chkSingleAudioShowTranscripts.Text = "Transcripts";
+            this.chkSingleAudioShowTranscripts.UseVisualStyleBackColor = true;
+            this.chkSingleAudioShowTranscripts.CheckedChanged += new System.EventHandler(this.chkSingleAudioShow_CheckedChanged);
+            // 
+            // chkHiglightTranscript
+            // 
+            this.chkHiglightTranscript.AutoSize = true;
+            this.chkHiglightTranscript.Checked = true;
+            this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHiglightTranscript.Location = new System.Drawing.Point(10, 31);
+            this.chkHiglightTranscript.Name = "chkHiglightTranscript";
+            this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
+            this.chkHiglightTranscript.TabIndex = 6;
+            this.chkHiglightTranscript.Text = "Highlight";
+            this.chkHiglightTranscript.UseVisualStyleBackColor = true;
+            this.chkHiglightTranscript.CheckedChanged += new System.EventHandler(this.chkFindSelect_CheckedChanged);
             // 
             // tabPage4
             // 
@@ -743,7 +774,7 @@
             this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(993, 745);
+            this.tabPage4.Size = new System.Drawing.Size(993, 746);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Search";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -794,7 +825,7 @@
             this.allReposSearchResults.Location = new System.Drawing.Point(12, 68);
             this.allReposSearchResults.Name = "allReposSearchResults";
             this.allReposSearchResults.SelectedImageIndex = 0;
-            this.allReposSearchResults.Size = new System.Drawing.Size(973, 662);
+            this.allReposSearchResults.Size = new System.Drawing.Size(973, 650);
             this.allReposSearchResults.TabIndex = 3;
             this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
@@ -818,18 +849,11 @@
             this.tabPage1.Controls.Add(this.addChapterButton);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(993, 745);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(993, 746);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Chapters";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // skipToolStripMenuItem
-            // 
-            this.skipToolStripMenuItem.Name = "skipToolStripMenuItem";
-            this.skipToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.skipToolStripMenuItem.Text = "Skip";
-            this.skipToolStripMenuItem.Click += new System.EventHandler(this.skipToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -840,7 +864,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(325, 350);
+            this.MinimumSize = new System.Drawing.Size(323, 344);
             this.Name = "MainForm";
             this.Text = "SyncView";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -855,7 +879,6 @@
             this.tabPage5.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -864,6 +887,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.transcriptsContextMenu.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -943,5 +968,7 @@
         private System.Windows.Forms.CheckBox chkSingleAudioShowTranscripts;
         private System.Windows.Forms.ToolStripMenuItem createHTMLFromImagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem skipToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyImageToolStripMenuItem;
+        private System.Windows.Forms.Panel panel3;
     }
 }

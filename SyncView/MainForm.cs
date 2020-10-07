@@ -1134,5 +1134,10 @@ namespace SyncView
             var max = sel2.Max(x => x.Timing);
             repo.AddSkip(min, max);
         }
+
+        private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(pictureBox1.Image);
+        }
     }
 }
