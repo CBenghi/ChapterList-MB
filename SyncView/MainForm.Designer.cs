@@ -184,17 +184,18 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1001, 771);
+            this.tabControl1.Size = new System.Drawing.Size(369, 771);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.splitContainer1);
+            this.tabPage5.Controls.Add(this.lstBookmarks);
+            this.tabPage5.Controls.Add(this.panel3);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(993, 745);
+            this.tabPage5.Size = new System.Drawing.Size(361, 745);
             this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Show";
+            this.tabPage5.Text = "Lezione";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -212,10 +213,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.lstBookmarks);
-            this.splitContainer1.Panel2.Controls.Add(this.panel3);
-            this.splitContainer1.Size = new System.Drawing.Size(993, 745);
-            this.splitContainer1.SplitterDistance = 623;
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(1001, 771);
+            this.splitContainer1.SplitterDistance = 628;
             this.splitContainer1.TabIndex = 8;
             // 
             // pnlPointer
@@ -232,7 +232,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 21);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(623, 703);
+            this.pictureBox1.Size = new System.Drawing.Size(628, 729);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
@@ -360,15 +360,15 @@
             this.panel2.Controls.Add(this.cmdPointer);
             this.panel2.Controls.Add(this.cmdSetNextSlideTime);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 724);
+            this.panel2.Location = new System.Drawing.Point(0, 750);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(623, 21);
+            this.panel2.Size = new System.Drawing.Size(628, 21);
             this.panel2.TabIndex = 9;
             // 
             // cmdPointer
             // 
             this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdPointer.Location = new System.Drawing.Point(561, 1);
+            this.cmdPointer.Location = new System.Drawing.Point(566, 1);
             this.cmdPointer.Name = "cmdPointer";
             this.cmdPointer.Size = new System.Drawing.Size(60, 20);
             this.cmdPointer.TabIndex = 5;
@@ -397,13 +397,13 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(623, 21);
+            this.panel1.Size = new System.Drawing.Size(628, 21);
             this.panel1.TabIndex = 8;
             // 
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(249, 0);
+            this.button5.Location = new System.Drawing.Point(254, 0);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(40, 20);
             this.button5.TabIndex = 7;
@@ -424,7 +424,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(202, 0);
+            this.button2.Location = new System.Drawing.Point(207, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 20);
             this.button2.TabIndex = 5;
@@ -435,7 +435,7 @@
             // cmdSetImageName
             // 
             this.cmdSetImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSetImageName.Location = new System.Drawing.Point(581, 1);
+            this.cmdSetImageName.Location = new System.Drawing.Point(586, 1);
             this.cmdSetImageName.Name = "cmdSetImageName";
             this.cmdSetImageName.Size = new System.Drawing.Size(40, 20);
             this.cmdSetImageName.TabIndex = 4;
@@ -446,7 +446,7 @@
             // txtImageName
             // 
             this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageName.Location = new System.Drawing.Point(294, 0);
+            this.txtImageName.Location = new System.Drawing.Point(299, 0);
             this.txtImageName.Name = "txtImageName";
             this.txtImageName.Size = new System.Drawing.Size(280, 20);
             this.txtImageName.TabIndex = 3;
@@ -460,7 +460,7 @@
             this.cmbImage.FormattingEnabled = true;
             this.cmbImage.Location = new System.Drawing.Point(54, 0);
             this.cmbImage.Name = "cmbImage";
-            this.cmbImage.Size = new System.Drawing.Size(142, 21);
+            this.cmbImage.Size = new System.Drawing.Size(147, 21);
             this.cmbImage.TabIndex = 2;
             // 
             // lstBookmarks
@@ -472,7 +472,7 @@
             this.lstBookmarks.HideSelection = false;
             this.lstBookmarks.Location = new System.Drawing.Point(0, 100);
             this.lstBookmarks.Name = "lstBookmarks";
-            this.lstBookmarks.Size = new System.Drawing.Size(366, 645);
+            this.lstBookmarks.Size = new System.Drawing.Size(361, 645);
             this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
             this.lstBookmarks.TabIndex = 4;
             this.lstBookmarks.UseCompatibleStateImageBehavior = false;
@@ -559,13 +559,13 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(366, 100);
+            this.panel3.Size = new System.Drawing.Size(361, 100);
             this.panel3.TabIndex = 10;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(278, 5);
+            this.button1.Location = new System.Drawing.Point(273, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 20);
             this.button1.TabIndex = 7;
@@ -592,7 +592,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilter.Location = new System.Drawing.Point(10, 5);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(263, 20);
+            this.txtFilter.Size = new System.Drawing.Size(258, 20);
             this.txtFilter.TabIndex = 5;
             this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
             // 
@@ -631,9 +631,9 @@
             this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(993, 745);
+            this.tabPage4.Size = new System.Drawing.Size(361, 745);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Search";
+            this.tabPage4.Text = "Collezione";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // chkSearchI
@@ -663,7 +663,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(887, 11);
+            this.button4.Location = new System.Drawing.Point(255, 11);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(98, 23);
             this.button4.TabIndex = 4;
@@ -682,7 +682,7 @@
             this.allReposSearchResults.Location = new System.Drawing.Point(12, 68);
             this.allReposSearchResults.Name = "allReposSearchResults";
             this.allReposSearchResults.SelectedImageIndex = 0;
-            this.allReposSearchResults.Size = new System.Drawing.Size(973, 650);
+            this.allReposSearchResults.Size = new System.Drawing.Size(341, 650);
             this.allReposSearchResults.TabIndex = 3;
             this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
@@ -692,7 +692,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAllTranscriptsFilter.Location = new System.Drawing.Point(12, 13);
             this.txtAllTranscriptsFilter.Name = "txtAllTranscriptsFilter";
-            this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(869, 20);
+            this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(237, 20);
             this.txtAllTranscriptsFilter.TabIndex = 2;
             this.txtAllTranscriptsFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
@@ -702,7 +702,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 795);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(323, 344);
