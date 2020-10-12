@@ -250,10 +250,6 @@ namespace MusicBeePlugin
             _mainForm.RequestPositionEvent += SetTrackPosition;
             _mainForm.RequestPlayFileEvent += PlayTrack;
             _mainForm.RequestPlayToggleEvent += TogglePlayPause;
-
-            _mainForm.AddChapterButtonClickedRouted += MainFormOnAddChapterButtonClickedRouted;
-            _mainForm.RemoveChapterButtonClickedRouted += MainFormOnRemoveChapterButtonClickedRouted;
-            _mainForm.ChangeChapterRequested += MainFormOnChangeChapterRequested;           
         }
 
         DateTime lastRequestedTrackTime = DateTime.Now.Date;
