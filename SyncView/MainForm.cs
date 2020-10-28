@@ -315,6 +315,7 @@ namespace SyncView
             var m = Regexes.regexUnnamedAbsolutePosition.Match(sought);
             if (m.Success)
             {
+                // find a particular position in the repo.
                 var s = new Session(m.Groups["L"].Value, m.Groups["P"].Value);
                 var mediaFile = s.GetAudioFile(repo);
                 var mill = SyncViewRepository.GetMilli(m.Groups["position"].Value + " ");
@@ -329,13 +330,15 @@ namespace SyncView
         {
             allReposSearchResults.Nodes.Clear();
 
+            // creates the list first (images and text)
+
             List<Bookmark> bookmarks = new List<Bookmark>();
             if (chkSearchT.Checked)
             {
                 foreach (var trsfile in repo.GetTranscripts())
                 {
                     var curSession = Session.FromTranscriptFile(trsfile.Name);
-                    var thisList = SyncViewRepository.GetLyricsText(trsfile, sought).ToList();
+                    var thisList = SyncViewRepository.GetLyricsText(trsfile, sought, true).ToList();
                     foreach (var transcrriptLine in thisList)
                     {
                         Bookmark b = new Bookmark();
@@ -351,8 +354,10 @@ namespace SyncView
             {
                 bookmarks.AddRange(repo.FindImagesAllRepos(sought));
             }
-            bookmarks.Sort();
 
+            // then sort and show.
+            //
+            bookmarks.Sort();
             Session sortSession = null;
             TreeNode n = null;
             foreach (var item in bookmarks)
@@ -360,7 +365,9 @@ namespace SyncView
                 if (!item.session.Equals(sortSession))
                 {
                     n = new TreeNode();
-                    n.Text = item.session.ToString();
+                    n.Text = item.session.GetMediaTitle(repo);
+                    if (n.Text == "")
+                        n.Text = item.session.ToString();
                     n.Tag = item.session;
                     n.ImageIndex = 0;
                     allReposSearchResults.Nodes.Add(n);

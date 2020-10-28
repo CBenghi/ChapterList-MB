@@ -17,6 +17,15 @@ namespace SyncView
             this.p = p;
         }
 
+        public string GetMediaTitle(ChapterListMB.SyncView.SyncViewRepository repo)
+        {
+            var f = GetAudioFile(repo);
+            if (f == null)
+                return "";
+            var file = TagLib.File.Create(f.FullName);
+            return file.Tag.Title;
+        }
+
         public override string ToString()
         {
             return $"L{l}P{p}";

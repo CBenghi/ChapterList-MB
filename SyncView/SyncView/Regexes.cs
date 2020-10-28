@@ -9,11 +9,11 @@ namespace SyncView
 {
     class Regexes
     {
-
         /// <summary>
-        /// L1P1[042:22.200]
+        /// L1P1[042:22.200]	
         /// </summary>
-        static internal Regex regexUnnamedAbsolutePosition = new Regex(@"L(?<L>\d+)P(?<P>\d+)(?<position>\[.+])"); 
-
+        ///
+        static internal Regex regexUnnamedAbsolutePosition = new Regex(@"L(?<L>\d+)P(?<P>\d+)(?<position>\[.+])", RegexOptions.Compiled); 
+        static internal Regex regexTranscriptTiming = new Regex(@"^([\[\]\d\.: ]*)", RegexOptions.Compiled); 
     }
 }

@@ -203,8 +203,9 @@ namespace ChapterListMB.SyncView
             return seconds.ToString();
         }
 
-        public static IEnumerable<string> GetLyricsText(FileInfo sourceLyricsFile, string filter)
+        public static IEnumerable<string> GetLyricsText(FileInfo sourceLyricsFile, string filter, bool stripTiming = false)
         {
+            
             if (!sourceLyricsFile.Exists)
                 yield break;
 
@@ -213,6 +214,11 @@ namespace ChapterListMB.SyncView
                 string line;
                 while ((line = fr.ReadLine()) != null)
                 {
+                    if (stripTiming)
+					{
+                        line = Regexes.regexTranscriptTiming.Replace(line, "");
+                    }
+                    
                     if (filter != "")
                     {
                         bool val = DefaultTextMatch(filter, line);
