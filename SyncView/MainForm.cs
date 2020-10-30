@@ -51,7 +51,6 @@ namespace SyncView
         int CurrentMilli = -1;
         int lastTranscriptLocate = -1;
 
-
         // TIMER BASED, not called from musicBee
         public void SetCurrentTime(int playerPosition)
         {
@@ -104,6 +103,8 @@ namespace SyncView
         private void LocateTranscript()
         {
             bool doRefresh = false;
+            if (lstBookmarks.Items.Count == 0)
+                return;
             var now = GetCurrentTranscriptIndex();
             if (lastCurrent == now)
                 return;
@@ -895,11 +896,21 @@ namespace SyncView
             var min = sel2.Min(x => x.Timing);
             var max = sel2.Max(x => x.Timing);
             repo.AddSkip(min, max);
+            populateBookmarks();
+            BookmarkLocate();
         }
 
         private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetImage(pictureBox1.Image);
         }
-    }
+
+		private void openTranscriptFileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            var t = repo.GetAssociatedLyricsFile();
+            if (!t.Exists)
+                return;
+            Process.Start(t.FullName);
+        }
+	}
 }

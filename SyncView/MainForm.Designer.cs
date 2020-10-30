@@ -91,6 +91,9 @@
 			this.cmdSetImageName = new System.Windows.Forms.Button();
 			this.txtImageName = new System.Windows.Forms.TextBox();
 			this.cmbImage = new System.Windows.Forms.ComboBox();
+			this.openTranscriptFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage5.SuspendLayout();
@@ -229,9 +232,12 @@
             this.copyAbsoluteTimestampToolStripMenuItem,
             this.copyImageTimestampToolStripMenuItem,
             this.copyLyricsTimestampToolStripMenuItem,
-            this.skipToolStripMenuItem});
+            this.toolStripSeparator4,
+            this.skipToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.openTranscriptFileToolStripMenuItem});
 			this.transcriptsContextMenu.Name = "contextMenuStrip2";
-			this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 136);
+			this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 192);
 			// 
 			// copyTextToolStripMenuItem
 			// 
@@ -696,6 +702,23 @@
 			this.cmbImage.Size = new System.Drawing.Size(147, 21);
 			this.cmbImage.TabIndex = 2;
 			// 
+			// openTranscriptFileToolStripMenuItem
+			// 
+			this.openTranscriptFileToolStripMenuItem.Name = "openTranscriptFileToolStripMenuItem";
+			this.openTranscriptFileToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+			this.openTranscriptFileToolStripMenuItem.Text = "Open transcript file";
+			this.openTranscriptFileToolStripMenuItem.Click += new System.EventHandler(this.openTranscriptFileToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(209, 6);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(209, 6);
+			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
@@ -798,5 +821,8 @@
         private System.Windows.Forms.ToolStripMenuItem skipToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyImageToolStripMenuItem;
         private System.Windows.Forms.Panel panel3;
-    }
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private System.Windows.Forms.ToolStripMenuItem openTranscriptFileToolStripMenuItem;
+	}
 }

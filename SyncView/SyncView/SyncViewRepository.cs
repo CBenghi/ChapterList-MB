@@ -481,8 +481,11 @@ namespace ChapterListMB.SyncView
         {
             var same = (min == max);
             var f = GetAssociatedLyricsFile();
+            var NeedAddNewLine = !FileEndsWithNewLine(f);
             using (var w = f.AppendText())
             {
+                if (NeedAddNewLine)
+                    w.WriteLine("");
                 var pos = min - 50; // 50 milliseconds earlier than first line to skip
                 var ts = new TimeSpan(0, 0, 0, 0, pos);
                 int mins = (int)ts.TotalMinutes;
@@ -494,5 +497,31 @@ namespace ChapterListMB.SyncView
                 w.WriteLine(m);
             }
         }
-    }
+
+		private bool FileEndsWithNewLine(FileInfo f)
+		{
+            if (f.Length < 2)
+                return false;
+            using (StreamReader sr = new StreamReader(f.FullName, encoding: System.Text.Encoding.UTF8))
+            {
+                //back 2 bytes from end of file
+                sr.BaseStream.Seek(-2, SeekOrigin.End);
+
+                int s1 = sr.Read(); //read the char before last
+                int s2 = sr.Read(); //read the last char 
+                if (s2 == 10) //file is end with CR-LF or LF ... (CR=13, LF=10)
+                {
+                    if (s1 == 13) {
+                        return true;
+                    } //file is end with CR-LF (Windows EOL format)
+                    else if (s1 == 13)
+                    { 
+                        return true;
+                    } //file is end with just LF, (UNIX/OSX format)
+                    return false;
+                }
+                return false;
+            }
+        }
+	}
 }
