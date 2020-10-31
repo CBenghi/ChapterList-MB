@@ -339,7 +339,7 @@ namespace SyncView
                 foreach (var trsfile in repo.GetTranscripts())
                 {
                     var curSession = Session.FromTranscriptFile(trsfile.Name);
-                    var thisList = SyncViewRepository.GetLyricsText(trsfile, sought, true).ToList();
+                    var thisList = SyncViewRepository.GetLyricsText(trsfile, sought, false).ToList();
                     foreach (var transcrriptLine in thisList)
                     {
                         Bookmark b = new Bookmark();
@@ -399,13 +399,15 @@ namespace SyncView
             {
                 var f = b.session.GetAudioFile(repo);
                 AudioJumpTo(f, b.Timing);
-                tabControl1.SelectedIndex = 0;
+                if (chkSwitch.Checked)
+                    tabControl1.SelectedIndex = 0;
             }
             else if (snd.SelectedNode.Tag is Session s)
             {
                 var f = s.GetAudioFile(repo);
                 AudioJumpTo(f, 0);
-                tabControl1.SelectedIndex = 0;
+                if (chkSwitch.Checked)
+                    tabControl1.SelectedIndex = 0;
             }
         }
 

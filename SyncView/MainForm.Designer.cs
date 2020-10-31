@@ -49,7 +49,10 @@
 			this.copyAbsoluteTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.copyImageTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.copyLyricsTimestampToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.skipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.openTranscriptFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.button1 = new System.Windows.Forms.Button();
@@ -64,7 +67,6 @@
 			this.allReposSearchResults = new System.Windows.Forms.TreeView();
 			this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlPointer = new SyncView.RoundPanel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,9 +93,8 @@
 			this.cmdSetImageName = new System.Windows.Forms.Button();
 			this.txtImageName = new System.Windows.Forms.TextBox();
 			this.cmbImage = new System.Windows.Forms.ComboBox();
-			this.openTranscriptFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.chkSwitch = new System.Windows.Forms.CheckBox();
+			this.pnlPointer = new SyncView.RoundPanel();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage5.SuspendLayout();
@@ -237,7 +238,7 @@
             this.toolStripSeparator5,
             this.openTranscriptFileToolStripMenuItem});
 			this.transcriptsContextMenu.Name = "contextMenuStrip2";
-			this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 192);
+			this.transcriptsContextMenu.Size = new System.Drawing.Size(213, 170);
 			// 
 			// copyTextToolStripMenuItem
 			// 
@@ -274,12 +275,29 @@
 			this.copyLyricsTimestampToolStripMenuItem.Text = "Copy Lyrics Timestamp";
 			this.copyLyricsTimestampToolStripMenuItem.Click += new System.EventHandler(this.copyLyricsTimestampToolStripMenuItem_Click);
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(209, 6);
+			// 
 			// skipToolStripMenuItem
 			// 
 			this.skipToolStripMenuItem.Name = "skipToolStripMenuItem";
 			this.skipToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
 			this.skipToolStripMenuItem.Text = "Skip";
 			this.skipToolStripMenuItem.Click += new System.EventHandler(this.skipToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(209, 6);
+			// 
+			// openTranscriptFileToolStripMenuItem
+			// 
+			this.openTranscriptFileToolStripMenuItem.Name = "openTranscriptFileToolStripMenuItem";
+			this.openTranscriptFileToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+			this.openTranscriptFileToolStripMenuItem.Text = "Open transcript file";
+			this.openTranscriptFileToolStripMenuItem.Click += new System.EventHandler(this.openTranscriptFileToolStripMenuItem_Click);
 			// 
 			// SearchTreeImageList
 			// 
@@ -365,6 +383,7 @@
 			// 
 			// tabPage4
 			// 
+			this.tabPage4.Controls.Add(this.chkSwitch);
 			this.tabPage4.Controls.Add(this.chkSearchI);
 			this.tabPage4.Controls.Add(this.chkSearchT);
 			this.tabPage4.Controls.Add(this.btnSearch);
@@ -423,7 +442,7 @@
 			this.allReposSearchResults.Location = new System.Drawing.Point(12, 68);
 			this.allReposSearchResults.Name = "allReposSearchResults";
 			this.allReposSearchResults.SelectedImageIndex = 0;
-			this.allReposSearchResults.Size = new System.Drawing.Size(341, 650);
+			this.allReposSearchResults.Size = new System.Drawing.Size(341, 651);
 			this.allReposSearchResults.TabIndex = 3;
 			this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
 			// 
@@ -456,14 +475,6 @@
 			this.splitContainer1.Size = new System.Drawing.Size(1001, 771);
 			this.splitContainer1.SplitterDistance = 628;
 			this.splitContainer1.TabIndex = 8;
-			// 
-			// pnlPointer
-			// 
-			this.pnlPointer.BackColor = System.Drawing.Color.Red;
-			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
-			this.pnlPointer.Name = "pnlPointer";
-			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-			this.pnlPointer.TabIndex = 10;
 			// 
 			// pictureBox1
 			// 
@@ -702,22 +713,23 @@
 			this.cmbImage.Size = new System.Drawing.Size(147, 21);
 			this.cmbImage.TabIndex = 2;
 			// 
-			// openTranscriptFileToolStripMenuItem
+			// chkSwitch
 			// 
-			this.openTranscriptFileToolStripMenuItem.Name = "openTranscriptFileToolStripMenuItem";
-			this.openTranscriptFileToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-			this.openTranscriptFileToolStripMenuItem.Text = "Open transcript file";
-			this.openTranscriptFileToolStripMenuItem.Click += new System.EventHandler(this.openTranscriptFileToolStripMenuItem_Click);
+			this.chkSwitch.AutoSize = true;
+			this.chkSwitch.Location = new System.Drawing.Point(12, 725);
+			this.chkSwitch.Name = "chkSwitch";
+			this.chkSwitch.Size = new System.Drawing.Size(191, 17);
+			this.chkSwitch.TabIndex = 7;
+			this.chkSwitch.Text = "switch to lesson on bookmark jump";
+			this.chkSwitch.UseVisualStyleBackColor = true;
 			// 
-			// toolStripSeparator4
+			// pnlPointer
 			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(209, 6);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(209, 6);
+			this.pnlPointer.BackColor = System.Drawing.Color.Red;
+			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
+			this.pnlPointer.Name = "pnlPointer";
+			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
+			this.pnlPointer.TabIndex = 10;
 			// 
 			// MainForm
 			// 
@@ -824,5 +836,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem openTranscriptFileToolStripMenuItem;
+		private System.Windows.Forms.CheckBox chkSwitch;
 	}
 }

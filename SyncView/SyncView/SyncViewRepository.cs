@@ -214,14 +214,15 @@ namespace ChapterListMB.SyncView
                 string line;
                 while ((line = fr.ReadLine()) != null)
                 {
+                    var content = line;
                     if (stripTiming)
 					{
-                        line = Regexes.regexTranscriptTiming.Replace(line, "");
+                        content = Regexes.regexTranscriptTiming.Replace(content, "");
                     }
                     
                     if (filter != "")
                     {
-                        bool val = DefaultTextMatch(filter, line);
+                        bool val = DefaultTextMatch(filter, content);
                         if (val)
                             yield return line;
                     }
@@ -486,7 +487,7 @@ namespace ChapterListMB.SyncView
             {
                 if (NeedAddNewLine)
                     w.WriteLine("");
-                var pos = min - 50; // 50 milliseconds earlier than first line to skip
+                var pos = min - 250; // 250 milliseconds earlier than first line to skip
                 var ts = new TimeSpan(0, 0, 0, 0, pos);
                 int mins = (int)ts.TotalMinutes;
                 int secss = ts.Seconds;
