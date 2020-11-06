@@ -12,7 +12,7 @@ namespace SyncView.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,42 +25,6 @@ namespace SyncView.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PaleGreen")]
-        public global::System.Drawing.Color HighlightColor {
-            get {
-                return ((global::System.Drawing.Color)(this["HighlightColor"]));
-            }
-            set {
-                this["HighlightColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
-        public global::System.Drawing.Color HighlightBackgroundColor {
-            get {
-                return ((global::System.Drawing.Color)(this["HighlightBackgroundColor"]));
-            }
-            set {
-                this["HighlightBackgroundColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00.2000000")]
-        public global::System.TimeSpan ChapterPositionShiftValue {
-            get {
-                return ((global::System.TimeSpan)(this["ChapterPositionShiftValue"]));
-            }
-            set {
-                this["ChapterPositionShiftValue"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool StartWithMusicBee {
             get {
@@ -68,6 +32,18 @@ namespace SyncView.Properties {
             }
             set {
                 this["StartWithMusicBee"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FormPosition {
+            get {
+                return ((string)(this["FormPosition"]));
+            }
+            set {
+                this["FormPosition"] = value;
             }
         }
     }

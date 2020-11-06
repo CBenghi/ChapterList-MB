@@ -167,21 +167,6 @@ namespace MusicBeePlugin
             {
                 if (_mainForm?.SetTimeDelegate != null)
                     _mainForm?.Invoke(_mainForm?.SetTimeDelegate, playerPosition);
-                if (_track.ChapterList.NumChapters == 0)
-                    return;
-
-
-                Chapter currentChapter = _track.ChapterList.GetCurrentChapterFromPosition(playerPosition);
-                if (!currentChapter.Equals(_currentChapter))
-                {
-                    _mainForm.Invoke(_mainForm.SetCurrentChapterDelegate, currentChapter);
-                    _currentChapter = currentChapter;
-                }
-                // Repeat section
-                if (RepeatSection.RepeatCheck(playerPosition))
-                {
-                    mbApiInterface.Player_SetPosition(RepeatSection.A.Position);
-                }
             }
             catch (Exception)
             {
@@ -231,13 +216,6 @@ namespace MusicBeePlugin
             {
                 _track = GetTrack();
                 _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
-                if (_track.ChapterList.NumChapters == 0) return;
-                if (mbApiInterface.Player_GetPlayState() == PlayState.Playing)
-                {
-                    _currentChapter = _track.ChapterList[0];
-                    _mainForm.Invoke(_mainForm.SetCurrentChapterDelegate, _currentChapter);
-                    _timer.Start();
-                }
             }
         }
 
@@ -289,27 +267,5 @@ namespace MusicBeePlugin
         {
             var ret = mbApiInterface.Player_PlayPause();
         }
-
-        private void MainFormOnAddChapterButtonClickedRouted(object sender, string newChapterName)
-        {
-            var currentPosition = mbApiInterface.Player_GetPosition();
-            _track.ChapterList.CreateNewChapter(newChapterName, currentPosition);
-            if (!_timer.Enabled)
-                _timer.Enabled = true;
-        }
-        private void MainFormOnRemoveChapterButtonClickedRouted(object sender, Chapter e)
-        {
-            _track.ChapterList.RemoveChapter(e);
-            _mainForm.Invoke(_mainForm.UpdateTrackDelegate, _track);
-        }
-        private void MainFormOnChangeChapterRequested(object sender, ChapterChangeEventArgs e)
-        {
-            if (e.ChapterToChange.Position != e.Position)
-            {
-                mbApiInterface.Player_SetPosition(e.Position);
-            }
-            _track.ChapterList.ChangeChapter(e.ChapterToChange, new Chapter(e.Position, e.Title));
-        }
-
     }
 }

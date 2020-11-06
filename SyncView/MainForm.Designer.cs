@@ -33,7 +33,6 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.lblTopmost = new System.Windows.Forms.ToolStripStatusLabel();
 			this.titleArtistStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.chaptersCountStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblImageTime = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblLirycsTime = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -55,18 +54,25 @@
 			this.openTranscriptFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SearchTreeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.chkBookmarkScroll = new System.Windows.Forms.CheckBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.chkSingleAudioShowImages = new System.Windows.Forms.CheckBox();
 			this.txtFilter = new System.Windows.Forms.TextBox();
 			this.chkSingleAudioShowTranscripts = new System.Windows.Forms.CheckBox();
 			this.chkHiglightTranscript = new System.Windows.Forms.CheckBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.chkSwitch = new System.Windows.Forms.CheckBox();
 			this.chkSearchI = new System.Windows.Forms.CheckBox();
 			this.chkSearchT = new System.Windows.Forms.CheckBox();
 			this.btnSearch = new System.Windows.Forms.Button();
 			this.allReposSearchResults = new System.Windows.Forms.TreeView();
 			this.txtAllTranscriptsFilter = new System.Windows.Forms.TextBox();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.button3 = new System.Windows.Forms.Button();
+			this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.pnlPointer = new SyncView.RoundPanel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,32 +89,31 @@
 			this.saveAllImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.deleteThisImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.cmdPointer = new System.Windows.Forms.Button();
-			this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
+			this.cyclePageArrangementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.cmdPointer = new System.Windows.Forms.Button();
 			this.cmdSetImageName = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
 			this.txtImageName = new System.Windows.Forms.TextBox();
 			this.cmbImage = new System.Windows.Forms.ComboBox();
-			this.chkSwitch = new System.Windows.Forms.CheckBox();
-			this.pnlPointer = new SyncView.RoundPanel();
+			this.button2 = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage5.SuspendLayout();
 			this.transcriptsContextMenu.SuspendLayout();
 			this.panel3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.imageContextMenu.SuspendLayout();
-			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -117,14 +122,13 @@
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblTopmost,
             this.titleArtistStatusLabel,
-            this.chaptersCountStatusLabel,
             this.lblImageTime,
             this.lblLirycsTime,
             this.toolStripStatusLabel1,
             this.lblNext});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 771);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1001, 24);
+			this.statusStrip1.Size = new System.Drawing.Size(1059, 24);
 			this.statusStrip1.TabIndex = 8;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -142,15 +146,6 @@
 			this.titleArtistStatusLabel.Name = "titleArtistStatusLabel";
 			this.titleArtistStatusLabel.Size = new System.Drawing.Size(59, 19);
 			this.titleArtistStatusLabel.Text = "titleArtist";
-			// 
-			// chaptersCountStatusLabel
-			// 
-			this.chaptersCountStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-			this.chaptersCountStatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.chaptersCountStatusLabel.Name = "chaptersCountStatusLabel";
-			this.chaptersCountStatusLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.chaptersCountStatusLabel.Size = new System.Drawing.Size(56, 19);
-			this.chaptersCountStatusLabel.Text = "chapters";
 			// 
 			// lblImageTime
 			// 
@@ -171,7 +166,7 @@
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(742, 19);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(856, 19);
 			this.toolStripStatusLabel1.Spring = true;
 			// 
 			// lblNext
@@ -184,11 +179,12 @@
 			// 
 			this.tabControl1.Controls.Add(this.tabPage5);
 			this.tabControl1.Controls.Add(this.tabPage4);
+			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(369, 771);
+			this.tabControl1.Size = new System.Drawing.Size(353, 771);
 			this.tabControl1.TabIndex = 10;
 			// 
 			// tabPage5
@@ -197,9 +193,9 @@
 			this.tabPage5.Controls.Add(this.panel3);
 			this.tabPage5.Location = new System.Drawing.Point(4, 22);
 			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Size = new System.Drawing.Size(361, 745);
+			this.tabPage5.Size = new System.Drawing.Size(345, 745);
 			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "Lezione";
+			this.tabPage5.Text = "Lesson";
 			this.tabPage5.UseVisualStyleBackColor = true;
 			// 
 			// lstBookmarks
@@ -209,9 +205,9 @@
 			this.lstBookmarks.ContextMenuStrip = this.transcriptsContextMenu;
 			this.lstBookmarks.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstBookmarks.HideSelection = false;
-			this.lstBookmarks.Location = new System.Drawing.Point(0, 100);
+			this.lstBookmarks.Location = new System.Drawing.Point(0, 61);
 			this.lstBookmarks.Name = "lstBookmarks";
-			this.lstBookmarks.Size = new System.Drawing.Size(361, 645);
+			this.lstBookmarks.Size = new System.Drawing.Size(345, 684);
 			this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
 			this.lstBookmarks.TabIndex = 4;
 			this.lstBookmarks.UseCompatibleStateImageBehavior = false;
@@ -310,6 +306,7 @@
 			// 
 			// panel3
 			// 
+			this.panel3.Controls.Add(this.chkBookmarkScroll);
 			this.panel3.Controls.Add(this.button1);
 			this.panel3.Controls.Add(this.chkSingleAudioShowImages);
 			this.panel3.Controls.Add(this.txtFilter);
@@ -318,13 +315,24 @@
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel3.Location = new System.Drawing.Point(0, 0);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(361, 100);
+			this.panel3.Size = new System.Drawing.Size(345, 61);
 			this.panel3.TabIndex = 10;
+			// 
+			// chkBookmarkScroll
+			// 
+			this.chkBookmarkScroll.AutoSize = true;
+			this.chkBookmarkScroll.Checked = true;
+			this.chkBookmarkScroll.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkBookmarkScroll.Location = new System.Drawing.Point(242, 31);
+			this.chkBookmarkScroll.Name = "chkBookmarkScroll";
+			this.chkBookmarkScroll.Size = new System.Drawing.Size(52, 17);
+			this.chkBookmarkScroll.TabIndex = 10;
+			this.chkBookmarkScroll.Text = "Scroll";
+			this.chkBookmarkScroll.UseVisualStyleBackColor = true;
 			// 
 			// button1
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(273, 5);
+			this.button1.Location = new System.Drawing.Point(161, 28);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 20);
 			this.button1.TabIndex = 7;
@@ -337,7 +345,7 @@
 			this.chkSingleAudioShowImages.AutoSize = true;
 			this.chkSingleAudioShowImages.Checked = true;
 			this.chkSingleAudioShowImages.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkSingleAudioShowImages.Location = new System.Drawing.Point(10, 53);
+			this.chkSingleAudioShowImages.Location = new System.Drawing.Point(11, 31);
 			this.chkSingleAudioShowImages.Name = "chkSingleAudioShowImages";
 			this.chkSingleAudioShowImages.Size = new System.Drawing.Size(60, 17);
 			this.chkSingleAudioShowImages.TabIndex = 9;
@@ -351,7 +359,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFilter.Location = new System.Drawing.Point(10, 5);
 			this.txtFilter.Name = "txtFilter";
-			this.txtFilter.Size = new System.Drawing.Size(258, 20);
+			this.txtFilter.Size = new System.Drawing.Size(248, 20);
 			this.txtFilter.TabIndex = 5;
 			this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
 			// 
@@ -360,7 +368,7 @@
 			this.chkSingleAudioShowTranscripts.AutoSize = true;
 			this.chkSingleAudioShowTranscripts.Checked = true;
 			this.chkSingleAudioShowTranscripts.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkSingleAudioShowTranscripts.Location = new System.Drawing.Point(10, 75);
+			this.chkSingleAudioShowTranscripts.Location = new System.Drawing.Point(77, 31);
 			this.chkSingleAudioShowTranscripts.Name = "chkSingleAudioShowTranscripts";
 			this.chkSingleAudioShowTranscripts.Size = new System.Drawing.Size(78, 17);
 			this.chkSingleAudioShowTranscripts.TabIndex = 8;
@@ -370,10 +378,11 @@
 			// 
 			// chkHiglightTranscript
 			// 
+			this.chkHiglightTranscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkHiglightTranscript.AutoSize = true;
 			this.chkHiglightTranscript.Checked = true;
 			this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkHiglightTranscript.Location = new System.Drawing.Point(10, 31);
+			this.chkHiglightTranscript.Location = new System.Drawing.Point(264, 8);
 			this.chkHiglightTranscript.Name = "chkHiglightTranscript";
 			this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
 			this.chkHiglightTranscript.TabIndex = 6;
@@ -391,10 +400,21 @@
 			this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(361, 745);
+			this.tabPage4.Size = new System.Drawing.Size(345, 745);
 			this.tabPage4.TabIndex = 3;
-			this.tabPage4.Text = "Collezione";
+			this.tabPage4.Text = "Collection";
 			this.tabPage4.UseVisualStyleBackColor = true;
+			// 
+			// chkSwitch
+			// 
+			this.chkSwitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chkSwitch.AutoSize = true;
+			this.chkSwitch.Location = new System.Drawing.Point(12, 725);
+			this.chkSwitch.Name = "chkSwitch";
+			this.chkSwitch.Size = new System.Drawing.Size(191, 17);
+			this.chkSwitch.TabIndex = 7;
+			this.chkSwitch.Text = "switch to lesson on bookmark jump";
+			this.chkSwitch.UseVisualStyleBackColor = true;
 			// 
 			// chkSearchI
 			// 
@@ -423,7 +443,7 @@
 			// btnSearch
 			// 
 			this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSearch.Location = new System.Drawing.Point(255, 11);
+			this.btnSearch.Location = new System.Drawing.Point(227, 10);
 			this.btnSearch.Name = "btnSearch";
 			this.btnSearch.Size = new System.Drawing.Size(98, 23);
 			this.btnSearch.TabIndex = 4;
@@ -442,7 +462,7 @@
 			this.allReposSearchResults.Location = new System.Drawing.Point(12, 68);
 			this.allReposSearchResults.Name = "allReposSearchResults";
 			this.allReposSearchResults.SelectedImageIndex = 0;
-			this.allReposSearchResults.Size = new System.Drawing.Size(341, 651);
+			this.allReposSearchResults.Size = new System.Drawing.Size(313, 651);
 			this.allReposSearchResults.TabIndex = 3;
 			this.allReposSearchResults.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
 			// 
@@ -452,9 +472,50 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtAllTranscriptsFilter.Location = new System.Drawing.Point(12, 13);
 			this.txtAllTranscriptsFilter.Name = "txtAllTranscriptsFilter";
-			this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(237, 20);
+			this.txtAllTranscriptsFilter.Size = new System.Drawing.Size(209, 20);
 			this.txtAllTranscriptsFilter.TabIndex = 2;
 			this.txtAllTranscriptsFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Controls.Add(this.groupBox1);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Size = new System.Drawing.Size(345, 745);
+			this.tabPage1.TabIndex = 5;
+			this.tabPage1.Text = "Tools";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.button3);
+			this.groupBox1.Controls.Add(this.cmdSetNextSlideTime);
+			this.groupBox1.Location = new System.Drawing.Point(3, 6);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(304, 76);
+			this.groupBox1.TabIndex = 10;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Move slide to current time";
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(6, 19);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(124, 43);
+			this.button3.TabIndex = 5;
+			this.button3.Text = "Make prev later\r\n->|";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// cmdSetNextSlideTime
+			// 
+			this.cmdSetNextSlideTime.Location = new System.Drawing.Point(189, 19);
+			this.cmdSetNextSlideTime.Name = "cmdSetNextSlideTime";
+			this.cmdSetNextSlideTime.Size = new System.Drawing.Size(109, 43);
+			this.cmdSetNextSlideTime.TabIndex = 4;
+			this.cmdSetNextSlideTime.Text = "Make next earlier\r\n|<-";
+			this.cmdSetNextSlideTime.UseVisualStyleBackColor = true;
+			this.cmdSetNextSlideTime.Click += new System.EventHandler(this.cmdSetNextSlideTime_Click);
 			// 
 			// splitContainer1
 			// 
@@ -466,23 +527,31 @@
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.pnlPointer);
 			this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
-			this.splitContainer1.Panel1.Controls.Add(this.panel2);
 			this.splitContainer1.Panel1.Controls.Add(this.panel1);
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-			this.splitContainer1.Size = new System.Drawing.Size(1001, 771);
-			this.splitContainer1.SplitterDistance = 628;
+			this.splitContainer1.Size = new System.Drawing.Size(1059, 771);
+			this.splitContainer1.SplitterDistance = 702;
 			this.splitContainer1.TabIndex = 8;
+			// 
+			// pnlPointer
+			// 
+			this.pnlPointer.BackColor = System.Drawing.Color.Red;
+			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
+			this.pnlPointer.Name = "pnlPointer";
+			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
+			this.pnlPointer.TabIndex = 10;
 			// 
 			// pictureBox1
 			// 
 			this.pictureBox1.ContextMenuStrip = this.imageContextMenu;
 			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBox1.Location = new System.Drawing.Point(0, 21);
+			this.pictureBox1.Location = new System.Drawing.Point(0, 28);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(628, 729);
+			this.pictureBox1.Size = new System.Drawing.Size(702, 743);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pictureBox1.TabIndex = 7;
 			this.pictureBox1.TabStop = false;
@@ -506,9 +575,10 @@
             this.createHTMLFromImagesToolStripMenuItem,
             this.saveAllImagesToolStripMenuItem,
             this.toolStripSeparator2,
-            this.deleteThisImageToolStripMenuItem});
+            this.deleteThisImageToolStripMenuItem,
+            this.cyclePageArrangementToolStripMenuItem});
 			this.imageContextMenu.Name = "contextMenuStrip1";
-			this.imageContextMenu.Size = new System.Drawing.Size(216, 220);
+			this.imageContextMenu.Size = new System.Drawing.Size(216, 242);
 			// 
 			// jumpToNextImageToolStripMenuItem
 			// 
@@ -605,144 +675,129 @@
 			this.deleteThisImageToolStripMenuItem.Text = "Delete this image";
 			this.deleteThisImageToolStripMenuItem.Click += new System.EventHandler(this.deleteThisImageToolStripMenuItem_Click);
 			// 
-			// panel2
+			// cyclePageArrangementToolStripMenuItem
 			// 
-			this.panel2.Controls.Add(this.cmdPointer);
-			this.panel2.Controls.Add(this.cmdSetNextSlideTime);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(0, 750);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(628, 21);
-			this.panel2.TabIndex = 9;
-			// 
-			// cmdPointer
-			// 
-			this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdPointer.Location = new System.Drawing.Point(566, 1);
-			this.cmdPointer.Name = "cmdPointer";
-			this.cmdPointer.Size = new System.Drawing.Size(60, 20);
-			this.cmdPointer.TabIndex = 5;
-			this.cmdPointer.Text = "Pointer";
-			this.cmdPointer.UseVisualStyleBackColor = true;
-			this.cmdPointer.Click += new System.EventHandler(this.cmdPointer_Click);
-			// 
-			// cmdSetNextSlideTime
-			// 
-			this.cmdSetNextSlideTime.Location = new System.Drawing.Point(0, 0);
-			this.cmdSetNextSlideTime.Name = "cmdSetNextSlideTime";
-			this.cmdSetNextSlideTime.Size = new System.Drawing.Size(128, 20);
-			this.cmdSetNextSlideTime.TabIndex = 4;
-			this.cmdSetNextSlideTime.Text = "Set next slide here";
-			this.cmdSetNextSlideTime.UseVisualStyleBackColor = true;
-			this.cmdSetNextSlideTime.Click += new System.EventHandler(this.cmdSetNextSlideTime_Click);
+			this.cyclePageArrangementToolStripMenuItem.Name = "cyclePageArrangementToolStripMenuItem";
+			this.cyclePageArrangementToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+			this.cyclePageArrangementToolStripMenuItem.Text = "Cycle page arrangement";
+			this.cyclePageArrangementToolStripMenuItem.Click += new System.EventHandler(this.cyclePageArrangementToolStripMenuItem_Click);
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.button5);
-			this.panel1.Controls.Add(this.button3);
-			this.panel1.Controls.Add(this.button2);
-			this.panel1.Controls.Add(this.cmdSetImageName);
-			this.panel1.Controls.Add(this.txtImageName);
-			this.panel1.Controls.Add(this.cmbImage);
+			this.panel1.Controls.Add(this.tableLayoutPanel1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(628, 21);
+			this.panel1.Size = new System.Drawing.Size(702, 28);
 			this.panel1.TabIndex = 8;
 			// 
-			// button5
+			// tableLayoutPanel1
 			// 
-			this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button5.Location = new System.Drawing.Point(254, 0);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(40, 20);
-			this.button5.TabIndex = 7;
-			this.button5.Text = "=>";
-			this.button5.UseVisualStyleBackColor = true;
-			this.button5.Click += new System.EventHandler(this.button5_Click);
+			this.tableLayoutPanel1.ColumnCount = 6;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+			this.tableLayoutPanel1.Controls.Add(this.cmdPointer, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.cmdSetImageName, 5, 0);
+			this.tableLayoutPanel1.Controls.Add(this.button5, 3, 0);
+			this.tableLayoutPanel1.Controls.Add(this.txtImageName, 4, 0);
+			this.tableLayoutPanel1.Controls.Add(this.cmbImage, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.button2, 2, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(702, 28);
+			this.tableLayoutPanel1.TabIndex = 8;
 			// 
-			// button3
+			// cmdPointer
 			// 
-			this.button3.Location = new System.Drawing.Point(0, 0);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(48, 20);
-			this.button3.TabIndex = 6;
-			this.button3.Text = "|> /  ||";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Click += new System.EventHandler(this.button3_Click);
-			// 
-			// button2
-			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(207, 0);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(40, 20);
-			this.button2.TabIndex = 5;
-			this.button2.Text = "Go";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.cmdPointer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmdPointer.Location = new System.Drawing.Point(3, 3);
+			this.cmdPointer.Name = "cmdPointer";
+			this.cmdPointer.Size = new System.Drawing.Size(34, 22);
+			this.cmdPointer.TabIndex = 5;
+			this.cmdPointer.Text = "oO";
+			this.cmdPointer.UseVisualStyleBackColor = true;
+			this.cmdPointer.Click += new System.EventHandler(this.cmdPointer_Click);
 			// 
 			// cmdSetImageName
 			// 
-			this.cmdSetImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdSetImageName.Location = new System.Drawing.Point(586, 1);
+			this.cmdSetImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmdSetImageName.Location = new System.Drawing.Point(665, 3);
 			this.cmdSetImageName.Name = "cmdSetImageName";
-			this.cmdSetImageName.Size = new System.Drawing.Size(40, 20);
+			this.cmdSetImageName.Size = new System.Drawing.Size(34, 22);
 			this.cmdSetImageName.TabIndex = 4;
 			this.cmdSetImageName.Text = "Set";
 			this.cmdSetImageName.UseVisualStyleBackColor = true;
 			this.cmdSetImageName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cmdSetImageName_MouseUp);
 			// 
+			// button5
+			// 
+			this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.button5.Location = new System.Drawing.Point(354, 3);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(34, 22);
+			this.button5.TabIndex = 7;
+			this.button5.Text = "=>";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.button5_Click);
+			// 
 			// txtImageName
 			// 
-			this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtImageName.Location = new System.Drawing.Point(299, 0);
+			this.txtImageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtImageName.Location = new System.Drawing.Point(394, 4);
 			this.txtImageName.Name = "txtImageName";
-			this.txtImageName.Size = new System.Drawing.Size(280, 20);
+			this.txtImageName.Size = new System.Drawing.Size(265, 20);
 			this.txtImageName.TabIndex = 3;
 			this.txtImageName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtImageName_KeyPress);
 			// 
 			// cmbImage
 			// 
-			this.cmbImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmbImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.cmbImage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbImage.FormattingEnabled = true;
-			this.cmbImage.Location = new System.Drawing.Point(54, 0);
+			this.cmbImage.Location = new System.Drawing.Point(43, 3);
 			this.cmbImage.Name = "cmbImage";
-			this.cmbImage.Size = new System.Drawing.Size(147, 21);
+			this.cmbImage.Size = new System.Drawing.Size(265, 21);
 			this.cmbImage.TabIndex = 2;
 			// 
-			// chkSwitch
+			// button2
 			// 
-			this.chkSwitch.AutoSize = true;
-			this.chkSwitch.Location = new System.Drawing.Point(12, 725);
-			this.chkSwitch.Name = "chkSwitch";
-			this.chkSwitch.Size = new System.Drawing.Size(191, 17);
-			this.chkSwitch.TabIndex = 7;
-			this.chkSwitch.Text = "switch to lesson on bookmark jump";
-			this.chkSwitch.UseVisualStyleBackColor = true;
-			// 
-			// pnlPointer
-			// 
-			this.pnlPointer.BackColor = System.Drawing.Color.Red;
-			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
-			this.pnlPointer.Name = "pnlPointer";
-			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-			this.pnlPointer.TabIndex = 10;
+			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.button2.Location = new System.Drawing.Point(314, 3);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(34, 22);
+			this.button2.TabIndex = 5;
+			this.button2.Text = "Go";
+			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1001, 795);
+			this.ClientSize = new System.Drawing.Size(1059, 795);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.statusStrip1);
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(323, 344);
 			this.Name = "MainForm";
 			this.Text = "SyncView";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
 			this.DragOver += new System.Windows.Forms.DragEventHandler(this.MainForm_DragOver);
@@ -757,15 +812,17 @@
 			this.panel3.PerformLayout();
 			this.tabPage4.ResumeLayout(false);
 			this.tabPage4.PerformLayout();
+			this.tabPage1.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.imageContextMenu.ResumeLayout(false);
-			this.panel2.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -774,7 +831,6 @@
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel titleArtistStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel chaptersCountStatusLabel;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage4;
@@ -797,11 +853,9 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private RoundPanel pnlPointer;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button cmdPointer;
         private System.Windows.Forms.Button cmdSetNextSlideTime;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button cmdSetImageName;
         private System.Windows.Forms.TextBox txtImageName;
@@ -837,5 +891,11 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem openTranscriptFileToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkSwitch;
+		private System.Windows.Forms.ToolStripMenuItem cyclePageArrangementToolStripMenuItem;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.CheckBox chkBookmarkScroll;
 	}
 }

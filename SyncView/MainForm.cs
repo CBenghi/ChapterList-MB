@@ -51,7 +51,6 @@ namespace SyncView
         int CurrentMilli = -1;
         int lastTranscriptLocate = -1;
 
-        // TIMER BASED, not called from musicBee
         public void SetCurrentTime(int playerPosition)
         {
             // lblPos.Text = playerPosition.ToString();
@@ -108,6 +107,8 @@ namespace SyncView
             var now = GetCurrentTranscriptIndex();
             if (lastCurrent == now)
                 return;
+            if (chkBookmarkScroll.Checked)
+                lstBookmarks.EnsureVisible(now);
 
             if (lstBookmarks.Items[now].ImageIndex == 3) // this is a skip
             {
@@ -192,8 +193,6 @@ namespace SyncView
             this.Text = "SyncView - " + repo.mediaFileName;
             
             titleArtistStatusLabel.Text = $"{Track.NowPlayingTrackInfo.Artist} – {Track.NowPlayingTrackInfo.Title}";
-            if (Track.ChapterList.NumChapters == 0)
-                chaptersCountStatusLabel.Text = "No Chapters";
         }
 
         private void populateBookmarks()
@@ -554,11 +553,6 @@ namespace SyncView
             requestBookMarkLocate = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            RequestPlayToggle(0);
-        }
-
         private void copyImagesAsLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
@@ -590,14 +584,29 @@ namespace SyncView
 
             repo.ReloadImages();
             reloadImagesToolStripMenuItem_Click(null, null);
-
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
+            
             if (lastPC != null)
                 SetPointer(lastPC);
             cmbImage.DropDownWidth = pictureBox1.Width - cmbImage.Left;
+            if (Size.Width < 300 || Size.Height < 300)
+                return;
+            // change orientation
+            var ratio = (double)Size.Width / this.Size.Height;
+            if (ratio < 0.6)
+			{
+                splitContainer1.Orientation = Orientation.Horizontal;
+                splitContainer1.SplitterDistance = splitContainer1.Height / 3;
+
+            }
+            if (ratio > 1.5)
+            {
+                splitContainer1.Orientation = Orientation.Vertical;
+                splitContainer1.SplitterDistance = 3 * splitContainer1.Width / 4;
+            }
         }
 
         int pSize = 21;
@@ -801,10 +810,40 @@ namespace SyncView
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            var pos = Properties.Settings.Default.FormPosition;
+            if (getPosSize(pos, out var position, out var size))
+			{
+                this.Location = position;
+                this.Size = size;
+			}
+
             MainForm_Resize(null, null); // sets the combo width
         }
 
-        private void fileExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+		private bool getPosSize(string pos, out Point position, out Size size)
+		{
+            position = new Point(0, 0);
+            size = new Size(0, 0);
+            Regex r = new Regex(@"^(?<px>\d+),(?<py>\d+),(?<sx>\d+),(?<sy>\d+)$");
+            var m = r.Match(pos);
+            if (!m.Success)
+                return false;
+            
+            position = new Point(
+                Convert.ToInt32(m.Groups["px"].Value),
+                Convert.ToInt32(m.Groups["py"].Value)
+                );
+            size = new Size(
+                Convert.ToInt32(m.Groups["sx"].Value),
+                Convert.ToInt32(m.Groups["sy"].Value)
+                );
+
+            Screen myScreen = Screen.FromControl(this);
+            Rectangle area = myScreen.WorkingArea;
+            return area.Contains(position);
+        }
+
+		private void fileExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var im = repo.GetLastImage();
 
@@ -913,6 +952,32 @@ namespace SyncView
             if (!t.Exists)
                 return;
             Process.Start(t.FullName);
+        }
+
+		private void cyclePageArrangementToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            if (splitContainer1.Orientation == Orientation.Horizontal)
+                splitContainer1.Orientation = Orientation.Vertical;
+            else
+                splitContainer1.Orientation = Orientation.Horizontal;
+        }
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+            int thisIndex = cmbImage.SelectedIndex;
+            if (repo.Images.Count() <= thisIndex)
+                return;
+            var nextImage = repo.Images[thisIndex];
+            nextImage.TrySetImageTime(CurrentMilli);
+            repo.ReloadImages();
+            reloadImagesToolStripMenuItem_Click(null, null);
+        }
+
+		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+            var val = $"{this.Left},{this.Top},{this.Width},{this.Height}";
+            Properties.Settings.Default.FormPosition = val;
+            Properties.Settings.Default.Save();
         }
 	}
 }
