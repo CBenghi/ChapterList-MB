@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SyncView")]
-[assembly: AssemblyDescription("A plugin for the MusicBee music player, which displays imaged aligned with tracks.")]
+[assembly: AssemblyDescription("A plugin for the MusicBee music player that shows images and text in-sync with audio tracks.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Claudio Benghi")]
 [assembly: AssemblyProduct("SyncView")]
-[assembly: AssemblyCopyright("Copyright © Claudio Benghi 2020")]
+[assembly: AssemblyCopyright("Claudio Benghi © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

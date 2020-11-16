@@ -26,17 +26,17 @@ namespace ChapterListMB
                 );
                 xmlDoc.Root.Add(newElement);
             }
-            xmlDoc.Save(Track.XmlPath.LocalPath);
+            xmlDoc.Save(CLTrack.XmlPath.LocalPath);
         }
         public static void ReadChapterListFromXml(ChapterList chapList)
         {
             try
             {
-                if (!System.IO.File.Exists(Track.XmlPath.LocalPath))
+                if (!System.IO.File.Exists(CLTrack.XmlPath.LocalPath))
                 {
                     throw new FileNotFoundException();
                 }
-                var chaptersListDoc = XDocument.Load(Track.XmlPath.LocalPath);
+                var chaptersListDoc = XDocument.Load(CLTrack.XmlPath.LocalPath);
                 if (chaptersListDoc.Root.Attribute("version").Value == "1.0") // 1.0 is original chapterlist XML format
                 {
                     foreach (var xElement in chaptersListDoc.Descendants("Chapter"))

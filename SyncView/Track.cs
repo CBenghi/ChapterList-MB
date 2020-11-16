@@ -8,11 +8,11 @@ using MusicBeePlugin;
 
 namespace ChapterListMB
 {
-    public class Track : IEquatable<Track>
+    public class CLTrack : IEquatable<CLTrack>
     {
         public NowPlayingTrackInfo NowPlayingTrackInfo { get; set; }
         public static Uri XmlPath;
-        public Track(NowPlayingTrackInfo trackInfo)
+        public CLTrack(NowPlayingTrackInfo trackInfo)
         {
             XmlPath = new Uri($"{trackInfo.FilePath}.xml", UriKind.Absolute);
             NowPlayingTrackInfo = trackInfo;
@@ -26,12 +26,12 @@ namespace ChapterListMB
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            Track track  = obj as Track;
+            CLTrack track  = obj as CLTrack;
             if ((object) track == null)
                 return false;
             return NowPlayingTrackInfo.Equals(track.NowPlayingTrackInfo);
         }
-        public bool Equals(Track other)
+        public bool Equals(CLTrack other)
         {
             if ((object) other == null) return false;
                 return NowPlayingTrackInfo.Equals(other.NowPlayingTrackInfo);

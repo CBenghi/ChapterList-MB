@@ -12,15 +12,16 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace SyncView
 {
     public partial class MainForm : Form
     {
-        private Track Track { get; set; }
+        private CLTrack Track { get; set; }
                 
-        public delegate void UpdateTrack(Track track);
+        public delegate void UpdateTrack(CLTrack track);
         public delegate void UpdateChapterList();
         public delegate void SetCurrentChapter(Chapter chapter);
 
@@ -51,15 +52,38 @@ namespace SyncView
         int CurrentMilli = -1;
         int lastTranscriptLocate = -1;
 
+        private class timeState
+		{
+            public int position { get; set; }
+            public DateTime time { get; set; }
+		}
+
+        timeState prevTimeState = null;
+
         public void SetCurrentTime(int playerPosition)
         {
+            var cachedTime = DateTime.Now;
             // lblPos.Text = playerPosition.ToString();
             if (repo != null)
             {
                 // status bar
                 lblImageTime.Text = SyncViewRepository.GetImagesTimestamp(playerPosition);
                 lblLirycsTime.Text = SyncViewRepository.GetLyricsTimestamp(playerPosition);
-                lblNext.Text = $"- {(repo.Images.NextObjectTime - playerPosition ) / 1000} sec.";
+                lblNext.Text = 
+                    $"This slide: {(repo.Images.NextObjectTime - playerPosition ) / 1000} sec. " + 
+                    $" - Total: {SyncViewRepository.GetLyricsTimestamp(totalMs - playerPosition)} " +
+                    $" - {(double)playerPosition / totalMs:P0}";
+
+                if (prevTimeState != null)
+				{
+                    var tTeorico = playerPosition - prevTimeState.position;
+                    var tReale = (cachedTime - prevTimeState.time).TotalMilliseconds;
+                    if (tReale > 5000)
+					{
+                        lblSpeed.Text = $"{tTeorico/tReale:f2}x";
+                        prevTimeState = new timeState() { position = playerPosition, time = cachedTime };
+                    }                   
+				}
 
                 // update transcript current
                 var diffmilli = Math.Abs(playerPosition - lastTranscriptLocate);
@@ -95,9 +119,14 @@ namespace SyncView
                     SetPointer(repo.Pointers[pointerIndex]);
                 }
             }
+            if (prevTimeState == null)
+                prevTimeState = new timeState() { position = playerPosition, time = cachedTime };
         }
 
         int lastCurrent = -1;
+
+        Font baseFont = null;
+        Font boldFont = null;
 
         private void LocateTranscript()
         {
@@ -108,7 +137,11 @@ namespace SyncView
             if (lastCurrent == now)
                 return;
             if (chkBookmarkScroll.Checked)
+            {
                 lstBookmarks.EnsureVisible(now);
+                var t = Math.Min(now + lstBookmarksVisibleCount / 2, lstBookmarks.Items.Count-1);
+                lstBookmarks.EnsureVisible(t);
+            }
 
             if (lstBookmarks.Items[now].ImageIndex == 3) // this is a skip
             {
@@ -121,6 +154,7 @@ namespace SyncView
                     doRefresh = true;
                 var index = (int)((lstBookmarks.Items[lastCurrent].Tag as Bookmark)?.Type);
                 lstBookmarks.Items[lastCurrent].ImageIndex = index;
+                lstBookmarks.Items[lastCurrent].Font = baseFont;
             }
             else
             {
@@ -130,6 +164,7 @@ namespace SyncView
             try
             {
                 lstBookmarks.Items[now].ImageIndex = 0;
+                lstBookmarks.Items[now].Font = boldFont;
             }
             catch (Exception)
             {
@@ -180,7 +215,9 @@ namespace SyncView
             pnlPointer.Refresh();
         }
 
-        public void UpdateTrackMethod(Track track)
+        int totalMs = -1;
+
+        public void UpdateTrackMethod(CLTrack track)
         {
             cmbImage.Items.Clear();
             pictureBox1.Image = null;
@@ -191,7 +228,8 @@ namespace SyncView
             populateBookmarks();
 
             this.Text = "SyncView - " + repo.mediaFileName;
-            
+            totalMs = (int)(track.NowPlayingTrackInfo.Duration.TotalMilliseconds);
+            lblTotalTime.Text = SyncViewRepository.GetLyricsTimestamp(totalMs);
             titleArtistStatusLabel.Text = $"{Track.NowPlayingTrackInfo.Artist} – {Track.NowPlayingTrackInfo.Title}";
         }
 
@@ -779,9 +817,13 @@ namespace SyncView
             }
         }
 
+        int lstBookmarksVisibleCount = 10;
+
         private void lstBookmarks_Resize(object sender, EventArgs e)
         {
             lstBookmarks.Columns[0].Width = lstBookmarks.Width - 16;
+            var h = lstBookmarks.Font.GetHeight(lstBookmarks.CreateGraphics());
+            lstBookmarksVisibleCount = Convert.ToInt32(lstBookmarks.Height / h);
         }
 
         private void txtImageName_KeyPress(object sender, KeyPressEventArgs e)
@@ -816,6 +858,9 @@ namespace SyncView
                 this.Location = position;
                 this.Size = size;
 			}
+
+            baseFont = lstBookmarks.Font;
+            boldFont = new Font(baseFont, FontStyle.Bold);
 
             MainForm_Resize(null, null); // sets the combo width
         }

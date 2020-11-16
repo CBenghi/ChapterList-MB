@@ -31,10 +31,12 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblTopmost = new System.Windows.Forms.ToolStripStatusLabel();
 			this.titleArtistStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblImageTime = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblLirycsTime = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblNext = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -72,7 +74,6 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlPointer = new SyncView.RoundPanel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +99,8 @@
 			this.txtImageName = new System.Windows.Forms.TextBox();
 			this.cmbImage = new System.Windows.Forms.ComboBox();
 			this.button2 = new System.Windows.Forms.Button();
+			this.lblTotalTime = new System.Windows.Forms.ToolStripStatusLabel();
+			this.pnlPointer = new SyncView.RoundPanel();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage5.SuspendLayout();
@@ -120,10 +123,13 @@
 			// 
 			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel2,
             this.lblTopmost,
             this.titleArtistStatusLabel,
             this.lblImageTime,
             this.lblLirycsTime,
+            this.lblTotalTime,
+            this.lblSpeed,
             this.toolStripStatusLabel1,
             this.lblNext});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 771);
@@ -131,6 +137,13 @@
 			this.statusStrip1.Size = new System.Drawing.Size(1059, 24);
 			this.statusStrip1.TabIndex = 8;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStripStatusLabel2
+			// 
+			this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 19);
+			this.toolStripStatusLabel2.Text = "Licensee";
 			// 
 			// lblTopmost
 			// 
@@ -163,10 +176,17 @@
 			this.lblLirycsTime.Text = "0";
 			this.lblLirycsTime.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
 			// 
+			// lblSpeed
+			// 
+			this.lblSpeed.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+			this.lblSpeed.Name = "lblSpeed";
+			this.lblSpeed.Size = new System.Drawing.Size(23, 19);
+			this.lblSpeed.Text = "1x";
+			// 
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(856, 19);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(764, 19);
 			this.toolStripStatusLabel1.Spring = true;
 			// 
 			// lblNext
@@ -181,10 +201,10 @@
 			this.tabControl1.Controls.Add(this.tabPage4);
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Location = new System.Drawing.Point(3, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(353, 771);
+			this.tabControl1.Size = new System.Drawing.Size(347, 765);
 			this.tabControl1.TabIndex = 10;
 			// 
 			// tabPage5
@@ -193,7 +213,7 @@
 			this.tabPage5.Controls.Add(this.panel3);
 			this.tabPage5.Location = new System.Drawing.Point(4, 22);
 			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Size = new System.Drawing.Size(345, 745);
+			this.tabPage5.Size = new System.Drawing.Size(339, 739);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "Lesson";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -207,7 +227,7 @@
 			this.lstBookmarks.HideSelection = false;
 			this.lstBookmarks.Location = new System.Drawing.Point(0, 61);
 			this.lstBookmarks.Name = "lstBookmarks";
-			this.lstBookmarks.Size = new System.Drawing.Size(345, 684);
+			this.lstBookmarks.Size = new System.Drawing.Size(339, 678);
 			this.lstBookmarks.SmallImageList = this.SearchTreeImageList;
 			this.lstBookmarks.TabIndex = 4;
 			this.lstBookmarks.UseCompatibleStateImageBehavior = false;
@@ -315,7 +335,7 @@
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel3.Location = new System.Drawing.Point(0, 0);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(345, 61);
+			this.panel3.Size = new System.Drawing.Size(339, 61);
 			this.panel3.TabIndex = 10;
 			// 
 			// chkBookmarkScroll
@@ -359,7 +379,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFilter.Location = new System.Drawing.Point(10, 5);
 			this.txtFilter.Name = "txtFilter";
-			this.txtFilter.Size = new System.Drawing.Size(248, 20);
+			this.txtFilter.Size = new System.Drawing.Size(242, 20);
 			this.txtFilter.TabIndex = 5;
 			this.txtFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilter_KeyPress);
 			// 
@@ -382,7 +402,7 @@
 			this.chkHiglightTranscript.AutoSize = true;
 			this.chkHiglightTranscript.Checked = true;
 			this.chkHiglightTranscript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkHiglightTranscript.Location = new System.Drawing.Point(264, 8);
+			this.chkHiglightTranscript.Location = new System.Drawing.Point(258, 8);
 			this.chkHiglightTranscript.Name = "chkHiglightTranscript";
 			this.chkHiglightTranscript.Size = new System.Drawing.Size(67, 17);
 			this.chkHiglightTranscript.TabIndex = 6;
@@ -400,7 +420,7 @@
 			this.tabPage4.Controls.Add(this.txtAllTranscriptsFilter);
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(345, 745);
+			this.tabPage4.Size = new System.Drawing.Size(339, 739);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "Collection";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -481,7 +501,7 @@
 			this.tabPage1.Controls.Add(this.groupBox1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(345, 745);
+			this.tabPage1.Size = new System.Drawing.Size(339, 739);
 			this.tabPage1.TabIndex = 5;
 			this.tabPage1.Text = "Tools";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -533,17 +553,10 @@
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+			this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3);
 			this.splitContainer1.Size = new System.Drawing.Size(1059, 771);
 			this.splitContainer1.SplitterDistance = 702;
 			this.splitContainer1.TabIndex = 8;
-			// 
-			// pnlPointer
-			// 
-			this.pnlPointer.BackColor = System.Drawing.Color.Red;
-			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
-			this.pnlPointer.Name = "pnlPointer";
-			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-			this.pnlPointer.TabIndex = 10;
 			// 
 			// pictureBox1
 			// 
@@ -785,6 +798,21 @@
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
+			// lblTotalTime
+			// 
+			this.lblTotalTime.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+			this.lblTotalTime.Name = "lblTotalTime";
+			this.lblTotalTime.Size = new System.Drawing.Size(17, 19);
+			this.lblTotalTime.Text = "0";
+			// 
+			// pnlPointer
+			// 
+			this.pnlPointer.BackColor = System.Drawing.Color.Red;
+			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
+			this.pnlPointer.Name = "pnlPointer";
+			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
+			this.pnlPointer.TabIndex = 10;
+			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
@@ -897,5 +925,8 @@
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.CheckBox chkBookmarkScroll;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+		private System.Windows.Forms.ToolStripStatusLabel lblSpeed;
+		private System.Windows.Forms.ToolStripStatusLabel lblTotalTime;
 	}
 }

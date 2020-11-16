@@ -252,7 +252,7 @@ namespace ChapterListMB.SyncView
         Regex regexGetLectureAndPart { get; } = new Regex(@"L(\d+)P(\d+)", RegexOptions.Compiled); // TODO: Remove from here, and move to session class
         public DirectoryInfo RepoRootFolder { get; private set; }
 
-        internal SyncViewRepository(Track track)
+        internal SyncViewRepository(CLTrack track)
         {
             mediaFileName = track.NowPlayingTrackInfo.FilePath.LocalPath;
             LocateRepoRoot();

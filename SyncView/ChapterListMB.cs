@@ -15,7 +15,7 @@ namespace MusicBeePlugin
         private MusicBeeApiInterface mbApiInterface;
         private PluginInfo _about = new PluginInfo();
         private MainForm _mainForm;
-        private Track _track;
+        private CLTrack _track;
         private Timer _timer;
         private Chapter _currentChapter;
 
@@ -174,7 +174,7 @@ namespace MusicBeePlugin
             }
         }
 
-        private Track GetTrack()
+        private CLTrack GetTrack()
         {
             var trackInfo = new NowPlayingTrackInfo(
                 mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle),
@@ -185,13 +185,13 @@ namespace MusicBeePlugin
                 new Uri(mbApiInterface.NowPlaying_GetFileProperty(
                     FilePropertyType.Url), UriKind.Absolute)
             );
-            Track track = new Track(trackInfo);
+            CLTrack track = new CLTrack(trackInfo);
             return track;
         }
 
         private void CreateMenuItem()
         {
-            mbApiInterface.MB_AddMenuItem("mnuTools/" + @"SyncView", "Hotkey for SyncView", OnMenuClicked);
+            mbApiInterface.MB_AddMenuItem("mnuTools/" + @"SyncView", "SyncView launch", OnMenuClicked);
         }
 
         private void OnMenuClicked(object sender, EventArgs args)
