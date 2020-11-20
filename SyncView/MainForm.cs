@@ -139,8 +139,8 @@ namespace SyncView
             if (chkBookmarkScroll.Checked)
             {
                 lstBookmarks.EnsureVisible(now);
-                var t = Math.Min(now + lstBookmarksVisibleCount / 2, lstBookmarks.Items.Count-1);
-                lstBookmarks.EnsureVisible(t);
+                //var t = Math.Min(now + lstBookmarksVisibleCount / 2, lstBookmarks.Items.Count-1);
+                //lstBookmarks.EnsureVisible(t);
             }
 
             if (lstBookmarks.Items[now].ImageIndex == 3) // this is a skip
@@ -154,7 +154,8 @@ namespace SyncView
                     doRefresh = true;
                 var index = (int)((lstBookmarks.Items[lastCurrent].Tag as Bookmark)?.Type);
                 lstBookmarks.Items[lastCurrent].ImageIndex = index;
-                lstBookmarks.Items[lastCurrent].Font = baseFont;
+                // lstBookmarks.Items[lastCurrent].Font = baseFont;
+                lstBookmarks.Items[lastCurrent].BackColor = lstBookmarks.BackColor;
             }
             else
             {
@@ -164,7 +165,9 @@ namespace SyncView
             try
             {
                 lstBookmarks.Items[now].ImageIndex = 0;
-                lstBookmarks.Items[now].Font = boldFont;
+                // lstBookmarks.Items[now].Font = boldFont;
+                lstBookmarks.Items[now].BackColor= Color.LightSalmon;
+                
             }
             catch (Exception)
             {

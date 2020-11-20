@@ -36,6 +36,7 @@
 			this.titleArtistStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblImageTime = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblLirycsTime = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lblTotalTime = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblSpeed = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblNext = new System.Windows.Forms.ToolStripStatusLabel();
@@ -74,6 +75,7 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.cmdSetNextSlideTime = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.pnlPointer = new SyncView.RoundPanel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.imageContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.jumpToNextImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,8 +101,6 @@
 			this.txtImageName = new System.Windows.Forms.TextBox();
 			this.cmbImage = new System.Windows.Forms.ComboBox();
 			this.button2 = new System.Windows.Forms.Button();
-			this.lblTotalTime = new System.Windows.Forms.ToolStripStatusLabel();
-			this.pnlPointer = new SyncView.RoundPanel();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage5.SuspendLayout();
@@ -175,6 +175,13 @@
 			this.lblLirycsTime.Size = new System.Drawing.Size(17, 19);
 			this.lblLirycsTime.Text = "0";
 			this.lblLirycsTime.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
+			// 
+			// lblTotalTime
+			// 
+			this.lblTotalTime.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+			this.lblTotalTime.Name = "lblTotalTime";
+			this.lblTotalTime.Size = new System.Drawing.Size(17, 19);
+			this.lblTotalTime.Text = "0";
 			// 
 			// lblSpeed
 			// 
@@ -463,9 +470,9 @@
 			// btnSearch
 			// 
 			this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSearch.Location = new System.Drawing.Point(227, 10);
+			this.btnSearch.Location = new System.Drawing.Point(227, 13);
 			this.btnSearch.Name = "btnSearch";
-			this.btnSearch.Size = new System.Drawing.Size(98, 23);
+			this.btnSearch.Size = new System.Drawing.Size(98, 20);
 			this.btnSearch.TabIndex = 4;
 			this.btnSearch.Text = "Search";
 			this.btnSearch.UseVisualStyleBackColor = true;
@@ -557,6 +564,14 @@
 			this.splitContainer1.Size = new System.Drawing.Size(1059, 771);
 			this.splitContainer1.SplitterDistance = 702;
 			this.splitContainer1.TabIndex = 8;
+			// 
+			// pnlPointer
+			// 
+			this.pnlPointer.BackColor = System.Drawing.Color.Red;
+			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
+			this.pnlPointer.Name = "pnlPointer";
+			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
+			this.pnlPointer.TabIndex = 10;
 			// 
 			// pictureBox1
 			// 
@@ -797,21 +812,6 @@
 			this.button2.Text = "Go";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
-			// 
-			// lblTotalTime
-			// 
-			this.lblTotalTime.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-			this.lblTotalTime.Name = "lblTotalTime";
-			this.lblTotalTime.Size = new System.Drawing.Size(17, 19);
-			this.lblTotalTime.Text = "0";
-			// 
-			// pnlPointer
-			// 
-			this.pnlPointer.BackColor = System.Drawing.Color.Red;
-			this.pnlPointer.Location = new System.Drawing.Point(0, 0);
-			this.pnlPointer.Name = "pnlPointer";
-			this.pnlPointer.Size = new System.Drawing.Size(11, 11);
-			this.pnlPointer.TabIndex = 10;
 			// 
 			// MainForm
 			// 
